@@ -37,6 +37,7 @@ public class Game {
     private double col;
     private double enemyCol;
     private boolean gameState;
+    private Healthbar healthbar;
 
 
     private ArrayList<PlayerProjectile> pProjList;
@@ -75,6 +76,8 @@ public class Game {
         this.col = this.player.getFeet();
         this.enemyCol = 600;
         this.pProjList = new ArrayList<PlayerProjectile>();
+        this.healthbar = new Healthbar(this.worldpane, this.player);
+
 
     }
 
@@ -117,6 +120,7 @@ public class Game {
 
         this.portalCollisions();
         this.updatePproject();
+        this.healthbar.update();
 
     }
 
@@ -197,7 +201,7 @@ public class Game {
 
 public double wallTDCollisions(){
         //handling top and bottom intersections
-    double wallcol = 700;
+    double wallcol = 2000;
     for (int i = 0; i < this.worldorganizer.getwallList().size(); i++){
             Wall wall = this.worldorganizer.getwallList().get(i);
             Rectangle rect = wall.getRect();
@@ -210,7 +214,7 @@ public double wallTDCollisions(){
                     //
             }
             else{
-                wallcol = 700;
+                wallcol = 2000;
 
             }
 
@@ -351,20 +355,20 @@ public double wallTDCollisions(){
 
     public double wallTDCollisionsEnemy(Enemy currentE){
         //handling top and bottom intersections
-        double wallcol = 700;
+        double wallcol = 2000;
         for (int i = 0; i < this.worldorganizer.getwallList().size(); i++){
             Wall wall = this.worldorganizer.getwallList().get(i);
             Rectangle rect = wall.getRect();
             Bounds rectbounds = rect.getBoundsInParent();
             Bounds enemybounds = currentE.getBody().getBoundsInParent();
             //top intersection
-            if(rectbounds.intersects(enemybounds) && (currentE.getPosY() + 100 <= rect.getY()+50)) {
+            if(rectbounds.intersects(enemybounds) && (currentE.getPosY() + 100 <= rect.getY()+100)) {
                 wallcol = rect.getBoundsInParent().getMinY();
                 break;
                 //
             }
             else{
-                wallcol = 700;
+                wallcol = 2000;
 
             }
 

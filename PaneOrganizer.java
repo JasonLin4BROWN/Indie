@@ -7,7 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class PaneOrganizer {
@@ -41,6 +47,9 @@ public class PaneOrganizer {
 
         this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
         this.worldList.get(this.worldCur).generateEvery();
+
+        //Music:
+        this.music();
 
 
     };
@@ -118,6 +127,22 @@ public class PaneOrganizer {
     };
     public int getWorldCur(){
         return this.worldCur;
+    }
+
+
+    public void music(){
+        Media media = null;
+        try {
+            media = new Media(getClass().getResource("/wonders/backgrounds/Hollow Knight OST - Dirtmouth.mp3").toURI().toString());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+
+
+
     }
 
 

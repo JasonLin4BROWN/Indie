@@ -319,6 +319,11 @@ public class StandardEnemy implements Enemy{
             this.isAlive = false;
         };
 
+        if (this.getPosY() >= 1300){
+            this.worldpane.getChildren().remove(this.body);
+            this.isAlive = false;
+        };
+
 
     }
 

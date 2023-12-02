@@ -296,6 +296,10 @@ public class Player extends Rectangle {
             this.isAlive = false;
         }
 
+        else if(this.getFeet() >= 1300){
+            this.isAlive = false;
+        }
+
         else{
             this.isAlive = true;
         }
@@ -308,6 +312,10 @@ public class Player extends Rectangle {
     //TEMPORARY DEBUG FUNCTION
     public void hurt(){
         this.HP = this.HP - 1;
+    }
+
+    public int getHP(){
+        return this.HP;
     }
 
     /**

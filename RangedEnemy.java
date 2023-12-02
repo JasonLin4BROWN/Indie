@@ -336,6 +336,16 @@ public class RangedEnemy implements Enemy{
             this.isAlive = false;
         };
 
+        if (this.getPosY() >= 1300){
+            for(int i =0; i<this.enemyProjectileArrayList.size();i++){
+                this.enemyProjectileArrayList.get(i).despawn();
+            }
+
+            this.enemyProjectileArrayList.clear();
+            this.worldpane.getChildren().remove(this.body);
+            this.isAlive = false;
+        };
+
 
     }
 

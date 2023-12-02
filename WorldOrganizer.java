@@ -62,7 +62,12 @@ public class WorldOrganizer {
 
     public void generateFloor(){
         //floor
-        this.wallList.add(new Wall(worldpane, 0, 700, 1900, 300));
+        for (int i = 0; i < Constants.SCENE_WIDTH/190; i++){
+            if(Math.random() >= 0.4){
+                this.wallList.add(new Wall(worldpane, i*190, 700, 190, 300));
+
+            }
+        }
 
     }
 
@@ -106,7 +111,7 @@ public class WorldOrganizer {
 
         for (int i = 0; i < senemiesNum; i++){
             double enemyX = Math.random() *  1000 + 500;
-            double enemyY = 500;
+            double enemyY = 0;
 
             this.enemyList.add(new StandardEnemy(this.worldpane, enemyX, enemyY));
 
@@ -118,7 +123,7 @@ public class WorldOrganizer {
 
         for (int i = 0; i < renemiesNum; i++){
             double enemyX = Math.random() *  1000 + 200;
-            double enemyY = 500;
+            double enemyY = 0;
 
             this.enemyList.add(new RangedEnemy(this.worldpane, enemyX, enemyY));
 
