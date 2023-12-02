@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RangedEnemy implements Enemy{
@@ -20,6 +21,8 @@ public class RangedEnemy implements Enemy{
     private double yVel;
     private long lastattack;
 
+    private ArrayList<EnemyProjectile> enemyProjectileArrayList;
+
     public RangedEnemy(Pane worldpane, double X, double y){
         Random rnd = new Random();
         this.eHP = rnd.nextInt(4 - 1) + 1;
@@ -31,6 +34,8 @@ public class RangedEnemy implements Enemy{
         this.lastattack = 0;
         this.worldpane = worldpane;
 
+        this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
+
         this.Spawn(this.worldpane, this.posX, this.posY);
     }
 
@@ -40,7 +45,7 @@ public class RangedEnemy implements Enemy{
         this.body = new Rectangle(100,100);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.GREEN);
+        this.body.setFill(Color.ORANGE);
 
         this.worldpane.getChildren().addAll(this.body);
 
@@ -51,9 +56,10 @@ public class RangedEnemy implements Enemy{
         if(this.isAlive) {
             this.Sense(player);
             this.Die();
+            this.projectileUpdater();
 
             long time = System.currentTimeMillis();
-            long coolDownTime = 500;
+            long coolDownTime = 5000;
             if (time > this.lastattack + coolDownTime) {
                 this.Attack(player);
                 this.lastattack = time;
@@ -66,12 +72,12 @@ public class RangedEnemy implements Enemy{
     @Override
     public void Sense(Player player) {
         if (Math.abs(player.posX - this.body.getX()) <= 300){
-            this.ReactX(player);
+            this.antiReactX(player);
         }
 
         if (Math.abs(player.posX - this.body.getX()) <= 300){
             if (Math.abs(player.posY - this.body.getY()) <= 300) {
-                this.ReactY(player);
+                this.antiReactY(player);
             }
         }
 
@@ -123,10 +129,10 @@ public class RangedEnemy implements Enemy{
         }
 
         else {
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
 
         }
 
@@ -148,10 +154,10 @@ public class RangedEnemy implements Enemy{
         }
 
         else {
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
 
         }
 
@@ -159,7 +165,7 @@ public class RangedEnemy implements Enemy{
 
     }
 
-    public void antiReact(Player player) {
+    public void antiReactX(Player player) {
         //this is where our little AI function lives
 
         //this checks if player is (40), (80): this means player i
@@ -181,16 +187,44 @@ public class RangedEnemy implements Enemy{
 
     }
 
+    public void antiReactY(Player player) {
+        //this is where our little AI function lives
+
+        //this checks if player is (40), (80): this means player i
+        if (player.posY - this.body.getY() > 0){
+            //player is currently below of enemy
+            this.Jump();
+        }
+
+        else if (player.posY - this.body.getY() < 0){
+            //player is currently left of enemy
+            this.antiReactX(player);
+
+        }
+
+        else {
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+
+        }
+
+
+
+    }
+
     @Override
     public void Attack(Player player) {
-        if (this.body.getBoundsInParent().intersects(player.getHitbox().getBoundsInParent()) && this.isAlive){
+        /**
+         * we need to make this such that it spawns in projectiles to kill player
+         */
+        if (this.isAlive){
             long time = System.currentTimeMillis();
             this.lastattack = 0;
-            long coolDownTime = 10000;
+            long coolDownTime = 500;
             if (time > this.lastattack + coolDownTime) {
-                this.attackHelper(player);
-                this.body.setFill(Color.GREEN);
-                this.lastattack = time;
+                this.enemyProjectileArrayList.add(new EnemyProjectile(this.worldpane, this, player));
 
             }
 
@@ -199,9 +233,16 @@ public class RangedEnemy implements Enemy{
 
     }
 
-    public void attackHelper(Player player){
-        this.body.setFill(Color.WHITE);
-        player.killSelf();
+    @Override
+    public void attackHelper(Player player) {
+
+    }
+
+    public void projectileUpdater(){
+        for(int i = 0; i < this.enemyProjectileArrayList.size(); i++){
+            this.enemyProjectileArrayList.get(i).hunt();
+            this.enemyProjectileArrayList.get(i).deathClock();
+        }
 
 
     }
@@ -286,6 +327,11 @@ public class RangedEnemy implements Enemy{
     @Override
     public void Die() {
         if (this.eHP == 0){
+            for(int i =0; i<this.enemyProjectileArrayList.size();i++){
+                this.enemyProjectileArrayList.get(i).despawn();
+            }
+
+            this.enemyProjectileArrayList.clear();
             this.worldpane.getChildren().remove(this.body);
             this.isAlive = false;
         };
@@ -294,7 +340,9 @@ public class RangedEnemy implements Enemy{
     }
 
     @Override
-    public void getStatus() {
+    public boolean getStatus() {
+        return this.isAlive;
+
 
     }
 

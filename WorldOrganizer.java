@@ -35,7 +35,10 @@ public class WorldOrganizer {
         this.generatePlatforms();
         this.generateWalls();
         this.generateTowers();
-        this.generateEnemies();
+
+        this.generateSEnemies();
+        this.generateREnemies();
+
         this.generatePortals();
 
         new DebugMarkers(this.worldpane);
@@ -98,14 +101,26 @@ public class WorldOrganizer {
         return this.yStart;
     }
 
-    public void generateEnemies(){
-        int enemiesNum = 0;
+    public void generateSEnemies(){
+        int senemiesNum = 2;
 
-        for (int i = 0; i < enemiesNum; i++){
-            double enemyX = Math.random() *  1000 + 200;
+        for (int i = 0; i < senemiesNum; i++){
+            double enemyX = Math.random() *  1000 + 500;
             double enemyY = 500;
 
             this.enemyList.add(new StandardEnemy(this.worldpane, enemyX, enemyY));
+
+        }
+    }
+
+    public void generateREnemies(){
+        int renemiesNum = 3;
+
+        for (int i = 0; i < renemiesNum; i++){
+            double enemyX = Math.random() *  1000 + 200;
+            double enemyY = 500;
+
+            this.enemyList.add(new RangedEnemy(this.worldpane, enemyX, enemyY));
 
         }
     }

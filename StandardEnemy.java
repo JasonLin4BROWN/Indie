@@ -125,10 +125,10 @@ public class StandardEnemy implements Enemy{
         }
 
         else {
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
 
         }
 
@@ -150,10 +150,10 @@ public class StandardEnemy implements Enemy{
         }
 
         else {
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
-            this.antiReact(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
 
         }
 
@@ -161,7 +161,7 @@ public class StandardEnemy implements Enemy{
 
     }
 
-    public void antiReact(Player player) {
+    public void antiReactX(Player player) {
         //this is where our little AI function lives
 
         //this checks if player is (40), (80): this means player i
@@ -177,6 +177,33 @@ public class StandardEnemy implements Enemy{
 
         else {
             this.MoveRight();
+        }
+
+
+
+    }
+
+    public void antiReactY(Player player) {
+        //this is where our little AI function lives
+
+        //this checks if player is (40), (80): this means player i
+        if (player.posY - this.body.getY() > 0){
+            //player is currently below of enemy
+            this.Jump();
+        }
+
+        else if (player.posY - this.body.getY() < 0){
+            //player is currently left of enemy
+            this.antiReactX(player);
+
+        }
+
+        else {
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+            this.antiReactX(player);
+
         }
 
 
@@ -203,7 +230,7 @@ public class StandardEnemy implements Enemy{
 
     public void attackHelper(Player player){
         this.body.setFill(Color.WHITE);
-        player.killSelf();
+        player.hurt();
 
 
     }
@@ -296,7 +323,8 @@ public class StandardEnemy implements Enemy{
     }
 
     @Override
-    public void getStatus() {
+    public boolean getStatus() {
+        return this.isAlive;
 
     }
 

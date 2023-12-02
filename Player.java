@@ -306,7 +306,7 @@ public class Player extends Rectangle {
 
 
     //TEMPORARY DEBUG FUNCTION
-    public void killSelf(){
+    public void hurt(){
         this.HP = this.HP - 1;
     }
 

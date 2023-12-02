@@ -17,6 +17,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
@@ -36,6 +37,9 @@ public class Game {
     private double col;
     private double enemyCol;
     private boolean gameState;
+
+
+    private ArrayList<PlayerProjectile> pProjList;
 
 
     public Game(BorderPane root, Pane worldpane, WorldOrganizer worldorganizer){
@@ -70,6 +74,7 @@ public class Game {
         this.player.setFeet(this.worldorganizer.getyStart());
         this.col = this.player.getFeet();
         this.enemyCol = 600;
+        this.pProjList = new ArrayList<PlayerProjectile>();
 
     }
 
@@ -108,9 +113,10 @@ public class Game {
         this.handleResponse();
 
         this.wallLRCollisions();
-        this.handleEnemyCollisions();
+        this.handleEnemy();
 
         this.portalCollisions();
+        this.updatePproject();
 
     }
 
@@ -245,7 +251,7 @@ public double wallTDCollisions(){
                 //pushback
                 KeyFrame kf = new KeyFrame(
                         Duration.millis(1),
-                        (ActionEvent e) ->enemy.antiReact(this.player));
+                        (ActionEvent e) ->enemy.antiReactX(this.player));
 
                 Timeline timeline = new Timeline(kf);
                 timeline.setCycleCount(35);
@@ -267,6 +273,8 @@ public double wallTDCollisions(){
             //player is dead
             this.gameState = false;
         }
+
+        System.out.println(this.gameState);
     }
 
     public void gameOver(){
@@ -287,6 +295,28 @@ public double wallTDCollisions(){
 
         }
     }
+
+
+    /**
+     * for Player Projectiles:
+     */
+
+    public void updatePproject(){
+        for(int i = 0; i < this.pProjList.size(); i++){
+            Enemy closestE = this.pProjList.get(i).sense();
+            this.pProjList.get(i).hunt(closestE);
+            this.pProjList.get(i).deathClock();
+
+
+        }
+    }
+
+    public void clearpProjList(){
+        this.pProjList.clear();
+    }
+
+
+
     /**
      * for the enemies:
      */
@@ -343,9 +373,10 @@ public double wallTDCollisions(){
 
     }
 
-    public void handleEnemyCollisions(){
+    public void handleEnemy(){
         for (int i = 0; i < this.worldorganizer.getenemyList().size(); i++) {
             Enemy currentE = this.worldorganizer.getenemyList().get(i);
+
             currentE.Update(this.player);
             this.wallLRCollisionsEnemy(currentE);
             this.enemyCol = this.wallTDCollisionsEnemy(currentE);
@@ -377,7 +408,7 @@ public double wallTDCollisions(){
 
             case DOWN:
                 this.down = true;
-                this.player.killSelf();
+                this.player.hurt();
                 break;
 
             case A:
@@ -405,6 +436,10 @@ public double wallTDCollisions(){
             case ESCAPE:
                 System.exit(0);
                 break;
+
+            case W:
+                this.pProjList.add(
+                        new PlayerProjectile(this.worldpane, this.player, this.worldorganizer.getenemyList()));
 
         }
         e.consume();

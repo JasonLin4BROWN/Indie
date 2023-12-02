@@ -12,7 +12,9 @@ public interface Enemy{
     public void ReactX(Player player);
     public void ReactY(Player player);
 
-    public void antiReact(Player player);
+    public void antiReactX(Player player);
+    public void antiReactY(Player player);
+
 
     public void Attack(Player player);
     public void attackHelper(Player player);
@@ -25,7 +27,7 @@ public interface Enemy{
     public void doGravity(double platY);
 
     public void Die();
-    public void getStatus();
+    public boolean getStatus();
     public int getHP();
     public void setHP(int newHP);
     public double getPosX();

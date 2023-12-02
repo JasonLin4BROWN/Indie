@@ -14,6 +14,7 @@ public class PaneOrganizer {
     private ArrayList<WorldOrganizer> worldList;
     private int worldCur;
     private int maxWorldNum;
+    private Game gameCur;
     BorderPane root;
     public PaneOrganizer(){
         this.root = new BorderPane();
@@ -38,7 +39,7 @@ public class PaneOrganizer {
         this.setUpButton(accesspane);
         this.setUpNextLevelButton(accesspane);
 
-        new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
         this.worldList.get(this.worldCur).generateEvery();
 
 
@@ -91,6 +92,8 @@ public class PaneOrganizer {
             //delete this world
             //is this really necessary?
             this.worldList.get(this.worldCur).removeEvery();
+            this.gameCur.clearpProjList();
+
 
             //get the next one
             this.worldCur++;
@@ -104,9 +107,8 @@ public class PaneOrganizer {
             this.worldList.add(new WorldOrganizer(this, worldpane));
 
 
-            new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
             this.worldList.get(this.worldCur).generateEvery();
-
 
 
 
