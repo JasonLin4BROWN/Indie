@@ -19,5 +19,15 @@ public class Constants {
     public static final double HITBOX_WIDTH = 206/3.3;
 
 
+    //for the Procedural Generation:
+
+    public static final double MAX_DISTANCE_X = 250;
+    public static final double MIN_DISTANCE_X = 200;
+    public static final double MAX_DISTANCE_Y = -100;
+    public static final double MIN_DISTANCE_Y = 50;
+
+
+
+
 
 }

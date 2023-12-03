@@ -6,6 +6,14 @@ import java.util.ArrayList;
 
 public class WorldOrganizer {
     private double yStart;
+    private double yEnd;
+
+    private double curX;
+    private double curY;
+
+    private double xStart;
+    private double xEnd;
+
     private ArrayList<Platforms> platformList;
     private ArrayList<Wall> wallList;
     private ArrayList<Enemy> enemyList;
@@ -24,6 +32,18 @@ public class WorldOrganizer {
         this.paneOrganizer = paneOrganizer;
         this.worldpane = worldpane;
         this.yStart = 0;
+        this.yEnd = 0;
+
+        this.xStart = 0;
+        this.xEnd = 1300;
+
+        this.curX = this.xStart;
+        this.curY = this.yStart;
+
+
+        //adds a floor for the player
+        this.wallList.add(new Wall(worldpane, 0, 700, 190, 300));
+
 
 
 
@@ -31,16 +51,7 @@ public class WorldOrganizer {
 
     public void generateEvery(){
         //generate everything for this World:
-        this.generateTowers();
-
-        this.generateFloor();
-
-        this.generateWalls();
-
-        this.generatePlatforms();
-
-        this.generateSEnemies();
-        this.generateREnemies();
+        this.procedural_level_generation();
 
         this.generatePortals();
 
@@ -65,48 +76,39 @@ public class WorldOrganizer {
 
     }
 
-    public void generateFloor(){
-        //floor
+    public void generateFloor(double X){
+        this.wallList.add(new Wall(worldpane, X, 700, 190, 300));
 
-        this.wallList.add(new Wall(worldpane, 0, 700, 190, 300));
-
-        for (int i = 1; i < Constants.SCENE_WIDTH/190; i++){
-            if(Math.random() >= 0.4){
-                this.wallList.add(new Wall(worldpane, i*190, 700, 190, 300));
-
-            }
-        }
 
     }
 
-    public void generateWalls(){
-        //platforms
-        int wallNum = 10;
-
-        for (int i = 0; i < wallNum; i++){
-            double wallX = Math.random() *  1000 + 200;
-            double wallY = Math.random() *  500 + 100;
-            double width = Math.random() *  200 + 10;
-            double height = Math.random() *  10 + 60;
+    public void generateWallPlats(double wallX, double wallY){
+        double width = Math.random() *  200 + 10;
+        double height = Math.random() *  10 + 60;
 
 
-            this.wallList.add(new Wall(worldpane, wallX, wallY, width, height));
-
-        }
+        this.wallList.add(new Wall(worldpane, wallX, wallY, width, height));
 
     }
 
-    public void generateTowers(){
+    public void generateSETowers(){
         //start:
         double rndStart = Math.random();
         this.yStart = 300 + rndStart*200;
-        this.wallList.add(new Tower(worldpane, 0,yStart , 200, Constants.SCENE_HEIGHT -yStart ));
+        this.xStart = 0;
+        this.wallList.add(new Tower(worldpane,this.xStart ,this.yStart , 200, Constants.SCENE_HEIGHT -yStart ));
 
         //goal:
         double rndEnd = Math.random();
-        double yEnd = 300 + rndEnd*200 - rndStart*200;
+        this.yEnd = 300 + rndEnd*200 - rndStart*200;
+        this.xEnd = 1300;
 
-        this.wallList.add(new Tower(worldpane, 1300, yEnd, 200, Constants.SCENE_HEIGHT - yEnd ));
+        this.wallList.add(new Tower(worldpane, this.xEnd, this.yEnd, 200, Constants.SCENE_HEIGHT - yEnd ));
+
+    }
+
+    public void generateTowers(double X, double y){
+        this.wallList.add(new Tower(worldpane, X,y , 200, Constants.SCENE_HEIGHT - y));
 
     }
 
@@ -114,28 +116,13 @@ public class WorldOrganizer {
         return this.yStart;
     }
 
-    public void generateSEnemies(){
-        int senemiesNum = 2;
+    public void generateSEnemies(double enemyX, double enemyY){
+        this.enemyList.add(new StandardEnemy(this.worldpane, enemyX, enemyY));
 
-        for (int i = 0; i < senemiesNum; i++){
-            double enemyX = Math.random() *  1000 + 500;
-            double enemyY = 0;
-
-            this.enemyList.add(new StandardEnemy(this.worldpane, enemyX, enemyY));
-
-        }
     }
 
-    public void generateREnemies(){
-        int renemiesNum = 3;
-
-        for (int i = 0; i < renemiesNum; i++){
-            double enemyX = Math.random() *  1000 + 200;
-            double enemyY = 0;
-
-            this.enemyList.add(new RangedEnemy(this.worldpane, enemyX, enemyY));
-
-        }
+    public void generateREnemies(double enemyX, double enemyY){
+        this.enemyList.add(new RangedEnemy(this.worldpane, enemyX, enemyY));
     }
 
     public void generatePortals(){
@@ -159,6 +146,91 @@ public class WorldOrganizer {
 
 
     }
+
+    public void procedural_level_generation(){
+        //getting distance that needs to be covered
+
+        this.generateSETowers();
+        new DebugMarkers(this.worldpane);
+        this.yStart = this.getyStart();
+
+        for (int i = 0; i < 10; i++) {
+            if (this.curX < this.xEnd) {
+
+                double distY = this.yStart - this.yEnd;
+                double distX = this.xEnd - this.yStart;
+
+                double xMin = this.xStart + Constants.MIN_DISTANCE_X;
+                double xMax = this.xStart + Constants.MAX_DISTANCE_X;
+
+                this.curX = this.curX +
+                        Math.random() * (xMax - xMin) + xMin;
+
+                double yMax = Constants.MAX_DISTANCE_Y;
+                double yMin = Constants.MIN_DISTANCE_Y;
+                this.curY = Math.min(this.yEnd, this.yStart +
+                        Math.random() * (yMax - yMin) + yMin);
+
+                int generate_num = (int) Math.floor(Math.random() * 4);
+                int generate_enemy = (int) Math.floor(Math.random() * 4);
+
+
+                System.out.println(generate_num);
+                System.out.println(this.curY);
+                System.out.println(this.curX);
+
+
+
+                switch (generate_num) {
+                    case 1:
+                        this.generateFloor(this.curX);
+                        if (generate_enemy ==0){
+                            this.generateSEnemies(this.curX, 700-100);
+                        }
+
+                        if (generate_enemy ==1){
+                            this.generateREnemies(this.curX, 700-100);
+                        }
+
+                        break;
+                    case 2:
+                        this.generateTowers(this.curX, this.curY);
+                        if (generate_enemy ==0){
+                            this.generateSEnemies(this.curX, this.curY-100);
+                        }
+
+                        if (generate_enemy ==1){
+                            this.generateREnemies(this.curX, this.curY-100);
+                        }
+
+                        break;
+
+                    case 3:
+                        this.generateWallPlats(this.curX, this.curY);
+                        if (generate_enemy ==0){
+                            this.generateSEnemies(this.curX, this.curY-100);
+                        }
+
+                        if (generate_enemy ==1){
+                            this.generateREnemies(this.curX, this.curY-100);
+                        }
+
+                        break;
+
+                    default:
+                        this.generateWallPlats(this.curX, this.curY);
+                        break;
+
+
+                }
+            }
+        }
+
+
+
+
+    }
+
     public ArrayList<Platforms> getPlatList(){
         return this.platformList;
     }

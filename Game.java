@@ -246,8 +246,10 @@ public class Game {
             Bounds LRrectbounds = LRrect.getBoundsInParent();
             Bounds playerbounds = this.player.getHitbox().getBoundsInParent();
 
+
             //left intersection
             if (LRrectbounds.intersects(playerbounds)) {
+
                 if (this.player.posX + Constants.HITBOX_WIDTH <= LRrectbounds.getMinX() + 100) {
 
                     this.player.posX = LRrectbounds.getMinX() - Constants.HITBOX_WIDTH;
@@ -256,11 +258,34 @@ public class Game {
 
                 }
 
+
+
+
+                //player moves right into the left intersection
+                if (this.player.getXVel() > 0) {
+
+                    this.player.posX = LRrectbounds.getMinX() - Constants.HITBOX_WIDTH;
+                    this.player.positioning(this.player.posX, this.player.posY);
+
+
+                }
+
+
                 //Right intersection
                 if (this.player.posX >= LRrectbounds.getMaxX() - 100) {
 
                     this.player.posX = LRrectbounds.getMaxX();
                     this.player.positioning(this.player.posX, this.player.posY);
+                }
+
+
+                //player moves left into the right intersection
+                if (this.player.getXVel() < 0) {
+
+                    this.player.posX = LRrectbounds.getMinX() - Constants.HITBOX_WIDTH;
+                    this.player.positioning(this.player.posX, this.player.posY);
+
+
                 }
 
             }
@@ -276,17 +301,24 @@ public double wallTDCollisions(){
             Bounds rectbounds = rect.getBoundsInParent();
             Bounds playerbounds = this.player.getHitbox().getBoundsInParent();
                     //top intersection
+
             if(rectbounds.intersects(playerbounds) && (this.player.getFeet() <= rect.getY()+50)) {
                     wallcol = rect.getBoundsInParent().getMinY();
                     break;
                     //
+            }
+
+            else if(rectbounds.intersects(playerbounds) && (this.player.getYVel()>0)  && (this.player.getFeet() <= rect.getY()+100)) {
+                wallcol = rect.getBoundsInParent().getMinY();
+                break;
             }
             else{
                 wallcol = 2000;
 
             }
 
-        }
+
+    }
         return wallcol;
 
     }

@@ -73,6 +73,8 @@ public class Player extends Rectangle {
 
         this.posX = 50;
         this.posY = 300 - Constants.HITBOX_HEIGHT;
+        this.yVel = 0;
+        this.xVel = 0;
 
         this.positioning(this.posX,this.posY);
 
@@ -109,6 +111,8 @@ public class Player extends Rectangle {
 
     }
     public void moveRight() {
+        this.xVel = 10;
+
 
         KeyFrame leftframe = new KeyFrame(
                 Duration.millis(10),
@@ -121,6 +125,8 @@ public class Player extends Rectangle {
     }
 
     public void moveLeft() {
+        this.xVel = -10;
+
         KeyFrame leftframe = new KeyFrame(
                 Duration.millis(10),
                 (ActionEvent e) -> this.animateLeft());
@@ -284,6 +290,10 @@ public class Player extends Rectangle {
     }
     public double getYVel() {
         return this.yVel;
+    }
+
+    public double getXVel() {
+        return this.xVel;
     }
 
     public Rectangle getHitbox() {
