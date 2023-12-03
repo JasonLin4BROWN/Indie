@@ -164,7 +164,7 @@ public class EnemyProjectile implements Projectile{
 
     public void deathClock(){
         long time = System.currentTimeMillis();
-        long lifeTime = 1000;
+        long lifeTime = 2000;
         if (time > this.spawnTime + lifeTime && this.exists) {
             this.despawn();
         }

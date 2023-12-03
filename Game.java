@@ -61,23 +61,52 @@ public class Game {
         this.worldorganizer = worldorganizer;
 
         this.player = new Player(this.worldpane);
+        this.intitalization();
 
+
+        //the answer was that this.col wasn't intantiated properly, as a result it keeps wanting to send
+        //the player in the shadow realm via setting their y to -85
+
+        //making sure everything stops falling to their death:
+        /*
+
+        this.col = this.worldorganizer.getyStart();
+        this.player.setFeet(300);
+        this.player.posY = 300 - Constants.HITBOX_HEIGHT;
+        this.player.positioning(this.player.posX, this.player.posY);
+        this.player.fall(this.col);
+
+        this.enemyCol = 600;
+
+         */
+
+        //setting up timeline
         this.setupTimeline();
-        this.rapidTimeline();
+        //this.rapidTimeline();
 
-        this.worldpane .setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
-        this.worldpane .setOnKeyReleased((KeyEvent e) -> this.handleKeyRelease(e));
 
-        this.worldpane .setFocusTraversable(true);
 
 
         //setting up the situation
-        this.player.setFeet(this.worldorganizer.getyStart());
-        this.col = this.player.getFeet();
-        this.enemyCol = 600;
         this.pProjList = new ArrayList<PlayerProjectile>();
         this.healthbar = new Healthbar(this.worldpane, this.player);
+        this.worldpane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
+        this.worldpane.setOnKeyReleased((KeyEvent e) -> this.handleKeyRelease(e));
 
+        this.worldpane.setFocusTraversable(true);
+
+
+    }
+
+    public void intitalization(){
+        this.col = this.worldorganizer.getyStart();
+        this.player.setFeet(this.col);
+        this.player.positioning(this.player.getX(), this.player.getY());
+
+        this.worldpane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
+        this.worldpane.setOnKeyReleased((KeyEvent e) -> this.handleKeyRelease(e));
+
+        this.worldpane.setFocusTraversable(true);
 
     }
 
@@ -87,7 +116,7 @@ public class Game {
 
         //Setting up timeline which updates the label as well as moves the cabbageMonster
         KeyFrame kf = new KeyFrame(
-                Duration.millis(17),
+                Duration.millis(40),
                 (ActionEvent e) -> this.updateLabel());
 
         Timeline timeline = new Timeline(kf);
@@ -103,7 +132,7 @@ public class Game {
         //Setting up timeline which updates the label as well as moves the cabbageMonster
         KeyFrame kf = new KeyFrame(
                 Duration.millis(1),
-                (ActionEvent e) -> this.rapidUpdates());
+                (ActionEvent e) -> this.rapidLabel());
 
         Timeline timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -112,23 +141,64 @@ public class Game {
     }
 
     private void updateLabel() {
+        //Essentially we are uber boosting falling checking
         this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+
+
+
+        this.healthbar.update();
+
+
+
         this.handleResponse();
 
         this.wallLRCollisions();
-        this.handleEnemy();
+        this.wallLRCollisions();
+        this.wallLRCollisions();
+        this.wallLRCollisions();
+
 
         this.portalCollisions();
+
+        this.handleEnemy();
+
         this.updatePproject();
-        this.healthbar.update();
+
+        this.col = this.wallTDCollisions();
+        this.player.fall(this.col);
+
+        this.checkAlive();
+        this.gameOver();
+
+
 
     }
 
-    private void rapidUpdates(){
-        this.checkAlive();
-        this.gameOver();
-        this.wallLRCollisions();
+    private void rapidLabel() {
         this.col = this.wallTDCollisions();
+
+        this.handleResponse();
+
+        this.wallLRCollisions();
+
+        this.portalCollisions();
+
+        this.updatePproject();
+
+
+
     }
 
     public double platformCollisions(){
@@ -143,14 +213,12 @@ public class Game {
 
             if(rect.getBoundsInParent().intersects(bounds) && this.player.getFeet() <= (rect.getY()+20)){
                 platcol = rect.getBoundsInParent().getMinY();
-                System.out.println((rect.getY()+rect.getBoundsInParent().getMaxY()));
                 break;
 
                 //}
             }
 
             else{
-                System.out.println((rect.getY()));
                 platcol = 700;
                 //this.player.fall(platcol);
 
@@ -278,7 +346,6 @@ public double wallTDCollisions(){
             this.gameState = false;
         }
 
-        System.out.println(this.gameState);
     }
 
     public void gameOver(){
@@ -379,12 +446,22 @@ public double wallTDCollisions(){
 
     public void handleEnemy(){
         for (int i = 0; i < this.worldorganizer.getenemyList().size(); i++) {
+
             Enemy currentE = this.worldorganizer.getenemyList().get(i);
 
-            currentE.Update(this.player);
-            this.wallLRCollisionsEnemy(currentE);
             this.enemyCol = this.wallTDCollisionsEnemy(currentE);
             currentE.Fall(this.enemyCol);
+            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+            currentE.Fall(this.enemyCol);
+            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+            currentE.Fall(this.enemyCol);
+            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+            currentE.Fall(this.enemyCol);
+            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+            currentE.Fall(this.enemyCol);
+
+            this.wallLRCollisionsEnemy(currentE);
+            currentE.Update(this.player);
         }
 
     }
@@ -412,7 +489,6 @@ public double wallTDCollisions(){
 
             case DOWN:
                 this.down = true;
-                this.player.hurt();
                 break;
 
             case A:

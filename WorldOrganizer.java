@@ -15,7 +15,6 @@ public class WorldOrganizer {
 
     public WorldOrganizer(PaneOrganizer paneOrganizer, Pane worldpane){
 
-        this.yStart = 0;
         //essentially it will only generate anything if it is called to do so.
         this.platformList = new ArrayList<Platforms>();
         this.wallList = new ArrayList<Wall>();
@@ -24,17 +23,21 @@ public class WorldOrganizer {
 
         this.paneOrganizer = paneOrganizer;
         this.worldpane = worldpane;
+        this.yStart = 0;
+
+
 
     }
 
     public void generateEvery(){
-
-
         //generate everything for this World:
-        this.generateFloor();
-        this.generatePlatforms();
-        this.generateWalls();
         this.generateTowers();
+
+        this.generateFloor();
+
+        this.generateWalls();
+
+        this.generatePlatforms();
 
         this.generateSEnemies();
         this.generateREnemies();
@@ -42,6 +45,8 @@ public class WorldOrganizer {
         this.generatePortals();
 
         new DebugMarkers(this.worldpane);
+        this.yStart = this.getyStart();
+
     }
 
     public void generatePlatforms(){
@@ -62,7 +67,10 @@ public class WorldOrganizer {
 
     public void generateFloor(){
         //floor
-        for (int i = 0; i < Constants.SCENE_WIDTH/190; i++){
+
+        this.wallList.add(new Wall(worldpane, 0, 700, 190, 300));
+
+        for (int i = 1; i < Constants.SCENE_WIDTH/190; i++){
             if(Math.random() >= 0.4){
                 this.wallList.add(new Wall(worldpane, i*190, 700, 190, 300));
 

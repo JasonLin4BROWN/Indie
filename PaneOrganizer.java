@@ -45,8 +45,10 @@ public class PaneOrganizer {
         this.setUpButton(accesspane);
         this.setUpNextLevelButton(accesspane);
 
-        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
         this.worldList.get(this.worldCur).generateEvery();
+        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+        this.gameCur.intitalization();
+
 
         //Music:
         this.music();
@@ -115,9 +117,10 @@ public class PaneOrganizer {
             //create the nextWorld;
             this.worldList.add(new WorldOrganizer(this, worldpane));
 
-
-            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
             this.worldList.get(this.worldCur).generateEvery();
+            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+            this.gameCur.intitalization();
+            System.out.println(this.worldCur);
 
 
 

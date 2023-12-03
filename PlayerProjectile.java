@@ -201,7 +201,7 @@ public class PlayerProjectile implements Projectile{
 
     public void deathClock(){
         long time = System.currentTimeMillis();
-        long lifeTime = 500;
+        long lifeTime = 5000;
         if (time > this.spawnTime + lifeTime && this.exists) {
             this.despawn();
         }

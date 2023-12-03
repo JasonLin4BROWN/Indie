@@ -72,7 +72,7 @@ public class Player extends Rectangle {
 
 
         this.posX = 50;
-        this.posY = 0;
+        this.posY = 300 - Constants.HITBOX_HEIGHT;
 
         this.positioning(this.posX,this.posY);
 
@@ -229,12 +229,15 @@ public class Player extends Rectangle {
             this.positioning(this.posX, this.posY);
 
 
-        }
-        else {
-            this.posY = this.posY+ this.yVel * Constants.DURATION;
-            this.positioning(this.posX, this.posY);
 
         }
+        else {
+            this.posY = this.posY+ this.yVel * Constants.DURATION *2;
+            this.positioning(this.posX, this.posY);
+
+
+        }
+
     }
 
     public void idle(){

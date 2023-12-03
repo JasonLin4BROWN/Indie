@@ -305,7 +305,7 @@ public class StandardEnemy implements Enemy{
 
         }
         else {
-            this.posY = this.posY+ this.yVel * Constants.DURATION;
+            this.posY = this.posY+ 2* this.yVel * Constants.DURATION;
             this.positioning(this.posX, this.posY);
 
 

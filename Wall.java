@@ -17,14 +17,14 @@ public class Wall {
         this.rect.setFill(Color.ORANGE);
         this.rect.setOpacity(0.7);
 
-        this.LRhitbox = new Rectangle(width,1);
+        this.LRhitbox = new Rectangle(width,20);
 
 
         this.rect.setX(X);
         this.rect.setY(y);
 
         this.LRhitbox.setX(X);
-        this.LRhitbox.setY(y + height - 1);
+        this.LRhitbox.setY(y + height - 20);
 
         this.LRhitbox.setFill(Color.DARKVIOLET);
 
