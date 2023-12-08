@@ -282,7 +282,7 @@ public class Game {
                 //player moves left into the right intersection
                 if (this.player.getXVel() < 0) {
 
-                    this.player.posX = LRrectbounds.getMinX() - Constants.HITBOX_WIDTH;
+                    this.player.posX = LRrectbounds.getMaxX();
                     this.player.positioning(this.player.posX, this.player.posY);
 
 
@@ -552,6 +552,9 @@ public double wallTDCollisions(){
             case W:
                 this.pProjList.add(
                         new PlayerProjectile(this.worldpane, this.player, this.worldorganizer.getenemyList()));
+                break;
+            case SPACE:
+                this.player.dash();
 
         }
         e.consume();

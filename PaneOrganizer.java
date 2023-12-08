@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -27,9 +28,13 @@ public class PaneOrganizer {
         this.worldCur = 0;
 
         //Create WorldPane
+        StackPane orderpane = new StackPane();
         Pane worldpane = new Pane();
         this.setUpSituation(worldpane);
-        this.root.setCenter(worldpane);
+
+        orderpane.getChildren().add(worldpane);
+
+        this.root.setCenter(orderpane);
 
         //Create WorldOrganizer and by extension world:
         this.worldList = new ArrayList<WorldOrganizer>();
@@ -110,6 +115,7 @@ public class PaneOrganizer {
             this.worldCur++;
 
             //set the world to this next one:
+            StackPane orderpane = new StackPane();
             Pane worldpane = new Pane();
             this.setUpSituation(worldpane);
             this.root.setCenter(worldpane);

@@ -288,6 +288,78 @@ public class Player extends Rectangle {
 
 
     }
+
+    /**
+     * Dash mechanics
+     */
+    public void dash() {
+        this.yVel = 0;
+
+        KeyFrame acceframe = new KeyFrame(
+                Duration.millis(20),
+                (ActionEvent e) -> this.dashAccel());
+        Timeline timeline = new Timeline(acceframe);
+        timeline.setCycleCount(20);
+        timeline.play();
+
+
+
+    }
+
+    public void deDash(){
+        KeyFrame deccframe = new KeyFrame(
+                Duration.millis(20),
+                (ActionEvent e) -> this.dashDecel());
+        Timeline Dtimeline = new Timeline(deccframe);
+        Dtimeline.setCycleCount(20);
+        Dtimeline.play();
+
+    }
+
+
+    public void dashAccel(){
+
+        if (this.xVel < 0){
+            this.xVel += - 200 * 0.1;
+            this.yVel += -200 * 0.1;
+            this.posX = this.posX + this.xVel * 0.1;
+            this.posY = this.posY + this.yVel * 0.1;
+            this.positioning(this.posX, this.posY);
+
+        }
+
+        if (this.xVel > 0){
+            this.xVel +=  200 * 0.1;
+            this.yVel += -200 * 0.1;
+            this.posX = this.posX + this.xVel * 0.1;
+            this.posY = this.posY + this.yVel * 0.1;
+            this.positioning(this.posX, this.posY);
+
+        }
+
+    }
+
+    public void dashDecel(){
+
+        if (this.xVel < 0){
+            for(int i = 0; i < this.xVel/20; i++) {
+                this.xVel = this.xVel/20;
+            }
+
+        }
+
+        if (this.xVel > 0){
+            for(int i = 0; i < this.xVel/20; i++) {
+                this.xVel += 200 * 0.1;
+            }
+        }
+
+
+        this.xVel = 0;
+
+
+    }
+
     public double getYVel() {
         return this.yVel;
     }
