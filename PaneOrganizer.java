@@ -22,19 +22,17 @@ public class PaneOrganizer {
     private int worldCur;
     private int maxWorldNum;
     private Game gameCur;
+
+    private Inventory inventory;
     BorderPane root;
     public PaneOrganizer(){
         this.root = new BorderPane();
         this.worldCur = 0;
 
         //Create WorldPane
-        StackPane orderpane = new StackPane();
         Pane worldpane = new Pane();
         this.setUpSituation(worldpane);
-
-        orderpane.getChildren().add(worldpane);
-
-        this.root.setCenter(orderpane);
+        this.root.setCenter(worldpane);
 
         //Create WorldOrganizer and by extension world:
         this.worldList = new ArrayList<WorldOrganizer>();
@@ -42,7 +40,11 @@ public class PaneOrganizer {
         //sets the number of worlds
         this.maxWorldNum = 10;
 
-        this.worldList.add(new WorldOrganizer(this, worldpane));
+        //adds an Inventory
+        this.inventory = new Inventory(worldpane);
+
+        //add a world
+        this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
         //Create Access Menu
         HBox accesspane = new HBox();
@@ -57,6 +59,9 @@ public class PaneOrganizer {
 
         //Music:
         this.music();
+
+
+
 
 
     };
@@ -121,7 +126,8 @@ public class PaneOrganizer {
             this.root.setCenter(worldpane);
 
             //create the nextWorld;
-            this.worldList.add(new WorldOrganizer(this, worldpane));
+            this.inventory.changePane(worldpane);
+            this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
             this.worldList.get(this.worldCur).generateEvery();
             this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
@@ -137,6 +143,7 @@ public class PaneOrganizer {
     public int getWorldCur(){
         return this.worldCur;
     }
+
 
 
     public void music(){

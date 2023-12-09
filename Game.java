@@ -24,6 +24,7 @@ public class Game {
     BorderPane root;
     Pane worldpane;
     Player player;
+    Inventory inventory;
     private long start;
     private int lastPortal;
 
@@ -61,6 +62,7 @@ public class Game {
         this.worldorganizer = worldorganizer;
 
         this.player = new Player(this.worldpane);
+        this.inventory = this.worldorganizer.getInventory();
         this.intitalization();
 
 
@@ -82,7 +84,7 @@ public class Game {
 
         //setting up timeline
         this.setupTimeline();
-        //this.rapidTimeline();
+        this.rapidTimeline();
 
 
 
@@ -116,7 +118,7 @@ public class Game {
 
         //Setting up timeline which updates the label as well as moves the cabbageMonster
         KeyFrame kf = new KeyFrame(
-                Duration.millis(40),
+                Duration.millis(50),
                 (ActionEvent e) -> this.updateLabel());
 
         Timeline timeline = new Timeline(kf);
@@ -131,7 +133,7 @@ public class Game {
 
         //Setting up timeline which updates the label as well as moves the cabbageMonster
         KeyFrame kf = new KeyFrame(
-                Duration.millis(1),
+                Duration.millis(1000),
                 (ActionEvent e) -> this.rapidLabel());
 
         Timeline timeline = new Timeline(kf);
@@ -182,22 +184,15 @@ public class Game {
         this.checkAlive();
         this.gameOver();
 
+        //handling inventory;
+        this.inventory.displayING();
+
+
 
 
     }
 
     private void rapidLabel() {
-        this.col = this.wallTDCollisions();
-
-        this.handleResponse();
-
-        this.wallLRCollisions();
-
-        this.portalCollisions();
-
-        this.updatePproject();
-
-
 
     }
 
@@ -262,7 +257,7 @@ public class Game {
 
 
                 //player moves right into the left intersection
-                if (this.player.getXVel() > 0) {
+                if (this.player.getXVel() > 0 && this.player.posX + Constants.HITBOX_WIDTH <= LRrectbounds.getMinX()) {
 
                     this.player.posX = LRrectbounds.getMinX() - Constants.HITBOX_WIDTH;
                     this.player.positioning(this.player.posX, this.player.posY);
@@ -280,7 +275,7 @@ public class Game {
 
 
                 //player moves left into the right intersection
-                if (this.player.getXVel() < 0) {
+                if (this.player.getXVel() < 0 && this.player.posX >= LRrectbounds.getMaxX()) {
 
                     this.player.posX = LRrectbounds.getMaxX();
                     this.player.positioning(this.player.posX, this.player.posY);
@@ -480,20 +475,21 @@ public double wallTDCollisions(){
         for (int i = 0; i < this.worldorganizer.getenemyList().size(); i++) {
 
             Enemy currentE = this.worldorganizer.getenemyList().get(i);
+            if(currentE.getStatus()) {
+                this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+                currentE.Fall(this.enemyCol);
+                this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+                currentE.Fall(this.enemyCol);
+                this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+                currentE.Fall(this.enemyCol);
+                this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+                currentE.Fall(this.enemyCol);
+                this.enemyCol = this.wallTDCollisionsEnemy(currentE);
+                currentE.Fall(this.enemyCol);
 
-            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
-            currentE.Fall(this.enemyCol);
-            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
-            currentE.Fall(this.enemyCol);
-            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
-            currentE.Fall(this.enemyCol);
-            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
-            currentE.Fall(this.enemyCol);
-            this.enemyCol = this.wallTDCollisionsEnemy(currentE);
-            currentE.Fall(this.enemyCol);
-
-            this.wallLRCollisionsEnemy(currentE);
-            currentE.Update(this.player);
+                this.wallLRCollisionsEnemy(currentE);
+                currentE.Update(this.player);
+            }
         }
 
     }
@@ -555,6 +551,17 @@ public double wallTDCollisions(){
                 break;
             case SPACE:
                 this.player.dash();
+                this.player.xVel = 0;
+                break;
+
+            case E:
+                this.inventory.displayInv();
+                break;
+
+            case P:
+                this.inventory.getInventory().add(new RiceING());
+                System.out.println("rice added");
+                break;
 
         }
         e.consume();

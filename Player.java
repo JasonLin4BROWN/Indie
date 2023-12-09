@@ -293,16 +293,17 @@ public class Player extends Rectangle {
      * Dash mechanics
      */
     public void dash() {
-        this.yVel = 0;
+        if(this.xVel !=0){
+            this.yVel = 0;
 
-        KeyFrame acceframe = new KeyFrame(
-                Duration.millis(20),
-                (ActionEvent e) -> this.dashAccel());
-        Timeline timeline = new Timeline(acceframe);
-        timeline.setCycleCount(20);
-        timeline.play();
+            KeyFrame acceframe = new KeyFrame(
+                    Duration.millis(20),
+                    (ActionEvent e) -> this.dashAccel());
+            Timeline timeline = new Timeline(acceframe);
+            timeline.setCycleCount(4);
+            timeline.play();
 
-
+        }
 
     }
 
@@ -320,19 +321,19 @@ public class Player extends Rectangle {
     public void dashAccel(){
 
         if (this.xVel < 0){
-            this.xVel += - 200 * 0.1;
-            this.yVel += -200 * 0.1;
-            this.posX = this.posX + this.xVel * 0.1;
-            this.posY = this.posY + this.yVel * 0.1;
+            this.xVel += - 50 * 0.5;
+            this.yVel += -50 * 0.5;
+            this.posX = this.posX + this.xVel * 0.5;
+            this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
 
         }
 
         if (this.xVel > 0){
-            this.xVel +=  200 * 0.1;
-            this.yVel += -200 * 0.1;
-            this.posX = this.posX + this.xVel * 0.1;
-            this.posY = this.posY + this.yVel * 0.1;
+            this.xVel +=  50 * 0.5;
+            this.yVel += -50 * 0.5;
+            this.posX = this.posX + this.xVel * 0.5;
+            this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
 
         }
@@ -354,8 +355,6 @@ public class Player extends Rectangle {
             }
         }
 
-
-        this.xVel = 0;
 
 
     }

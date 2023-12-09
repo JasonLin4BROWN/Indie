@@ -19,9 +19,10 @@ public class WorldOrganizer {
     private ArrayList<Enemy> enemyList;
     private ArrayList<Portal>  portalList;
     private Pane worldpane;
+    private Inventory inventory;
     private PaneOrganizer paneOrganizer;
 
-    public WorldOrganizer(PaneOrganizer paneOrganizer, Pane worldpane){
+    public WorldOrganizer(PaneOrganizer paneOrganizer, Pane worldpane, Inventory inventory){
 
         //essentially it will only generate anything if it is called to do so.
         this.platformList = new ArrayList<Platforms>();
@@ -43,6 +44,9 @@ public class WorldOrganizer {
 
         //adds a floor for the player
         this.wallList.add(new Wall(worldpane, 0, 700, 190, 300));
+
+        this.inventory = inventory;
+
 
 
 
@@ -117,12 +121,12 @@ public class WorldOrganizer {
     }
 
     public void generateSEnemies(double enemyX, double enemyY){
-        this.enemyList.add(new StandardEnemy(this.worldpane, enemyX, enemyY));
+        this.enemyList.add(new Rice(this.worldpane, enemyX, enemyY, this.inventory));
 
     }
 
     public void generateREnemies(double enemyX, double enemyY){
-        this.enemyList.add(new RangedEnemy(this.worldpane, enemyX, enemyY));
+        this.enemyList.add(new Seaweed(this.worldpane, enemyX, enemyY, this.inventory));
     }
 
     public void generatePortals(){
@@ -174,10 +178,6 @@ public class WorldOrganizer {
                 int generate_num = (int) Math.floor(Math.random() * 4);
                 int generate_enemy = (int) Math.floor(Math.random() * 4);
 
-
-                System.out.println(generate_num);
-                System.out.println(this.curY);
-                System.out.println(this.curX);
 
 
 
@@ -246,6 +246,8 @@ public class WorldOrganizer {
     public ArrayList<Portal> getportalList(){
         return this.portalList;
     }
+
+    public Inventory getInventory(){return this.inventory; }
 
 
 }
