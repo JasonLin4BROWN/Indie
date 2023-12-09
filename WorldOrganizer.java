@@ -121,12 +121,12 @@ public class WorldOrganizer {
     }
 
     public void generateSEnemies(double enemyX, double enemyY){
-        this.enemyList.add(new Rice(this.worldpane, enemyX, enemyY, this.inventory));
+        this.enemyList.add(new Alhambra(this.worldpane, enemyX, enemyY, this.inventory));
 
     }
 
     public void generateREnemies(double enemyX, double enemyY){
-        this.enemyList.add(new Seaweed(this.worldpane, enemyX, enemyY, this.inventory));
+        this.enemyList.add(new Alhambra(this.worldpane, enemyX, enemyY, this.inventory));
     }
 
     public void generatePortals(){
