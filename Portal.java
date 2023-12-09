@@ -1,9 +1,9 @@
-package wonders;
+package indie;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import wonders.PaneOrganizer;
+import indie.PaneOrganizer;
 
 /**
  * this is a class which makes a portal to the next world

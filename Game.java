@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

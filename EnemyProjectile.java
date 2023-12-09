@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;

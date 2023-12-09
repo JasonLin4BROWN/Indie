@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,7 +12,7 @@ public class Recipes {
     private Pane worldpane;
     public Recipes(Pane worldpane, Inventory inventory){
         this.inventory = inventory;
-        this.img = new Image("wonders/Enemies/Onigiri.png", 65, 65, false, true);
+        this.img = new Image("indie/Enemies/Onigiri.png", 65, 65, false, true);
         this.button = new Button();
         this.worldpane = worldpane;
 
@@ -22,8 +22,8 @@ public class Recipes {
 
     public void displayRecipes(Image img){
 
-        this.button.setTranslateX(200);
-        this.button.setTranslateY(200);
+        this.button.setTranslateX(770);
+        this.button.setTranslateY(230);
         this.button.setPrefSize(80, 80);
         ImageView IV =  new ImageView();
         IV.setImage(img);

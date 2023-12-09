@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -72,7 +72,7 @@ public class PaneOrganizer {
 
     public void setUpSituation(Pane worldpane){
         ImageView iv = new ImageView();
-        Image image = new Image("wonders/backgrounds/Celeste1.png",1450, 875, false, true);
+        Image image = new Image("indie/backgrounds/Celeste1.png",1450, 875, false, true);
         //, Constants.SCENE_WIDTH-450, Constants.SCENE_HEIGHT-300, false, true)
 
         worldpane.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
@@ -149,7 +149,7 @@ public class PaneOrganizer {
     public void music(){
         Media media = null;
         try {
-            media = new Media(getClass().getResource("/wonders/backgrounds/Hollow Knight OST - Dirtmouth.mp3").toURI().toString());
+            media = new Media(getClass().getResource("/indie/backgrounds/Hollow Knight OST - Dirtmouth.mp3").toURI().toString());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

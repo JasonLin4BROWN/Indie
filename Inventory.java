@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,20 +17,21 @@ public class Inventory {
         this.worldpane = worldpane;
         this.viewer = new ImageView();
         this.ingredients = new LinkedList<Ingredients>();
-        this.recipes = new Recipes(worldpane, this);
 
 
     }
 
     public void displayInv(){
-        Image inventoryImage = new Image("wonders/backgrounds/PixelInventory.png",1450, 800, false, true);
-        Image onigiriImage = new Image("wonders/Enemies/Onigiri.png", 65, 65, false, true);
+        Image inventoryImage = new Image("indie/backgrounds/PixelInventory.png",1450, 800, false, true);
+        Image onigiriImage = new Image("indie/Enemies/Onigiri.png", 65, 65, false, true);
         if (!this.InvDisplayed){
             this.viewer.setImage(inventoryImage);
             this.viewer.setX(0);
             this.viewer.setY(0);
 
             this.worldpane.getChildren().add(this.viewer);
+
+            this.recipes = new Recipes(this.worldpane, this);
             this.recipes.displayRecipes(onigiriImage);
 
             this.InvDisplayed = true;

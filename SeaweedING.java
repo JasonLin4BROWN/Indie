@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,7 +25,7 @@ public class SeaweedING implements Ingredients{
     }
 
     public void showImage(Pane worldpane){
-        this.seaweedImage.setImage(new Image("wonders/Enemies/Seaweed.png",65, 65, true, true));
+        this.seaweedImage.setImage(new Image("indie/Enemies/Seaweed.png",65, 65, true, true));
 
         worldpane.getChildren().add(this.seaweedImage);
         this.shown = true;

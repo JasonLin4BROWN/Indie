@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,7 +46,7 @@ public class Seaweed implements Enemy{
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
         //For Rice Specifically:
-        this.image  = new Image("wonders/Enemies/Seaweed.png",100,100,false,true);
+        this.image  = new Image("indie/Enemies/Seaweed.png",100,100,false,true);
         this.imageView = new ImageView();
 
         this.Spawn(this.worldpane, this.posX, this.posY);

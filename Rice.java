@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -42,7 +42,7 @@ public class Rice implements Enemy{
         this.worldpane = worldpane;
 
         //For Rice Specifically:
-        this.image  = new Image("wonders/Enemies/white-rice-in-bow-free-png.png",100,100,false,true);
+        this.image  = new Image("indie/Enemies/white-rice-in-bow-free-png.png",100,100,false,true);
         this.imageView = new ImageView();
 
 
@@ -380,7 +380,7 @@ public class Rice implements Enemy{
         this.imageView.setY(posY);
 
         //testing
-        ImageView imageview = new ImageView(new Image("wonders/Enemies/Seaweed.png"));
+        ImageView imageview = new ImageView(new Image("indie/Enemies/Seaweed.png"));
     }
 
 

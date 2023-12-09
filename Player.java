@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 import doodlejump.PlatformOrganizer;
 import javafx.animation.KeyFrame;
@@ -63,7 +63,7 @@ public class Player extends Rectangle {
 
         this.currentimage = new ImageView();
 
-        Image pystand = new Image("wonders/res/Eiffel/Paris Walk Animation.png");
+        Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
         this.currentimage.setImage(pystand);
         this.currentimage.setFitHeight(283/(2));
         this.currentimage.setFitWidth(206/(1.75));
@@ -247,7 +247,7 @@ public class Player extends Rectangle {
     }
 
     public void idle(){
-        Image pystand = new Image("wonders/res/Eiffel/Paris Walk Animation.png");
+        Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
         this.currentimage.setImage(pystand);
         this.resizePos();
 

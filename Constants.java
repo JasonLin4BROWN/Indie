@@ -1,4 +1,4 @@
-package wonders;
+package indie;
 
 public class Constants {
 
