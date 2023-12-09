@@ -44,7 +44,7 @@ public class Game {
     private ArrayList<PlayerProjectile> pProjList;
 
 
-    public Game(BorderPane root, Pane worldpane, WorldOrganizer worldorganizer){
+    public Game(BorderPane root, Pane worldpane, WorldOrganizer worldorganizer, Player player){
         this.gameState = true;
 
         //this is for recognizing portal hitboxes
@@ -61,7 +61,7 @@ public class Game {
         this.worldpane = worldpane;
         this.worldorganizer = worldorganizer;
 
-        this.player = new Player(this.worldpane);
+        this.player = player;
         this.inventory = this.worldorganizer.getInventory();
         this.intitalization();
 
@@ -103,7 +103,8 @@ public class Game {
     public void intitalization(){
         this.col = this.worldorganizer.getyStart();
         this.player.setFeet(this.col);
-        this.player.positioning(this.player.getX(), this.player.getY());
+        this.player.posX = 50;
+        this.player.positioning(50, this.player.getY());
 
         this.worldpane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
         this.worldpane.setOnKeyReleased((KeyEvent e) -> this.handleKeyRelease(e));
@@ -186,6 +187,9 @@ public class Game {
 
         //handling inventory;
         this.inventory.displayING();
+        this.inventory.displayFoods();
+
+
 
 
 
@@ -539,6 +543,8 @@ public double wallTDCollisions(){
                 timelineD.setCycleCount(1);
                 timelineD.play();
 
+                System.out.println(this.player);
+
                 break;
 
             case ESCAPE:
@@ -559,8 +565,14 @@ public double wallTDCollisions(){
                 break;
 
             case P:
-                this.inventory.getInventory().add(new RiceING());
-                System.out.println("rice added");
+                if(this.inventory.getInventory().size()<20) {
+                    this.inventory.getInventory().add(new RiceING());
+                }
+
+                if(this.inventory.getInventory().size()<20) {
+                    this.inventory.getInventory().add(new SeaweedING());
+                }
+
                 break;
 
         }

@@ -325,7 +325,9 @@ public class Rice implements Enemy{
 
 
                 this.isAlive = false;
-                this.inventory.getInventory().add(new RiceING());
+                if(this.inventory.getInventory().size()<=20) {
+                    this.inventory.getInventory().add(new RiceING());
+                }
             }
             ;
 
@@ -334,7 +336,9 @@ public class Rice implements Enemy{
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                this.inventory.getInventory().add(new RiceING());
+                if(this.inventory.getInventory().size()<=20) {
+                    this.inventory.getInventory().add(new RiceING());
+                }
 
             }
             ;

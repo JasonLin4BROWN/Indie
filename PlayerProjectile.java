@@ -63,7 +63,6 @@ public class PlayerProjectile implements Projectile{
     }
 
     public Enemy sense() {
-
         Enemy closestE = this.enemyList.get(0);
         double closestEDis = 10000000;
 

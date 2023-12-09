@@ -25,7 +25,7 @@ public class RiceING implements Ingredients{
     }
 
     public void showImage(Pane worldpane){
-        this.riceImage.setImage(new Image("indie/Enemies/Rice.png",65, 65, true, true));
+        this.riceImage.setImage(new Image("indie/Enemies/white-rice-in-bow-free-png.png",65, 65, true, true));
 
         worldpane.getChildren().add(this.riceImage);
         this.shown = true;

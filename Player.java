@@ -402,6 +402,23 @@ public class Player extends Rectangle {
         return this.HP;
     }
 
+    public void setHP(int HP){
+        this.HP = HP;
+    }
+
+    public void changePane(Pane worldpane){
+        this.worldpane.getChildren().removeAll(this.hitbox, this.currentimage);
+
+        //change to new one
+        this.worldpane = worldpane;
+
+        this.yVel = 0;
+        this.xVel = 0;
+        this.worldpane.getChildren().addAll(this.hitbox, this.currentimage);
+
+    }
+
+
     /**
      * This is the moveRight() method, it calls an animation keyframe which move the Doodle right in a smooth way
      */

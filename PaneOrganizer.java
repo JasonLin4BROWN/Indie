@@ -22,6 +22,8 @@ public class PaneOrganizer {
     private int worldCur;
     private int maxWorldNum;
     private Game gameCur;
+    private Player player;
+    private int playerHP;
 
     private Inventory inventory;
     BorderPane root;
@@ -40,8 +42,9 @@ public class PaneOrganizer {
         //sets the number of worlds
         this.maxWorldNum = 10;
 
+        this.player = new Player(worldpane);
         //adds an Inventory
-        this.inventory = new Inventory(worldpane);
+        this.inventory = new Inventory(worldpane, this.player);
 
         //add a world
         this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
@@ -53,8 +56,10 @@ public class PaneOrganizer {
         this.setUpNextLevelButton(accesspane);
 
         this.worldList.get(this.worldCur).generateEvery();
-        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur), this.player);
         this.gameCur.intitalization();
+
+        this.playerHP = this.player.getHP();
 
 
         //Music:
@@ -126,12 +131,25 @@ public class PaneOrganizer {
             this.root.setCenter(worldpane);
 
             //create the nextWorld;
+            //get player current HP
+            this.playerHP = this.player.getHP();
+            //make new player
+            this.player = new Player(worldpane);
+            //set new player to current HP
+            this.player.setHP(this.playerHP);
+
             this.inventory.changePane(worldpane);
+            this.inventory.changePlayer(this.player);
+
+
+
             this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
             this.worldList.get(this.worldCur).generateEvery();
-            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur));
+            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur), this.player);
             this.gameCur.intitalization();
+
+
             System.out.println(this.worldCur);
 
 
@@ -155,7 +173,7 @@ public class PaneOrganizer {
         }
 
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        //mediaPlayer.setAutoPlay(true);
 
 
 

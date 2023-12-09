@@ -342,7 +342,9 @@ public class Seaweed implements Enemy{
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                this.inventory.getInventory().add(new SeaweedING());
+                if(this.inventory.getInventory().size()<=20) {
+                    this.inventory.getInventory().add(new SeaweedING());
+                }
 
             }
             ;
@@ -357,7 +359,9 @@ public class Seaweed implements Enemy{
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                this.inventory.getInventory().add(new SeaweedING());
+                if(this.inventory.getInventory().size()<=20) {
+                    this.inventory.getInventory().add(new SeaweedING());
+                }
 
             }
             ;
