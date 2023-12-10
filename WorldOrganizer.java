@@ -121,11 +121,15 @@ public class WorldOrganizer {
     }
 
     public void generateSEnemies(double enemyX, double enemyY){
-        this.enemyList.add(new Alhambra(this.worldpane, enemyX, enemyY, this.inventory));
+        this.enemyList.add(new Rice(this.worldpane, enemyX, enemyY, this.inventory));
 
     }
 
     public void generateREnemies(double enemyX, double enemyY){
+        this.enemyList.add(new Seaweed(this.worldpane, enemyX, enemyY, this.inventory));
+    }
+
+    public void generateBEnemies(double enemyX, double enemyY){
         this.enemyList.add(new Alhambra(this.worldpane, enemyX, enemyY, this.inventory));
     }
 
@@ -225,11 +229,24 @@ public class WorldOrganizer {
                 }
             }
         }
+    }
+    public void boss_level_generation() {
+        for (int i = 0; i < Constants.SCENE_WIDTH/190; i++) {
+            this.wallList.add(new Wall(this.worldpane, i*190, 700, 190, 300));
+        }
+
+        //create the towers either side:
+        this.wallList.add(new Tower(worldpane, -50,0 , 200, Constants.SCENE_HEIGHT));
+        this.wallList.add(new Tower(worldpane, 1400,0 , 200, Constants.SCENE_HEIGHT));
 
 
+        this.enemyList.add(new Alhambra(this.worldpane, 800, 500, this.inventory));
 
+        new DebugMarkers(this.worldpane);
+        this.yStart = this.getyStart();
 
     }
+
 
     public ArrayList<Platforms> getPlatList(){
         return this.platformList;

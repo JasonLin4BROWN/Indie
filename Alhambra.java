@@ -31,8 +31,7 @@ public class Alhambra implements Enemy {
     private ArrayList<EnemyProjectile> enemyProjectileArrayList;
 
     public Alhambra(Pane worldpane, double X, double y, Inventory inventory) {
-        Random rnd = new Random();
-        this.eHP = rnd.nextInt(4 - 1) + 1;
+        this.eHP = 100;
         this.isAlive = true;
         this.attackNum  = 0;
 
@@ -50,7 +49,7 @@ public class Alhambra implements Enemy {
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
         //For Rice Specifically:
-        this.image = new Image("indie/Enemies/Alhambra.png", 206/(1.75), 283/(2), false, true);
+        this.image = new Image("indie/Enemies/Alhambra.png", 192/1.5, 300/1.5, true, true);
         this.imageView = new ImageView();
 
         this.Spawn(this.worldpane, this.posX, this.posY);
@@ -59,14 +58,14 @@ public class Alhambra implements Enemy {
     @Override
     public void Spawn(Pane worldpane, double X, double y) {
         //we will make a circle like object
-        this.body = new Rectangle(100, 100);
+        this.body = new Rectangle(63,160);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
         this.body.setFill(Color.ORANGE);
 
         this.imageView.setImage(this.image);
         this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.imageView.setY(this.posY - 100);
 
 
         this.worldpane.getChildren().addAll(this.body, this.imageView);
@@ -230,7 +229,6 @@ public class Alhambra implements Enemy {
             //player is currently left of enemy
             this.MoveRight();
         } else {
-            this.MoveRight();
         }
 
 
@@ -288,8 +286,8 @@ public class Alhambra implements Enemy {
     @Override
     public void attackHelper(Player player) {
         if (this.xVel < 0){
-            this.xVel += - 50 * 0.5;
-            this.yVel += -50 * 0.5;
+            this.xVel += - 25 * 0.5;
+            this.yVel += -25 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
             this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
@@ -297,8 +295,8 @@ public class Alhambra implements Enemy {
         }
 
         else if (this.xVel > 0){
-            this.xVel +=  50 * 0.5;
-            this.yVel += -50 * 0.5;
+            this.xVel +=  25 * 0.5;
+            this.yVel += -25 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
             this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
@@ -348,10 +346,9 @@ public class Alhambra implements Enemy {
 
         this.xVel = -10;
 
-        this.posX = this.posX - 1;
+        this.posX = this.posX - 5;
         this.body.setX(this.posX);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.positioning(this.posX, this.posY);
     }
 
     @Override
@@ -364,10 +361,10 @@ public class Alhambra implements Enemy {
 
         this.xVel = 10;
 
-        this.posX = this.posX + 1;
+        this.posX = this.posX + 5;
         this.body.setX(this.posX);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.positioning(this.posX, this.posY);
+
     }
 
     @Override
@@ -378,8 +375,8 @@ public class Alhambra implements Enemy {
     public void helperJump() {
         this.posY = this.posY - 10;
         this.body.setY(this.posY);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.positioning(this.posX, this.posY);
+
     }
 
     @Override
@@ -391,7 +388,7 @@ public class Alhambra implements Enemy {
 
         //This function simulates the acceleration of gravity over time.
         this.yVel += Constants.GRAVITY * Constants.DURATION;
-        platY = platY - 100;
+        platY = platY - 160;
 
         if (this.posY >= platY) {
             this.yVel = 0;
@@ -400,7 +397,7 @@ public class Alhambra implements Enemy {
 
 
         } else {
-            this.posY = this.posY + 2 * this.yVel * Constants.DURATION;
+            this.posY = this.posY + 4 * this.yVel * Constants.DURATION;
             this.positioning(this.posX, this.posY);
 
 
@@ -500,8 +497,8 @@ public class Alhambra implements Enemy {
         this.body.setX(posX);
         this.body.setY(posY);
 
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.imageView.setX(this.posX - 25);
+        this.imageView.setY(this.posY  - 40 );
     }
 }
 

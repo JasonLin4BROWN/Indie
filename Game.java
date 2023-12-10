@@ -357,7 +357,7 @@ public double wallTDCollisions(){
                         (ActionEvent e) ->enemy.antiReactX(this.player));
 
                 Timeline timeline = new Timeline(kf);
-                timeline.setCycleCount(35);
+                timeline.setCycleCount(15);
                 timeline.play();
 
 
@@ -492,6 +492,10 @@ public double wallTDCollisions(){
                 currentE.Fall(this.enemyCol);
 
                 this.wallLRCollisionsEnemy(currentE);
+                this.wallLRCollisionsEnemy(currentE);
+                this.wallLRCollisionsEnemy(currentE);
+                this.wallLRCollisionsEnemy(currentE);
+
                 currentE.Update(this.player);
             }
         }
