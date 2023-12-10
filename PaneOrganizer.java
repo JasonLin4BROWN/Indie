@@ -210,22 +210,22 @@ public class PaneOrganizer {
 
         switch (generate_music){
             case 0:
-                musicLink = "indie/backgrounds/Carmen - Habanera.mp3";
+                musicLink = "/indie/backgrounds/Carmen - Habanera.mp3";
                 break;
             case 1:
-                musicLink = "indie/backgrounds/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
+                musicLink = "/indie/backgrounds/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
                 break;
             case 2:
                 musicLink = "/indie/backgrounds/Hollow Knight OST - Dirtmouth.mp3";
                 break;
             case 3:
-                musicLink = "indie/backgrounds/La tour Eiffel est toujours là.mp3";
+                musicLink = "/indie/backgrounds/La tour Eiffel est toujours là.mp3";
                 break;
             case 4:
-                musicLink = "indie/backgrounds/Nightcore  Le Lac Des Cygnes ( Tchaikovsky ).mp3";
+                musicLink = "/indie/backgrounds/Nightcore  Le Lac Des Cygnes ( Tchaikovsky ).mp3";
                 break;
             case 5:
-                musicLink = "indie/backgrounds/UNDERTALE Piano Collections_ 03. It's Raining Somewhere Else.mp3";
+                musicLink = "/indie/backgrounds/UNDERTALE Piano Collections_ 03. It's Raining Somewhere Else.mp3";
                 break;
         }
 
@@ -238,7 +238,7 @@ public class PaneOrganizer {
 
     public void bossMusicPlayer(){
        this.mediaPlayer.dispose();
-       String musicLink= "indie/Enemies/Spain Theme - Atomic (Civilization 6 OST)  Recuerdos de la Alhambra.mp3";
+       String musicLink= "/indie/Enemies/Spain Theme - Atomic (Civilization 6 OST)  Recuerdos de la Alhambra.mp3";
        this.music(musicLink);
 
     }
