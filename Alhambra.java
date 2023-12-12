@@ -337,7 +337,7 @@ public class Alhambra implements Enemy {
         //at the location of Alhambra a enemy projectile will be spawned
         //range melee attack every 0.4 second
         long time = System.currentTimeMillis();
-        long coolDownTime = 400;
+        long coolDownTime = 500;
         if (time > this.lastattack + coolDownTime) {
             if (this.isAlive) {
                 this.enemyProjectileArrayList.add(new EnemyProjectile(this.worldpane, this, player));
@@ -462,7 +462,7 @@ public class Alhambra implements Enemy {
             ;
 
             //same idea if she falls out of the world
-            if (this.getPosY() >= 1300) {
+            if (this.getPosY() >=  Constants.OUT_OF_BOUNDS) {
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }

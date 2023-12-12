@@ -10,26 +10,21 @@ import indie.PaneOrganizer;
  */
 public class Portal {
     private Rectangle rect;
-    private double width;
-    private double height;
     private PaneOrganizer paneorganizer;
 
     public Portal(PaneOrganizer paneorganizer, Pane worldpane, double X, double y){
         this.paneorganizer = paneorganizer;
-        this.width = 200;
-        this.height = 1200;
-
-
         this.setup(worldpane, X, y);
 
 
 
     }
+    /**
+     * this is the setup method, it sets up the portal into the world
+     */
     public void setup(Pane worldpane, double X, double y){
-        this.rect = new Rectangle(this.width, this.height);
+        this.rect = new Rectangle(Constants.PORTAL_WIDTH, Constants.PORTAL_HEIGHT);
         this.rect.setFill(Color.TRANSPARENT);
-        this.rect.setOpacity(0.7);
-
 
         this.rect.setX(X);
         this.rect.setY(y);
@@ -37,11 +32,16 @@ public class Portal {
         worldpane.getChildren().addAll(this.rect);
     }
 
+    /**
+     * this is the sendWorld method, if the player intersects with the portal it will send them to the next world
+     */
     public void sendWorld(){
         this.paneorganizer.nextWorld();
-        System.out.println(this.paneorganizer.getWorldCur());
     }
 
+    /**
+     * this is the getRect method, it gets the hitbox of the portal
+     */
     public Rectangle getRect() {
         return this.rect;
     }

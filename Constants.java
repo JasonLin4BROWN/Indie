@@ -6,19 +6,51 @@ public class Constants {
 
     public static final int SCENE_WIDTH = 1920;
     public static final int SCENE_HEIGHT = 1080;
-
-    public static final double WALK_DIS = 20;
-
-    public static final double JUMP_HEIGHT = 10;
-
-    public static final int GRAVITY = 1000; // acceleration constant (UNITS: pixels/s^2)
-    public static final double DURATION = 0.0016; // KeyFrame duration (UNITS: s)
+    public static final int OUT_OF_BOUNDS= 1300;
+    public static final int OUT_OF_BOUNDS_TOP= -50;
+    public static final double PROJECTILE_SIZE = 20;
+    public static final Color PLAYER_PROJECTILE_COLOR = Color.WHITE;
+    public static final Color ENEMY_PROJECTILE_COLOR = Color.RED;
 
 
-    //hitboxes:
 
+
+
+    //Player constants
+    public static final int PLAYER_HP = 5;
     public static final double HITBOX_HEIGHT = 283/3.3;
     public static final double HITBOX_WIDTH = 206/3.3;
+    public static final double PLAYER_IMG_HEIGHT = 283/(2);
+
+    public static final double PLAYER_IMG_WIDTH  = 206/(1.75);
+    public static final double PLAYER_IMG_X_CORRECTION = 35;
+    public static final double PLAYER_IMG_Y_CORRECTION = 45;
+
+
+    public static final double STARTING_X  = 50;
+
+
+    public static final double WALK_DIS = 20;
+    public static final double JUMP_HEIGHT = 10;
+
+    public static final int GRAVITY = 1000;
+    public static final double DURATION = 0.0016;
+
+    public static final double ATTACK_BOX_WIDTH = 150;
+
+    public static final double ATTACK_BOX_HEIGHT = 70;
+    public static final double ATTACK_BOX_CORRECTION_Y = 20;
+    public static final double DASH_SPEED_X = 10;
+    public static final double DASH_SPEED_Y = 20;
+    public static final double DASH_TIME = 0.5;
+    public static final long PLAYER_PROJECTILE_LIFESPAN = 3000;
+    public static final double PLAYER_PROJECTILE_SPEED = 2;
+
+
+
+
+
+
 
 
     //for the Procedural Generation:
@@ -29,6 +61,7 @@ public class Constants {
     public static final double MIN_DISTANCE_Y = 50;
 
 
+    //Alhambra Constants
     public static final int ALHAMBRA_HP = 20;
     public static final double ALHAMBRA_WIDTH = 192/1.5;
     public static final double ALHAMBRA_HEIGHT = 300/1.5;
@@ -43,11 +76,8 @@ public class Constants {
     public static final double ALHAMBRA_XVEL = 10;
     public static final double ALHAMBRA_MOVEMENT_SPEED = 5;
     public static final double ALHAMBRA_JUMP_HEIGHT = 10;
-
-
-    public static final double PROJECTILE_SIZE = 20;
     public static final double E_PROJECTILE_SPEED = 0.2;
-    public static final long E_PROJECTILE_LIFESPAN = 5000;
+    public static final long E_PROJECTILE_LIFESPAN = 3000;
 
     public static final double COLLISION_CORRECTION= 100;
 
@@ -89,13 +119,20 @@ public class Constants {
     public static final double BACKGROUND_HEIGHT = 875;
 
 
+    //Portal Constants:
+    public static final double PORTAL_WIDTH = 200;
+    public static final double PORTAL_HEIGHT = 1200;
 
 
 
 
 
-    //Player constants
-    public static final int PLAYER_HP = 5;
+
+
+
+
+
+
 
 
 

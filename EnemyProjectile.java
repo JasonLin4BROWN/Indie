@@ -53,7 +53,7 @@ public class EnemyProjectile implements Projectile{
     public void spawn() {
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.WHITE);
+        this.body.setFill(Constants.ENEMY_PROJECTILE_COLOR);
         this.body.setOpacity(0.5);
 
         this.worldpane.getChildren().addAll(this.body);

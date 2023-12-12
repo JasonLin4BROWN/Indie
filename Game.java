@@ -77,8 +77,8 @@ public class Game {
         //make the player spawn at the appropriate height per level
         this.col = this.worldorganizer.getyStart();
         this.player.setFeet(this.col);
-        this.player.posX = 50;
-        this.player.positioning(50, this.player.getY());
+        this.player.posX = Constants.STARTING_X;
+        this.player.positioning(Constants.STARTING_X, this.player.getY());
 
         //ensure that the pane handles key inputs correctly
         this.worldpane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
@@ -115,6 +115,7 @@ public class Game {
 
         //update everything else below
         this.healthbar.update();
+        this.player.boundYPlayer();
         this.handleResponse();
         this.portalCollisions();
         this.handleEnemy();

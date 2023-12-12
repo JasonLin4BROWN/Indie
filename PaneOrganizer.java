@@ -51,7 +51,6 @@ public class PaneOrganizer {
         HBox accesspane = new HBox();
         this.root.setTop(accesspane);
         this.setUpButton(accesspane);
-        this.setUpNextLevelButton(accesspane);
 
         //create the current world
         this.worldList.get(this.worldCur).generateEvery();
@@ -82,6 +81,9 @@ public class PaneOrganizer {
         worldpane.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
     }
 
+    /**
+     * the setUpButton method, it makes the quit button
+     */
     public void setUpButton(HBox hbox) {
         //creates the quit button
         hbox.setAlignment(Pos.CENTER);
@@ -96,68 +98,57 @@ public class PaneOrganizer {
         quit.setFocusTraversable(false);
     };
 
-    public void setUpNextLevelButton(HBox hbox) {
-        //creates the quit button
-        hbox.setAlignment(Pos.TOP_LEFT);
-        Button nextlevel = new Button("Next Level");
-        hbox.getChildren().add(nextlevel);
 
-        //makes it so that pressing it quits the game
-        nextlevel.setOnAction((event) -> {
-            this.nextWorld();
-
-        });
-        hbox.setFocusTraversable(false);
-        nextlevel.setFocusTraversable(false);
-    };
-
-
+    /**
+     * the nextWorld method, it creates the next world and transports the player to it when they
+     * enter the portal
+     */
     public void nextWorld(){
         if (this.worldCur<this.maxWorldNum) {
             //delete this world
-            //is this really necessary?
             this.worldList.get(this.worldCur).removeEvery();
             this.gameCur.clearpProjList();
-
 
             //get the next one
             this.worldCur++;
 
             //set the world to this next one:
-            StackPane orderpane = new StackPane();
             Pane worldpane = new Pane();
             this.setUpSituation(worldpane);
             this.root.setCenter(worldpane);
 
-            //create the nextWorld;
+            //Create Access Menu
+            HBox accesspane = new HBox();
+            this.root.setTop(accesspane);
+            this.setUpButton(accesspane);
+
+            //reset player's HP
             this.playerHP = this.player.getHP();
             this.player = new Player(worldpane);
             this.player.setHP(this.playerHP);
 
+            //move the inventory over to the next world
             this.inventory.changePane(worldpane);
             this.inventory.changePlayer(this.player);
 
 
-
+            //add this world to the list
             this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
             this.worldList.get(this.worldCur).generateEvery();
             this.gameCur = new Game(worldpane, this.worldList.get(this.worldCur), this.player);
             this.gameCur.intitalization();
 
+            //restart the music
             this.mediaPlayer.dispose();
             this.musicPlayer();
-
-
-
-            System.out.println(this.worldCur);
         }
+
+        //when we reach the maximum world count, spawn the boss level
         else if(this.worldCur == this.maxWorldNum){
             //delete this world
-            //is this really necessary?
             this.worldList.get(this.worldCur).removeEvery();
             this.gameCur.clearpProjList();
-
 
             //get the next one
             this.worldCur++;
@@ -166,6 +157,11 @@ public class PaneOrganizer {
             Pane worldpane = new Pane();
             this.setUpSituation(worldpane);
             this.root.setCenter(worldpane);
+
+            //Create Access Menu
+            HBox accesspane = new HBox();
+            this.root.setTop(accesspane);
+            this.setUpButton(accesspane);
 
             //create the nextWorld;
             //get player current HP
@@ -175,33 +171,28 @@ public class PaneOrganizer {
             //set new player to current HP
             this.player.setHP(this.playerHP);
 
+            //move inventory to the next world
             this.inventory.changePane(worldpane);
             this.inventory.changePlayer(this.player);
 
-
-
+            //create a boss level specifically
             this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
-
             this.worldList.get(this.worldCur).boss_level_generation();
             this.gameCur = new Game(worldpane, this.worldList.get(this.worldCur), this.player);
             this.gameCur.intitalization();
 
 
-            System.out.println(this.worldCur);
+            //play boss music
             this.mediaPlayer.dispose();
             this.bossMusicPlayer();
         }
 
-
     };
-    public int getWorldCur(){
-        return this.worldCur;
-    }
-
-
+    /**
+     * the musicPlayer method, selects a random background music to be played
+     */
     public void musicPlayer(){
         int generate_music = (int) Math.floor(Math.random() * 5);
-        System.out.println(generate_music);
         String musicLink = "";
 
         switch (generate_music){
@@ -225,13 +216,12 @@ public class PaneOrganizer {
                 break;
         }
 
-        System.out.println(musicLink);
-
-
         this.music(musicLink);
 
     }
-
+    /**
+     * the bossMusicPlayer method, selects the boss background music to be played
+     */
     public void bossMusicPlayer(){
        this.mediaPlayer.dispose();
        String musicLink= "/indie/Enemies/Spain Theme - Atomic (Civilization 6 OST)  Recuerdos de la Alhambra.mp3";
@@ -239,8 +229,9 @@ public class PaneOrganizer {
 
     }
 
-
-
+    /**
+     * the music method, actually plays the music
+     */
     public void music(String musicLink){
         Media media = null;
         try {

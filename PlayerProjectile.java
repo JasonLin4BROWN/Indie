@@ -1,17 +1,14 @@
 package indie;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
+
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
-
 import java.util.ArrayList;
 
+/**
+ * the PlayerProjectile class, it implements the projectile and is the one the player can summon
+ */
 public class PlayerProjectile implements Projectile{
     private Pane worldpane;
     private Player player;
@@ -30,6 +27,7 @@ public class PlayerProjectile implements Projectile{
     private long spawnTime;
 
     public PlayerProjectile(Pane worldpane, Player player, ArrayList<Enemy> enemyList){
+        //set up all instance variables
         this.exists = true;
         this.spawnTime = System.currentTimeMillis();
 
@@ -39,7 +37,7 @@ public class PlayerProjectile implements Projectile{
         this.closestE = this.enemyList.get(0);
 
 
-        this.body = new Rectangle(20,20);
+        this.body = new Rectangle(Constants.PROJECTILE_SIZE,Constants.PROJECTILE_SIZE);
 
         //this projectile should never intersect more than once
         this.intersectedC = 0;
@@ -53,18 +51,25 @@ public class PlayerProjectile implements Projectile{
 
         this.spawn();
     }
+
+    /**
+     * the spawn method, it spawns the projectile in and makes it white
+     */
     public void spawn() {
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.WHITE);
+        this.body.setFill(Constants.PLAYER_PROJECTILE_COLOR);
         this.body.setOpacity(0.5);
 
         this.worldpane.getChildren().addAll(this.body);
 
 
     }
-
+    /**
+     * the sense method, it finds the closest enemy
+     */
     public Enemy sense() {
+        //set the closest enemy to be some absurd distance
         double closestEDis = 10000000;
 
         for(int i = 0; i < this.enemyList.size(); i++){
@@ -93,30 +98,31 @@ public class PlayerProjectile implements Projectile{
 
     }
 
+    /**
+     * the hunt method, it moves the projectile towards the closest enemy at a rapid rate
+     */
     public void hunt(){
 
-        //this checks X
+        //if right of enemy, move left
         if (this.posX - this.closestE.getBody().getX() > 0){
-            //player is currently Right of enemy
             this.moveLeft();
             this.kill();
         }
-
+        //if left of enemy, move right
         else if (this.posX - this.closestE.getBody().getX()< 0){
-            //player is currently Left of enemy
             this.moveRight();
             this.kill();
 
         }
 
-        //this checks Y
+        //if below enemy rise
         if (this.posY - this.closestE.getBody().getY() > 0){
             //PProj is below enemy
             this.rise();
             this.kill();
 
         }
-
+        //if above enemy fall
         else if (this.posY - this.closestE.getBody().getY() < 0){
             //PProj is above enemy
             this.fall();
@@ -127,7 +133,9 @@ public class PlayerProjectile implements Projectile{
 
 
     }
-
+    /**
+     * the kill method, it hurts the enemy when it intersects with them
+     */
     public void kill(){
         //interesection function
         Bounds ppjectBound = this.body.getBoundsInParent();
@@ -136,72 +144,68 @@ public class PlayerProjectile implements Projectile{
 
         if(ppjectBound.intersects(enemyBound)){
             if(this.intersectedC < 1) {
-                this.closestE.setHP(closestE.getHP() - 1);
-                this.intersectedC = this.intersectedC+1;
+                this.closestE.setHP(this.closestE.getHP() - 1);
+                this.intersectedC = this.intersectedC + 1;
                 this.despawn();
             }
 
         }
     }
 
+    /**
+     * the moveLeft method, moves it left
+     */
     public void moveLeft() {
-        this.helperLeft();
-
-
-    }
-
-    public void helperLeft(){
-        this.velX = this.velX - 2;
+        this.velX = this.velX - Constants.PLAYER_PROJECTILE_SPEED;
         this.posX = this.posX + this.velX;
         this.body.setX(this.posX);
 
     }
 
+
+    /**
+     * the moveRight method, moves it right
+     */
     public void moveRight() {
-        this.helperRight();
-
-    }
-
-    public void helperRight(){
-        this.velX = this.velX + 2;
+        this.velX = this.velX + Constants.PLAYER_PROJECTILE_SPEED;
         this.posX = this.posX + this.velX;
         this.body.setX(this.posX);
-
     }
+
+    /**
+     * the rise method, moves it up
+     */
     public void rise() {
-        this.helperRise();
-
-
-    }
-
-    public void helperRise(){
-        this.velY = this.velY - 2;
+        this.velY = this.velY - Constants.PLAYER_PROJECTILE_SPEED;
         this.posY = this.posY + this.velY;
         this.body.setY(this.posY);
 
     }
 
+    /**
+     * the fall method, moves it down
+     */
     public void fall() {
-        this.helperFall();
-
-    }
-
-    public void helperFall(){
-        this.velY = this.velY + 2;
+        this.velY = this.velY + Constants.PLAYER_PROJECTILE_SPEED;
         this.posY = this.posY + this.velY;
         this.body.setY(this.posY);
-
     }
 
+    /**
+     * the despawn method, removes the projectile from the game
+     */
     public void despawn() {
         this.worldpane.getChildren().remove(this.body);
         this.exists = false;
 
     }
 
+    /**
+     * the deathClock method, removes the projectile from the game after its lifespan is up
+     */
     public void deathClock(){
         long time = System.currentTimeMillis();
-        long lifeTime = 3000;
+        long lifeTime = Constants.PLAYER_PROJECTILE_LIFESPAN;
         if (time > this.spawnTime + lifeTime && this.exists) {
             this.despawn();
         }
