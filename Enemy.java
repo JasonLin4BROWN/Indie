@@ -18,10 +18,7 @@ public interface Enemy{
     public void antiReactX(Player player);
     public void antiReactY(Player player);
 
-
     public void Attack(Player player);
-    public void attackHelper(Player player);
-
     public void MoveLeft();
     public void MoveRight();
     public void Jump();
@@ -36,7 +33,6 @@ public interface Enemy{
     public double getPosX();
     public double getPosY();
     public void setPosX(double PosX);
-    public void setPosY(double PosY);
     public void positioning(double PosX, double PosY);
 
     public Rectangle getBody();

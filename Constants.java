@@ -61,13 +61,18 @@ public class Constants {
     public static final double ALHAMBRA_XVEL = 10;
     public static final double ALHAMBRA_MOVEMENT_SPEED = 5;
     public static final double ALHAMBRA_JUMP_HEIGHT = 10;
+    public static final long ALHAMBRA_CD = 500;
+    public static final long ALHAMBRA_SENSE = 500;
+    public static final long ALHAMBRA_MSENSE = 200;
+
+
+
     public static final double E_PROJECTILE_SPEED = 0.2;
     public static final long E_PROJECTILE_LIFESPAN = 3000;
 
     //Game Constants:
     public static final double COLLISION_CORRECTION= 100;
     public static final double WALLPLAT_HEIGHT = 60;
-    public static final double ENEMY_SIZE = 100;
     public static final double GROUND_HEIGHT = 700;
 
     //Healthbar Constants:
@@ -111,6 +116,36 @@ public class Constants {
     public static final double RECIPE_Y = 230;
     public static final double RECIPE_SIZE = 80;
     public static final int MAX_FOOD = 8;
+
+    //Enemy Constants:
+    public static final double ENEMY_SIZE = 100;
+    public static final int RICE_MAX_HP = 7;
+    public static final int RICE_MIN_HP = 4;
+    public static final int RICE_SENSE_RANGE = 500;
+    public static final int RICE_SPEED = 3;
+    public static final int RICE_JUMP = 10;
+    public static final long RICE_CD = 500;
+
+
+    public static final int SEAWEED_MAX_HP = 4;
+    public static final int SEAWEED_MIN_HP = 1;
+    public static final int SEAWEED_SENSE_RANGE = 500;
+    public static final int SEAWEED_SPEED = 3;
+    public static final int SEAWEED_JUMP = 10;
+    public static final long SEAWEED_CD = 5000;
+
+
+
+
+
+
+
+
+
+
+    //Ingredient Constants:
+
+
 
 
 

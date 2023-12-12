@@ -88,8 +88,7 @@ public class Alhambra implements Enemy {
             //this manages Alhambra's attacks, every 0.5 seconds she will choose an attack to do randomly based on the
             //conditions in the sense method and then perform it.
             long time = System.currentTimeMillis();
-            long coolDownTime = 500;
-            if (time > this.lastattack + coolDownTime) {
+            if (time > this.lastattack + Constants.ALHAMBRA_CD) {
                 double closeNum = Math.random() * 100;
                 this.attackNum = closeNum;
                 this.lastattack = time;
@@ -106,25 +105,25 @@ public class Alhambra implements Enemy {
     @Override
     public void Sense(Player player) {
         //if player within 500 pixels
-        if ((Math.abs(player.posX - this.body.getX()) <= 500)) {
+        if ((Math.abs(player.posX - this.body.getX()) <= Constants.ALHAMBRA_SENSE)) {
             //90% of time she will give chase and do a melee attack
             if (0 <= this.attackNum && this.attackNum <= 90) {
-                if (Math.abs(player.posX - this.body.getX()) > 100) {
+                if (Math.abs(player.posX - this.body.getX()) > Constants.ALHAMBRA_MSENSE) {
                     this.ReactX(player);
                     this.ReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) <= 300) {
+                else if (Math.abs(player.posX - this.body.getX()) <= Constants.ALHAMBRA_MSENSE) {
                     this.Attack(player);
                     }
                 }
 
             //10% of the time she will move away and then range attack
-            else if (90 < this.attackNum && this.attackNum <= 100) {
-                if (Math.abs(player.posX - this.body.getX()) <= 300) {
+            else if (90 < this.attackNum && this.attackNum <= Constants.ALHAMBRA_MSENSE) {
+                if (Math.abs(player.posX - this.body.getX()) <= Constants.ALHAMBRA_MSENSE) {
                     this.antiReactX(player);
                     this.antiReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) > 300) {
+                else if (Math.abs(player.posX - this.body.getX()) > Constants.ALHAMBRA_MSENSE) {
                         this.RAttack(player);
                     }
                 }
@@ -132,23 +131,23 @@ public class Alhambra implements Enemy {
         }
 
         //otherwise
-        else if ((Math.abs(player.posX - this.body.getX()) > 500)) {
+        else if ((Math.abs(player.posX - this.body.getX()) > Constants.ALHAMBRA_SENSE)) {
             //30% of time she will give chase and do a melee attack
             if (0 <= this.attackNum && this.attackNum <= 30) {
-                if (Math.abs(player.posX - this.body.getX()) > 100) {
+                if (Math.abs(player.posX - this.body.getX()) > Constants.ALHAMBRA_MSENSE) {
                     this.ReactX(player);
                     this.ReactY(player);
-                } else if (Math.abs(player.posX - this.body.getX()) <= 300) {
+                } else if (Math.abs(player.posX - this.body.getX()) <= Constants.ALHAMBRA_MSENSE) {
                     this.Attack(player);
                 }
             }
 
             //40% of the time she will jump away and then range attack
-            else if (40 < this.attackNum && this.attackNum <= 100) {
-                if (Math.abs(player.posX - this.body.getX()) <= 300) {
+            else if (40 < this.attackNum && this.attackNum <= Constants.ALHAMBRA_MSENSE) {
+                if (Math.abs(player.posX - this.body.getX()) <= Constants.ALHAMBRA_MSENSE) {
                     this.antiReactX(player);
                     this.antiReactY(player);
-                } else if (Math.abs(player.posX - this.body.getX()) > 300) {
+                } else if (Math.abs(player.posX - this.body.getX()) > Constants.ALHAMBRA_MSENSE) {
                     this.RAttack(player);
                 }
             }
@@ -156,7 +155,7 @@ public class Alhambra implements Enemy {
             //otherwise she will run into melee range after performing a ranged attack
             else {
                 this.RAttack(player);
-                if (Math.abs(player.posX - this.body.getX()) >= 300) {
+                if (Math.abs(player.posX - this.body.getX()) >= Constants.ALHAMBRA_MSENSE) {
                     this.ReactX(player);
                     this.ReactY(player);
                 }
@@ -303,7 +302,6 @@ public class Alhambra implements Enemy {
     /**
      * This is the attackHelper method, this has the logic behind the melee dash attack
      */
-    @Override
     public void attackHelper(Player player) {
 
         //if Alhambra is moving left
@@ -537,12 +535,6 @@ public class Alhambra implements Enemy {
         this.posX = posX;
     }
 
-    /**
-     * the setPosY method, it sets her y position
-     */
-    public void setPosY(double posY) {
-        this.posY = posY;
-    }
 
     /**
      * the positioning helper method, it sets her x and y position, and then sets the image's position as well with

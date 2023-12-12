@@ -13,6 +13,9 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This is the Seaweed class, the seaweed is your ranged type enemy;
+ */
 public class Seaweed implements Enemy{
     private double posX;
     private double posY;
@@ -30,7 +33,7 @@ public class Seaweed implements Enemy{
 
     public Seaweed(Pane worldpane, double X, double y,Inventory inventory){
         Random rnd = new Random();
-        this.eHP = rnd.nextInt(4 - 1) + 1;
+        this.eHP = rnd.nextInt(Constants.SEAWEED_MAX_HP- Constants.SEAWEED_MIN_HP) + Constants.SEAWEED_MIN_HP;
         this.isAlive = true;
 
         this.posX = X;
@@ -45,17 +48,20 @@ public class Seaweed implements Enemy{
 
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
-        //For Rice Specifically:
-        this.image  = new Image("indie/Enemies/Seaweed.png",100,100,false,true);
+        //For Seaweed Specifically:
+        this.image  = new Image("indie/Enemies/Seaweed.png",Constants.ENEMY_SIZE,Constants.ENEMY_SIZE,false,true);
         this.imageView = new ImageView();
 
         this.Spawn(this.worldpane, this.posX, this.posY);
     }
 
+    /**
+     * This is Spawn method, its spawns the seaweed in
+     */
     @Override
     public void Spawn(Pane worldpane, double X, double y) {
         //we will make a circle like object
-        this.body = new Rectangle(100,100);
+        this.body = new Rectangle(Constants.ENEMY_SIZE,Constants.ENEMY_SIZE);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
         this.body.setFill(Color.TRANSPARENT);
@@ -69,6 +75,9 @@ public class Seaweed implements Enemy{
 
     }
 
+    /**
+     * This is Update method, its contains the methods we want the seaweed to do when the game updates
+     */
     @Override
     public void Update(Player player) {
         if(this.isAlive) {
@@ -76,9 +85,9 @@ public class Seaweed implements Enemy{
             this.Die();
             this.projectileUpdater();
 
+            //the seaweed shoots you every 5 seconds
             long time = System.currentTimeMillis();
-            long coolDownTime = 5000;
-            if (time > this.lastattack + coolDownTime) {
+            if (time > this.lastattack + Constants.SEAWEED_CD) {
                 this.Attack(player);
                 this.lastattack = time;
             }
@@ -251,11 +260,6 @@ public class Seaweed implements Enemy{
 
     }
 
-    @Override
-    public void attackHelper(Player player) {
-
-    }
-
     public void projectileUpdater(){
         for(int i = 0; i < this.enemyProjectileArrayList.size(); i++){
             this.enemyProjectileArrayList.get(i).hunt();
@@ -403,7 +407,6 @@ public class Seaweed implements Enemy{
     public double getPosY(){return this.posY;};
 
     public void setPosX(double posX){this.posX = posX;}
-    public void setPosY(double posY){this.posY = posY;}
 
     public void positioning(double posX, double posY){
         this.posX = posX;
