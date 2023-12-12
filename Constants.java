@@ -15,7 +15,7 @@ public class Constants {
 
 
     //Player constants
-    public static final int PLAYER_HP = 5;
+    public static final int PLAYER_HP = 10;
     public static final double HITBOX_HEIGHT = 283/3.3;
     public static final double HITBOX_WIDTH = 206/3.3;
     public static final double PLAYER_IMG_HEIGHT = 283/(2);
@@ -87,6 +87,8 @@ public class Constants {
     //Inventory Constants:
     public static final double INVENTORY_WIDTH = 1450;
     public static final double INVENTORY_HEIGHT = 800;
+    public static final int INVENTORY_SIZE = 20;
+
     public static final double ICON_SIZE = 65;
     public static final int WIDTH_BTW_ICONS = 117;
     public static final int HEIGHT_BTW_ICONS = 100;
@@ -123,27 +125,18 @@ public class Constants {
     public static final int RICE_MIN_HP = 4;
     public static final int RICE_SENSE_RANGE = 500;
     public static final int RICE_SPEED = 3;
-    public static final int RICE_JUMP = 10;
+    public static final int RICE_JUMP = 5;
     public static final long RICE_CD = 500;
-
-
     public static final int SEAWEED_MAX_HP = 4;
     public static final int SEAWEED_MIN_HP = 1;
-    public static final int SEAWEED_SENSE_RANGE = 500;
-    public static final int SEAWEED_SPEED = 3;
-    public static final int SEAWEED_JUMP = 10;
+    public static final int SEAWEED_SENSE_RANGE = 300;
+    public static final int SEAWEED_SPEED = 2;
+    public static final int SEAWEED_JUMP = 5;
     public static final long SEAWEED_CD = 5000;
 
 
-
-
-
-
-
-
-
-
     //Ingredient Constants:
+    public static final double ING_SIZE = 65;
 
 
 

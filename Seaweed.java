@@ -96,14 +96,18 @@ public class Seaweed implements Enemy{
 
     }
 
+    /**
+     * This is Sense method, its contains the methods we want the seaweed does when it detects the player
+     * and doesn't detect the player
+     */
     @Override
     public void Sense(Player player) {
-        if (Math.abs(player.posX - this.body.getX()) <= 300){
+        if (Math.abs(player.posX - this.body.getX()) <= Constants.SEAWEED_SENSE_RANGE){
             this.antiReactX(player);
         }
 
-        if (Math.abs(player.posX - this.body.getX()) <= 300){
-            if (Math.abs(player.posY - this.body.getY()) <= 300) {
+        if (Math.abs(player.posX - this.body.getX()) <=  Constants.SEAWEED_SENSE_RANGE){
+            if (Math.abs(player.posY - this.body.getY()) <=  Constants.SEAWEED_SENSE_RANGE) {
                 this.antiReactY(player);
             }
         }
@@ -114,19 +118,23 @@ public class Seaweed implements Enemy{
 
     }
 
+    /**
+     * This is DefaultBehavior method, its contains the methods we want the seaweed doesn't detect the player:
+     */
     @Override
     public void DefaultBehavior() {
         double behaviorNum = Math.random() * 100;
+
+        //40% time does nothing
         if (0<=behaviorNum && behaviorNum<=40){
             this.body.setX(this.posX);
         }
-
+        //30% time moves right
         else if (40<behaviorNum && behaviorNum<=70){
             if (this.body.getY() > 0) {
                 this.MoveLeft();
             }
         }
-
         else{
             if (this.body.getY() < 1000) {
                 this.MoveRight();
@@ -138,71 +146,58 @@ public class Seaweed implements Enemy{
     }
 
     @Override
+    /**
+     * This is ReactX method, checks where the player is and goes towards them on the x-axis
+     */
     public void ReactX(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
         if (player.posX - this.body.getX() > 0){
-            //player is currently right of enemy
             this.MoveRight();
-
-
         }
 
         else if (player.posX - this.body.getX() < 0){
-            //player is currently left of enemy
             this.MoveLeft();
 
         }
 
         else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
+            for(int i = 0; i<5;i++){
+                this.antiReactX(player);
+            }
         }
 
 
 
     }
+    /**
+     * This is ReactY method, checks where the player is and goes towards them on the y-axis
+     */
     public void ReactY(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
         if (player.posY - this.body.getY() > 0){
-            //player is currently right of enemy
             this.ReactX(player);
         }
 
         else if (player.posY - this.body.getY() < 0){
-            //player is currently left of enemy
             this.Jump();
         }
 
         else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
+            for(int i = 0; i<5;i++){
+                this.antiReactX(player);
+            }
         }
 
 
 
     }
-
+    /**
+     * This is antiReactX method, checks where the player is and moves away from them on x-axis
+     */
     public void antiReactX(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
         if (player.posX - this.body.getX() > 0){
-            //player is currently right of enemy
             this.MoveLeft();
         }
 
         else if (player.posX - this.body.getX() < 0){
-            //player is currently left of enemy
             this.MoveRight();
         }
 
@@ -213,53 +208,33 @@ public class Seaweed implements Enemy{
 
 
     }
-
+    /**
+     * This is antiReactY method, checks where the player is and moves away from them on y-axis
+     */
     public void antiReactY(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
         if (player.posY - this.body.getY() > 0){
-            //player is currently below of enemy
             this.Jump();
         }
 
         else if (player.posY - this.body.getY() < 0){
-            //player is currently left of enemy
             this.antiReactX(player);
 
         }
-
-        else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
-        }
-
-
 
     }
-
+    /**
+     * this is the attack method, seaweed will spawn in a projectiles to kill the player
+     */
     @Override
     public void Attack(Player player) {
-        /**
-         * we need to make this such that it spawns in projectiles to kill player
-         */
         if (this.isAlive){
-            long time = System.currentTimeMillis();
-            this.lastattack = 0;
-            long coolDownTime = 500;
-            if (time > this.lastattack + coolDownTime) {
-                this.enemyProjectileArrayList.add(new EnemyProjectile(this.worldpane, this, player));
-
-            }
-
+            this.enemyProjectileArrayList.add(new EnemyProjectile(this.worldpane, this, player));
         }
-
-
     }
 
+    /**
+     * this is the projectileUpdater method, it updates the seaweed's projectiles to do their stuff
+     */
     public void projectileUpdater(){
         for(int i = 0; i < this.enemyProjectileArrayList.size(); i++){
             this.enemyProjectileArrayList.get(i).hunt();
@@ -269,61 +244,67 @@ public class Seaweed implements Enemy{
 
     }
 
+    /**
+     * this is the MoveLeft method, it moves the seaweed left
+     */
     @Override
     public void MoveLeft() {
-         this.helperLeft();
+        this.posX  = this.posX - Constants.SEAWEED_SPEED;
+        this.positioning(this.posX, this.posY);
 
     }
 
-    public void helperLeft(){
-        this.posX  = this.posX - 1;
-        this.body.setX(this.posX);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
-    }
-
+    /**
+     * this is the MoveRight method, it moves the seaweed right
+     */
     @Override
     public void MoveRight() {
-         this.helperRight();
+        this.posX  = this.posX + Constants.SEAWEED_SPEED;
+        this.positioning(this.posX, this.posY);
 
     }
 
-    public void helperRight(){
-        this.posX  = this.posX + 1;
-        this.body.setX(this.posX);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
-    }
-
+    /**
+     * this is the Jump method, it allows the seaweed to jump, timeline for animation again
+     */
     @Override
     public void Jump() {
         if(this.yVel ==0 && this.isAlive) {
-            KeyFrame leftframe = new KeyFrame(
+            KeyFrame jumpframe = new KeyFrame(
                     Duration.millis(10),
                     (ActionEvent e) -> this.helperJump());
-            Timeline timeline = new Timeline(leftframe);
+            Timeline timeline = new Timeline(jumpframe);
             timeline.setCycleCount(20);
             timeline.play();
         }
     }
 
+    /**
+     * this is the helperJump method, it allows the seaweed to jump
+     */
     public void helperJump(){
-        this.posY  = this.posY - 10;
-        this.body.setY(this.posY);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY);
+        this.posY  = this.posY - Constants.SEAWEED_JUMP;
+        this.positioning(this.posX, this.posY);
+
     }
 
+    /**
+     * this is the Fall method, it allows the seaweed to fall
+     */
     @Override
     public void Fall(double platY) {
         this.doGravity(platY);
     }
 
+
+    /**
+     * This is the doGravity method, it simulates gravity on Seaweed
+     */
     public void doGravity(double platY) {
 
         //This function simulates the acceleration of gravity over time.
         this.yVel += Constants.GRAVITY * Constants.DURATION;
-        platY = platY - 100;
+        platY = platY - Constants.ENEMY_SIZE;
 
         if (this.posY >= platY) {
             this.yVel = 0;
@@ -340,27 +321,35 @@ public class Seaweed implements Enemy{
         }
     }
 
+    /**
+     * This is the Die method, it tells the seaweed what to do when it dies
+     */
     @Override
     public void Die() {
         if(this.isAlive) {
             if (this.eHP <= 0) {
+                //remove the projectiles it spawned
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }
 
+                //remove it
                 this.enemyProjectileArrayList.clear();
                 this.worldpane.getChildren().remove(this.body);
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                if(this.inventory.getInventory().size()<=20) {
+
+                //add to inventory a seaweed
+                if(this.inventory.getInventory().size()<=Constants.INVENTORY_SIZE) {
                     this.inventory.getInventory().add(new SeaweedING());
                 }
 
             }
             ;
 
-            if (this.getPosY() >= 1300) {
+            //same idea with if it falls out of the world
+            if (this.getPosY() >= Constants.OUT_OF_BOUNDS) {
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }
@@ -370,7 +359,7 @@ public class Seaweed implements Enemy{
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                if(this.inventory.getInventory().size()<=20) {
+                if(this.inventory.getInventory().size()<=Constants.INVENTORY_SIZE) {
                     this.inventory.getInventory().add(new SeaweedING());
                 }
 
@@ -381,33 +370,59 @@ public class Seaweed implements Enemy{
 
     }
 
+    /**
+     * This is the getStatus method, it returns Seaweed's alive status
+     */
     @Override
     public boolean getStatus() {
         return this.isAlive;
-
-
     }
 
+    /**
+     * This is the getHP method, it returns Seaweed's HP
+     */
     @Override
     public int getHP() {
         return this.eHP;
     }
 
+    /**
+     * This is the setHP method, it sets Seaweed's HP
+     */
     @Override
     public void setHP(int newHP) {
         this.eHP = newHP;
 
     }
+
+    /**
+     * This is the getBody method, it sets Seaweed's hitbox
+     */
     @Override
     public Rectangle getBody(){
         return this.body;
     };
 
+    /**
+     * This is the getPosX method, it sets Seaweed's posX
+     */
+    @Override
     public double getPosX(){return this.posX;};
+
+    /**
+     * This is the getPosY method, it sets Seaweed's posY
+     */
+    @Override
     public double getPosY(){return this.posY;};
-
+    /**
+     * This is the setPosX method, it sets Seaweed's posX
+     */
+    @Override
     public void setPosX(double posX){this.posX = posX;}
-
+    /**
+     * This is the positioning method, it sets Seaweed's posX and posY as well as its images
+     */
+    @Override
     public void positioning(double posX, double posY){
         this.posX = posX;
         this.posY = posY;

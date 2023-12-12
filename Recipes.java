@@ -1,8 +1,6 @@
 package indie;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

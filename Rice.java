@@ -93,7 +93,7 @@ public class Rice implements Enemy {
 
     }
     /**
-     * This is Update method, its contains the methods we want the Rice to do when the game updates
+     * This is Sense method, it allows the enemy to react to the player depending on if they are in range or not
      */
     @Override
     public void Sense(Player player) {
@@ -265,10 +265,10 @@ public class Rice implements Enemy {
     @Override
     public void Jump() {
         if(this.yVel ==0 && this.isAlive) {
-            KeyFrame leftframe = new KeyFrame(
+            KeyFrame jumpframe = new KeyFrame(
                     Duration.millis(10),
                     (ActionEvent e) -> this.helperJump());
-            Timeline timeline = new Timeline(leftframe);
+            Timeline timeline = new Timeline(jumpframe);
             timeline.setCycleCount(20);
             timeline.play();
         }
@@ -330,18 +330,18 @@ public class Rice implements Enemy {
 
                 //put a Rice ingredient into the player inventory if they have less than 20 items
                 this.isAlive = false;
-                if(this.inventory.getInventory().size()<=20) {
+                if(this.inventory.getInventory().size()<=Constants.INVENTORY_SIZE) {
                     this.inventory.getInventory().add(new RiceING());
                 }
             }
             ;
 
-            if (this.getPosY() >= 1300) {
+            if (this.getPosY() >= Constants.OUT_OF_BOUNDS) {
                 this.worldpane.getChildren().remove(this.body);
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                if(this.inventory.getInventory().size()<=20) {
+                if(this.inventory.getInventory().size()<=Constants.INVENTORY_SIZE) {
                     this.inventory.getInventory().add(new RiceING());
                 }
 

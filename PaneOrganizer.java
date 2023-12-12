@@ -214,6 +214,9 @@ public class PaneOrganizer {
             case 5:
                 musicLink = "/indie/backgrounds/UNDERTALE Piano Collections_ 03. It's Raining Somewhere Else.mp3";
                 break;
+            default:
+                musicLink = "/indie/backgrounds/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
+                break;
         }
 
         this.music(musicLink);

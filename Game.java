@@ -368,7 +368,7 @@ public double wallTDCollisions(){
 
                 //left intersection
                 if (LRrectbounds.intersects(enemybounds)) {
-                    if (currentE.getPosX() + Constants.ENEMY_SIZE <= LRrectbounds.getMinX() + Constants.ENEMY_SIZE * 2) {
+                    if (currentE.getPosX() + Constants.ENEMY_SIZE <= LRrectbounds.getMinX() + Constants.ENEMY_SIZE * 1.5) {
                         currentE.setPosX(LRrectbounds.getMinX() - Constants.ENEMY_SIZE);
                     }
 
