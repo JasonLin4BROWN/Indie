@@ -65,20 +65,17 @@ public class Constants {
     public static final long ALHAMBRA_SENSE = 500;
     public static final long ALHAMBRA_MSENSE = 200;
 
-
-
     public static final double E_PROJECTILE_SPEED = 0.2;
     public static final long E_PROJECTILE_LIFESPAN = 3000;
 
     //Game Constants:
     public static final double COLLISION_CORRECTION= 100;
-    public static final double WALLPLAT_HEIGHT = 60;
     public static final double GROUND_HEIGHT = 700;
 
     //Healthbar Constants:
     public static final double HB_X = 50;
     public static final double HB_Y = 50;
-    public static final double HB_WIDTH = 50;
+    public static final double HB_WIDTH = 25;
 
     public static final double HB_HEIGHT = 50;
     public static final Color HB_COLOR = Color.GREEN;
@@ -141,6 +138,37 @@ public class Constants {
     //Walls, Towers, and World Organizer Constants:
     public static final double WALL_LR_HITBOX_OFFSET = 40;
     public static final double TOWER_LR_HITBOX_OFFSET = 20;
+    public static final double WORLD_XEND = 1300;
+    public static final double FLOOR_WIDTH = 190;
+    public static final double FLOOR_HEIGHT = 300;
+    public static final double FLOOR_Y = 700;
+    public static final double WALLPLAT_WIDTH = 60;
+    public static final double WALLPLAT_HEIGHT = 60;
+    public static final double WALLPLAT_VARIATION = 50;
+    public static final double BARRIER_X = -180;
+    public static final double BARRIER_RIGHT_X = 1430;
+
+    public static final double TOWER_WIDTH = 200;
+
+    public static final double SE_TOWER_DEFAULT = 300;
+    public static final double PORTAL_X = 1430;
+    public static final double PORTAL_Y = -200;
+    public static final double PLAYER_ABILITY = 200;
+
+    public static final double ALHAMBRA_SPAWN_X = 800;
+    public static final double ALHAMBRA_SPAWN_Y = 500;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

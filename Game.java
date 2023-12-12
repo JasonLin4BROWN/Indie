@@ -388,6 +388,7 @@ public double wallTDCollisions(){
      */
     public double wallTDCollisionsEnemy(Enemy currentE){
         //handling top intersections
+        //put some absurd value for the wallcol
         double wallcol = 2000;
         for (int i = 0; i < this.worldorganizer.getwallList().size(); i++){
             Wall wall = this.worldorganizer.getwallList().get(i);
