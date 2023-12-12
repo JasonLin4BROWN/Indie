@@ -1,0 +1,66 @@
+Indie README
+
+Overview:
+    Our Indie has many classes: Alhambra, App, EnemyProjectile, Game, Healthbar, Inventory, Onigiri, PaneOrganizer,
+    Player, PlayerProjectile, Portal, Recipes, Rice, RiceING, Seaweed, SeaweedING, Tower, Wall,
+    and the WorldOrganizer which interact in the following ways:
+        - BouncyPlat, BreakingPlat, MovingPlat, and StandardPlat are
+        subclasses of Platform
+        - App contains an instance of PaneOrganizer
+        - PaneOrganizer contains an instance of Game
+        - Game contains instances of Doodle, PlatformOrganizer, and ScoreKeeper
+        - PlatformOrganizer's constructor takes in Doodle and ScoreKeeper so
+        that it can logically handle collisions and score increment
+        - PlatformOrganizer creates instances of BouncyPlat, BreakingPlat,
+        MovingPlat, and StandardPlat and contains methods that graphically move
+        them and call their methods after events like collisions
+
+    It also has the following interfaces: Enemy, Food, Ingredients, Projectile
+
+Design Choices:
+    - We decided to use inheritance, with the different types of platforms being
+    subclasses of Platform, because the platforms share functionality, as they
+    have the same dimensions and collide with Doodle.
+        - Because the platform types have different assigned colors, each platform
+        subclass inputs a different color into super() from its constructor.
+        - Overriding allows us to easily alter the behavior of different platform
+        types, making BouncyPlat cause a higher rebound and MovingPlat to move.
+        - The Platform superclass allows for the creation of the platform ArrayList and
+        the use of a single function, updatePlatforms, to check for platform collisions
+        and update platform movement.
+    - Platform has accessor methods to get its x and y positions so that PlatformOrganizer
+    can move platforms to scroll the screen and generate platforms based on other platforms'
+    positions.
+    - Doodle has an accessor method to get its y velocity so that PlatformOrganizer only
+    detects collisions when Doodle is falling.
+    - We decided to make PlatformOrganizer a separate class from Game to handle
+    platform-related functionality.
+        -We used association to make PlatformOrganizer aware of Doodle and
+        ScoreKeeper so that it can call their functions to handle collisions and
+        score increment.
+        - PlatformOrganizer uses an ArrayList to organize the Platforms generated,
+        as the platforms are generated in an orderly manner from bottom to top.
+        - The ArrayList allows for the efficient checking of collisions and movement
+        of platforms to graphically scroll through the use of for loops.
+        - The use of instance variable topPlatform allows us to keep track of the
+        top platform so that generatePlatform() can instantiate platforms based on
+        the current top platform's position.
+        - We decided to have Game's Timeline continuously call generatePlatform() to
+        allow for simple continuous generation of platforms, but used an if statement
+        to make sure the top platform stays on the screen.
+    - PlatformOrganizer is passed into Doodle's doGravity() so that Doodle can call
+    scrollDown() when Doodle reaches a certain height.
+    - We used association and passed LabelPane and DoodlePane into Game so that Game
+    can handle animation and logical movement of Pane elements while PaneOrganizer
+    controls overall graphical organization.
+    - We created ScoreKeeper, with the use of association in passing LabelPane into its
+    constructor so that it can handle the update and display of the score.
+
+Known Bugs: None.
+
+Debugging Collaborators: None.
+
+Extra Credit: For this project we implemented smooth movement left and right for extra credit. We
+did this through the use of keyframe animations instead of directly moving the Doodle left and right. Thus
+every left and right press appears to slowly shift the doodle to the appropriate direction, thus creating a smooth
+motion for doodle.
