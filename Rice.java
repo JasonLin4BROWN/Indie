@@ -12,6 +12,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.Random;
+/**
+ * This is the Rice class, the rice is your melee type enemy;
+ */
 public class Rice implements Enemy {
     private double posX;
     private double posY;

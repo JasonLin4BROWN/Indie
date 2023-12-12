@@ -1,5 +1,6 @@
 package indie;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -10,10 +11,11 @@ import javafx.scene.layout.Pane;
 import java.util.LinkedList;
 import java.util.Objects;
 
-
+/**
+ * This is the Recipes class, it defines what recipes are and the ability to use it to cook
+ */
 public class Recipes {
     private Inventory inventory;
-    private Image img;
     private Button button;
     private Pane worldpane;
     private LinkedList<Food> foodLinkedList;
@@ -23,26 +25,28 @@ public class Recipes {
     public Recipes(Pane worldpane, Inventory inventory, Player player, LinkedList<Food> foodLinkedList) {
         this.player = player;
         this.inventory = inventory;
-        this.img = new Image("indie/Enemies/Onigiri.png", 65, 65, false, true);
         this.button = new Button();
         this.worldpane = worldpane;
-
         this.foodLinkedList = foodLinkedList;
 
 
     }
-
+    /**
+     * This is the displayRecipes method, it creates a Recipes button which can be pressed to cook food,
+     * in this case Onigiri
+     */
     public void displayRecipes(Image img) {
 
-        this.button.setTranslateX(770);
-        this.button.setTranslateY(230);
-        this.button.setPrefSize(80, 80);
+        this.button.setTranslateX(Constants.RECIPE_X);
+        this.button.setTranslateY(Constants.RECIPE_Y);
+        this.button.setPrefSize(Constants.RECIPE_SIZE, Constants.RECIPE_SIZE);
+
         ImageView IV = new ImageView();
         IV.setImage(img);
-
         this.button.setGraphic(IV);
+
         this.button.setOnAction((event) -> {
-            if(this.foodLinkedList.size()<=8) {
+            if(this.foodLinkedList.size()<= Constants.MAX_FOOD) {
                 this.cook();
             }
 
@@ -51,11 +55,17 @@ public class Recipes {
         this.worldpane.getChildren().addAll(this.button);
 
     }
-
+    /**
+     * This is the removeRecipes method,it removes the button from existence
+     */
     public void removeRecipes() {
         this.worldpane.getChildren().remove(this.button);
     }
 
+
+    /**
+     * This is the cook method, it allows the play to cook;
+     */
     public void cook() {
         LinkedList<Ingredients> inven = this.inventory.getInventory();
 
@@ -109,6 +119,7 @@ public class Recipes {
                 break;
             }
 
+            //this resets the inventories images to update with new positions
             this.inventory.removeING();
             this.inventory.displayING();
             this.inventory.removeFoods();
@@ -116,6 +127,9 @@ public class Recipes {
         }
     }
 
+    /**
+     * This is the getFoodLinkedList method, it gets the food list that have been cooked;
+     */
     public LinkedList<Food> getFoodLinkedList() {
         return this.foodLinkedList;
     }

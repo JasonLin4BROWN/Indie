@@ -14,30 +14,20 @@ public class Constants {
 
 
 
-
-
     //Player constants
     public static final int PLAYER_HP = 5;
     public static final double HITBOX_HEIGHT = 283/3.3;
     public static final double HITBOX_WIDTH = 206/3.3;
     public static final double PLAYER_IMG_HEIGHT = 283/(2);
-
     public static final double PLAYER_IMG_WIDTH  = 206/(1.75);
     public static final double PLAYER_IMG_X_CORRECTION = 35;
     public static final double PLAYER_IMG_Y_CORRECTION = 45;
-
-
     public static final double STARTING_X  = 50;
-
-
     public static final double WALK_DIS = 20;
     public static final double JUMP_HEIGHT = 10;
-
     public static final int GRAVITY = 1000;
     public static final double DURATION = 0.0016;
-
     public static final double ATTACK_BOX_WIDTH = 150;
-
     public static final double ATTACK_BOX_HEIGHT = 70;
     public static final double ATTACK_BOX_CORRECTION_Y = 20;
     public static final double DASH_SPEED_X = 10;
@@ -45,11 +35,6 @@ public class Constants {
     public static final double DASH_TIME = 0.5;
     public static final long PLAYER_PROJECTILE_LIFESPAN = 3000;
     public static final double PLAYER_PROJECTILE_SPEED = 2;
-
-
-
-
-
 
 
 
@@ -79,9 +64,8 @@ public class Constants {
     public static final double E_PROJECTILE_SPEED = 0.2;
     public static final long E_PROJECTILE_LIFESPAN = 3000;
 
+    //Game Constants:
     public static final double COLLISION_CORRECTION= 100;
-
-
     public static final double WALLPLAT_HEIGHT = 60;
     public static final double ENEMY_SIZE = 100;
     public static final double GROUND_HEIGHT = 700;
@@ -113,7 +97,6 @@ public class Constants {
     public static final int HEAL_HP = 1;
 
     //PaneOrganizer Constants:
-
     public static final int MAX_NUM_WORLDS = 3;
     public static final double BACKGROUND_WIDTH = 1450;
     public static final double BACKGROUND_HEIGHT = 875;
@@ -122,6 +105,14 @@ public class Constants {
     //Portal Constants:
     public static final double PORTAL_WIDTH = 200;
     public static final double PORTAL_HEIGHT = 1200;
+
+    //Recipes Constants:
+    public static final double RECIPE_X = 770;
+    public static final double RECIPE_Y = 230;
+    public static final double RECIPE_SIZE = 80;
+    public static final int MAX_FOOD = 8;
+
+
 
 
 
