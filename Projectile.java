@@ -1,5 +1,7 @@
 package indie;
-
+/**
+ * This is the Projectile interface, it enables polymorphism of our projectiles and standardizes their methods
+ */
 public interface Projectile {
     //for the time being I will not implement anything
     public void spawn();

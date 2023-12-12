@@ -2,7 +2,6 @@ package indie;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 /**
  * This is the Enemy interface, essentially we want call all enemies at the same time so we

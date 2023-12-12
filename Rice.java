@@ -53,7 +53,7 @@ public class Rice implements Enemy {
     @Override
     public void Spawn(Pane worldpane, double X, double y) {
         //we will make a circle like object
-        this.body = new Rectangle(100,100);
+        this.body = new Rectangle(Constants.ENEMY_SIZE,100);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
         this.body.setFill(Color.TRANSPARENT);

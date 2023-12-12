@@ -41,7 +41,7 @@ public class Player extends Rectangle {
         super();
 
         this.isAlive = true;
-        this.HP = 5;
+        this.HP = Constants.PLAYER_HP;
 
         this.hitbox = new Rectangle(Constants.HITBOX_WIDTH,Constants.HITBOX_HEIGHT);
         this.hitbox.setFill(Color.TRANSPARENT);

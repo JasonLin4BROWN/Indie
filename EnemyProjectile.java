@@ -5,9 +5,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
-
-
 /**
  * This is the EnemyProjectile class, it models the projectiles used specifically by the enemy against
  * the player
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 public class EnemyProjectile implements Projectile{
     private Pane worldpane;
     private Player player;
-    private ArrayList<Enemy> enemyList;
     private Rectangle body;
     private int intersectedC;
     private double posX;

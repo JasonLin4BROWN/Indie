@@ -3,20 +3,15 @@ package indie;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Rectangle;
-
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * the PaneOrganizer class, it is what makes the pane organized and sets everything with each other
+ */
 public class PaneOrganizer {
     private ArrayList<WorldOrganizer> worldList;
     private int worldCur;
@@ -25,11 +20,13 @@ public class PaneOrganizer {
     private Player player;
     private int playerHP;
     private MediaPlayer mediaPlayer;
-
     private Inventory inventory;
     BorderPane root;
     public PaneOrganizer(){
+        //create BorderPane
         this.root = new BorderPane();
+
+        //set current world number
         this.worldCur = 0;
 
         //Create WorldPane
@@ -37,12 +34,12 @@ public class PaneOrganizer {
         this.setUpSituation(worldpane);
         this.root.setCenter(worldpane);
 
-        //Create WorldOrganizer and by extension world:
+        //Create world list which will store our level/worlds
         this.worldList = new ArrayList<WorldOrganizer>();
 
-        //sets the number of worlds
-        this.maxWorldNum = 1;
-
+        //sets the number of worlds (note that 3 means 4 levels + 1 boss level);
+        this.maxWorldNum = Constants.MAX_NUM_WORLDS;
+        //spawn the player
         this.player = new Player(worldpane);
         //adds an Inventory
         this.inventory = new Inventory(worldpane, this.player);
@@ -56,8 +53,9 @@ public class PaneOrganizer {
         this.setUpButton(accesspane);
         this.setUpNextLevelButton(accesspane);
 
+        //create the current world
         this.worldList.get(this.worldCur).generateEvery();
-        this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur), this.player);
+        this.gameCur = new Game(worldpane, this.worldList.get(this.worldCur), this.player);
         this.gameCur.intitalization();
 
         this.playerHP = this.player.getHP();
@@ -66,23 +64,21 @@ public class PaneOrganizer {
         //Music:
         this.musicPlayer();
 
-
-
-
-
-
-
     };
 
+    /**
+     * the getRoot method, it returns the root
+     */
     public BorderPane getRoot(){
         return this.root;
     };
 
-    public void setUpSituation(Pane worldpane){
-        ImageView iv = new ImageView();
-        Image image = new Image("indie/backgrounds/Celeste1.png",1450, 875, false, true);
-        //, Constants.SCENE_WIDTH-450, Constants.SCENE_HEIGHT-300, false, true)
 
+    /**
+     * the setUpSituation method, it sets up the background of the world
+     */
+    public void setUpSituation(Pane worldpane){
+        Image image = new Image("indie/backgrounds/Celeste1.png",Constants.BACKGROUND_WIDTH, Constants.BACKGROUND_HEIGHT, false, true);
         worldpane.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
     }
 
@@ -146,7 +142,7 @@ public class PaneOrganizer {
             this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
             this.worldList.get(this.worldCur).generateEvery();
-            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur), this.player);
+            this.gameCur = new Game(worldpane, this.worldList.get(this.worldCur), this.player);
             this.gameCur.intitalization();
 
             this.mediaPlayer.dispose();
@@ -187,7 +183,7 @@ public class PaneOrganizer {
             this.worldList.add(new WorldOrganizer(this, worldpane, this.inventory));
 
             this.worldList.get(this.worldCur).boss_level_generation();
-            this.gameCur = new Game(this.root,worldpane, this.worldList.get(this.worldCur), this.player);
+            this.gameCur = new Game(worldpane, this.worldList.get(this.worldCur), this.player);
             this.gameCur.intitalization();
 
 

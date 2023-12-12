@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import java.util.LinkedList;
 import java.util.Objects;
 
+
 public class Recipes {
     private Inventory inventory;
     private Image img;
@@ -78,7 +79,7 @@ public class Recipes {
                         inven.remove(riceI);
 
 
-                        this.foodLinkedList.add(new Onigiri(this.worldpane, this.inventory, this.player, this.foodLinkedList));
+                        this.foodLinkedList.add(new Onigiri(this.worldpane, this.player, this.foodLinkedList));
 
                         break;
                     }
@@ -100,7 +101,7 @@ public class Recipes {
                         inven.remove(seaweedI);
 
 
-                        this.foodLinkedList.add(new Onigiri(this.worldpane, this.inventory, this.player, this.foodLinkedList));
+                        this.foodLinkedList.add(new Onigiri(this.worldpane, this.player, this.foodLinkedList));
 
                         break;
                     }

@@ -11,7 +11,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This is the Alhambra class, she is our indie games boss and implements the enemy archetype as a type of enemy

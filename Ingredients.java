@@ -3,6 +3,10 @@ package indie;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+
+/**
+ * the Ingredients interface, it has the methods of all ingredients as they ought to be
+ */
 public interface Ingredients {
     public void setType(String type);
     public String getType();

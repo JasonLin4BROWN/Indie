@@ -13,8 +13,6 @@ public class WorldOrganizer {
 
     private double xStart;
     private double xEnd;
-
-    private ArrayList<Platforms> platformList;
     private ArrayList<Wall> wallList;
     private ArrayList<Enemy> enemyList;
     private ArrayList<Portal>  portalList;
@@ -25,7 +23,6 @@ public class WorldOrganizer {
     public WorldOrganizer(PaneOrganizer paneOrganizer, Pane worldpane, Inventory inventory){
 
         //essentially it will only generate anything if it is called to do so.
-        this.platformList = new ArrayList<Platforms>();
         this.wallList = new ArrayList<Wall>();
         this.enemyList = new ArrayList<Enemy>();
         this.portalList = new ArrayList<Portal>();
@@ -63,21 +60,6 @@ public class WorldOrganizer {
 
     }
 
-    public void generatePlatforms(){
-        //platforms are kinda useless now, but we will keep them in case of utility (they are a wall with no
-        //side collisions)
-
-        int platformNum = 0;
-
-        for (int i = 0; i < platformNum; i++){
-            double platX = Math.random() *  1000 + 200;
-            double platY = Math.random() *  500 + 100;
-
-            this.platformList.add(new Platforms(worldpane, platX, platY));
-
-        }
-
-    }
 
     public void generateFloor(double X){
         this.wallList.add(new Wall(worldpane, X, 700, 190, 300));
@@ -87,7 +69,7 @@ public class WorldOrganizer {
 
     public void generateWallPlats(double wallX, double wallY){
         double width = Math.random() *  200 + 10;
-        double height = Math.random() *  10 + 60;
+        double height = Math.random() *  10 + Constants.WALLPLAT_HEIGHT;
 
 
         this.wallList.add(new Wall(worldpane, wallX, wallY, width, height));
@@ -133,12 +115,11 @@ public class WorldOrganizer {
 
     public void generatePortals(){
         //end Portal
-        this.portalList.add(new Portal(this.paneOrganizer, this.worldpane, 1430, 0));
+        this.portalList.add(new Portal(this.paneOrganizer, this.worldpane, 1430, -200));
 
     }
 
     public void removeEvery(){
-        this.platformList.clear();
         this.wallList.clear();
         this.enemyList.clear();
 
@@ -233,11 +214,6 @@ public class WorldOrganizer {
 
         this.yStart = this.getyStart();
 
-    }
-
-
-    public ArrayList<Platforms> getPlatList(){
-        return this.platformList;
     }
 
     public ArrayList<Wall> getwallList(){
