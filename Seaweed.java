@@ -58,7 +58,7 @@ public class Seaweed implements Enemy{
         this.body = new Rectangle(100,100);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.ORANGE);
+        this.body.setFill(Color.TRANSPARENT);
 
         this.imageView.setImage(this.image);
         this.imageView.setX(this.posX);
@@ -293,7 +293,14 @@ public class Seaweed implements Enemy{
 
     @Override
     public void Jump() {
-       this.helperJump();
+        if(this.yVel ==0 && this.isAlive) {
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(10),
+                    (ActionEvent e) -> this.helperJump());
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(20);
+            timeline.play();
+        }
     }
 
     public void helperJump(){
@@ -332,7 +339,7 @@ public class Seaweed implements Enemy{
     @Override
     public void Die() {
         if(this.isAlive) {
-            if (this.eHP == 0) {
+            if (this.eHP <= 0) {
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }

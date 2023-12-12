@@ -59,7 +59,6 @@ public class WorldOrganizer {
 
         this.generatePortals();
 
-        new DebugMarkers(this.worldpane);
         this.yStart = this.getyStart();
 
     }
@@ -96,6 +95,9 @@ public class WorldOrganizer {
     }
 
     public void generateSETowers(){
+        //Add the left most barrier wall
+        this.wallList.add(new Tower(worldpane, -180,0 , 200, Constants.SCENE_HEIGHT));
+
         //start:
         double rndStart = Math.random();
         this.yStart = 300 + rndStart*200;
@@ -129,22 +131,10 @@ public class WorldOrganizer {
         this.enemyList.add(new Seaweed(this.worldpane, enemyX, enemyY, this.inventory));
     }
 
-    public void generateBEnemies(double enemyX, double enemyY){
-        this.enemyList.add(new Alhambra(this.worldpane, enemyX, enemyY, this.inventory));
-    }
-
     public void generatePortals(){
         //end Portal
-        this.portalList.add(new Portal(this.paneOrganizer, this.worldpane, 1400, 0));
+        this.portalList.add(new Portal(this.paneOrganizer, this.worldpane, 1430, 0));
 
-    }
-
-
-    public void updateEnemies(Player player){
-        for (int i = 0; i < this.enemyList.size(); i++){
-            this.enemyList.get(i).Update(player);
-
-        }
     }
 
     public void removeEvery(){
@@ -159,7 +149,6 @@ public class WorldOrganizer {
         //getting distance that needs to be covered
 
         this.generateSETowers();
-        new DebugMarkers(this.worldpane);
         this.yStart = this.getyStart();
 
         for (int i = 0; i < 10; i++) {
@@ -180,7 +169,7 @@ public class WorldOrganizer {
                         Math.random() * (yMax - yMin) + yMin);
 
                 int generate_num = (int) Math.floor(Math.random() * 4);
-                int generate_enemy = (int) Math.floor(Math.random() * 4);
+                int generate_enemy = (int) Math.floor(Math.random() * 2);
 
 
 
@@ -236,13 +225,12 @@ public class WorldOrganizer {
         }
 
         //create the towers either side:
-        this.wallList.add(new Tower(worldpane, -50,0 , 200, Constants.SCENE_HEIGHT));
-        this.wallList.add(new Tower(worldpane, 1400,0 , 200, Constants.SCENE_HEIGHT));
+        this.wallList.add(new Tower(worldpane, -180,0 , 200, Constants.SCENE_HEIGHT));
+        this.wallList.add(new Tower(worldpane, 1430,0 , 200, Constants.SCENE_HEIGHT));
 
 
         this.enemyList.add(new Alhambra(this.worldpane, 800, 500, this.inventory));
 
-        new DebugMarkers(this.worldpane);
         this.yStart = this.getyStart();
 
     }

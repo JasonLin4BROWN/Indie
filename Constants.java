@@ -5,7 +5,7 @@ public class Constants {
     public static final int SCENE_WIDTH = 1920;
     public static final int SCENE_HEIGHT = 1080;
 
-    public static final double WALK_DIS = 10;
+    public static final double WALK_DIS = 15;
 
     public static final double JUMP_HEIGHT = 10;
 

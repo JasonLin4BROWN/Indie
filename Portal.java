@@ -27,7 +27,7 @@ public class Portal {
     }
     public void setup(Pane worldpane, double X, double y){
         this.rect = new Rectangle(this.width, this.height);
-        this.rect.setFill(Color.PURPLE);
+        this.rect.setFill(Color.TRANSPARENT);
         this.rect.setOpacity(0.7);
 
 

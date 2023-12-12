@@ -35,6 +35,7 @@ public class Game {
     private WorldOrganizer worldorganizer;
 
 
+
     private double col;
     private double enemyCol;
     private boolean gameState;
@@ -42,6 +43,8 @@ public class Game {
 
 
     private ArrayList<PlayerProjectile> pProjList;
+    private long lastRattack;
+
 
 
     public Game(BorderPane root, Pane worldpane, WorldOrganizer worldorganizer, Player player){
@@ -49,6 +52,7 @@ public class Game {
 
         //this is for recognizing portal hitboxes
         this.lastPortal = 0;
+        this.lastRattack = 0;
 
         this.right = false;
         this.left = false;
@@ -64,23 +68,6 @@ public class Game {
         this.player = player;
         this.inventory = this.worldorganizer.getInventory();
         this.intitalization();
-
-
-        //the answer was that this.col wasn't intantiated properly, as a result it keeps wanting to send
-        //the player in the shadow realm via setting their y to -85
-
-        //making sure everything stops falling to their death:
-        /*
-
-        this.col = this.worldorganizer.getyStart();
-        this.player.setFeet(300);
-        this.player.posY = 300 - Constants.HITBOX_HEIGHT;
-        this.player.positioning(this.player.posX, this.player.posY);
-        this.player.fall(this.col);
-
-        this.enemyCol = 600;
-
-         */
 
         //setting up timeline
         this.setupTimeline();
@@ -348,7 +335,7 @@ public double wallTDCollisions(){
             Bounds enemyBounds = enemyBody.getBoundsInParent();
             Bounds playerattackbounds = this.player.getAttackBox().getBoundsInParent();
 
-            if (playerattackbounds.intersects(enemyBounds)){
+            if (playerattackbounds.intersects(enemyBounds) && this.player.getAlive()){
                 enemy.setHP(enemy.getHP()-1);
 
                 //pushback
@@ -357,7 +344,7 @@ public double wallTDCollisions(){
                         (ActionEvent e) ->enemy.antiReactX(this.player));
 
                 Timeline timeline = new Timeline(kf);
-                timeline.setCycleCount(15);
+                timeline.setCycleCount(10);
                 timeline.play();
 
 
@@ -388,12 +375,13 @@ public double wallTDCollisions(){
 
 
             Label gameOver = new Label("Game Over");
-            gameOver.setTranslateX(Constants.SCENE_WIDTH/2 - 300);
-            gameOver.setTranslateY(Constants.SCENE_HEIGHT/2);
+            gameOver.setTranslateX(Constants.SCENE_WIDTH/2 - 500);
+            gameOver.setTranslateY(Constants.SCENE_HEIGHT/2 - 300);
             gameOver.setTextFill(Color.WHITE);
-            gameOver.setFont(new Font("Arial", 50.0));
+            gameOver.setFont(new Font("Arial", 100.0));
 
             this.worldpane.getChildren().addAll(gameOver);
+            this.player.removePlayer();
 
         }
     }
@@ -433,7 +421,7 @@ public double wallTDCollisions(){
 
                 //left intersection
                 if (LRrectbounds.intersects(enemybounds)) {
-                    if (currentE.getPosX() + 100 <= LRrectbounds.getMinX() + 100) {
+                    if (currentE.getPosX() + 100 <= LRrectbounds.getMinX() + 200) {
 
                         currentE.setPosX(LRrectbounds.getMinX() - 100);
 
@@ -556,8 +544,13 @@ public double wallTDCollisions(){
                 break;
 
             case W:
-                this.pProjList.add(
-                        new PlayerProjectile(this.worldpane, this.player, this.worldorganizer.getenemyList()));
+                long time = System.currentTimeMillis();
+                long coolDownTime = 1000;
+                if (time > this.lastRattack + coolDownTime) {
+                    this.pProjList.add(new PlayerProjectile(this.worldpane, this.player, this.worldorganizer.getenemyList()));
+                    this.lastRattack = time;
+                }
+
                 break;
             case SPACE:
                 this.player.dash();

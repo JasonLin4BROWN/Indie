@@ -1,5 +1,7 @@
 package indie;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -28,8 +30,15 @@ public class Wall {
 
         this.LRhitbox.setFill(Color.DARKVIOLET);
 
+        Image image = new Image("indie/backgrounds/tilecover2.png",width, height, false, false);
+        ImageView IV = new ImageView();
+        IV.setImage(image);
+        IV.setX(X);
+        IV.setY(y);
 
-        worldpane.getChildren().addAll(this.rect,this.LRhitbox);
+
+
+        worldpane.getChildren().addAll(this.rect,this.LRhitbox, IV);
     }
 
     public Rectangle getRect(){

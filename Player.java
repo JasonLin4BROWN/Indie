@@ -1,6 +1,5 @@
 package indie;
 
-import doodlejump.PlatformOrganizer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -10,10 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 
 public class Player extends Rectangle {
@@ -37,7 +32,7 @@ public class Player extends Rectangle {
     int HP;
     private Rectangle attackBox;
 
-    //private int aniTick = 1, aniIndex, aniSpeed = 4;
+    private int aniTick = 1, aniIndex, aniSpeed = 2;
 
     private boolean isAlive;
 
@@ -49,7 +44,7 @@ public class Player extends Rectangle {
         this.HP = 5;
 
         this.hitbox = new Rectangle(Constants.HITBOX_WIDTH,Constants.HITBOX_HEIGHT);
-        this.hitbox.setFill(Color.RED);
+        this.hitbox.setFill(Color.TRANSPARENT);
         this.hitbox.setOpacity(0.5);
 
         this.headY = this.hitbox.getBoundsInLocal().getMaxY();
@@ -76,12 +71,12 @@ public class Player extends Rectangle {
         this.yVel = 0;
         this.xVel = 0;
 
+
         this.positioning(this.posX,this.posY);
 
 
         this.worldpane = worldpane;
         this.worldpane.getChildren().addAll(this.hitbox, this.currentimage);
-
 
 
 
@@ -97,10 +92,6 @@ public class Player extends Rectangle {
 
 
     }
-
-    public void setTrueY(double y){
-        this.posY = y;
-    }
     public double getFeet(){
         this.feetY = this.posY + Constants.HITBOX_HEIGHT;
         return this.feetY;
@@ -111,28 +102,33 @@ public class Player extends Rectangle {
 
     }
     public void moveRight() {
-        this.xVel = 10;
+        if (this.isAlive) {
+            this.xVel = 10;
 
 
-        KeyFrame leftframe = new KeyFrame(
-                Duration.millis(10),
-                (ActionEvent e) -> this.animateRight());
-        Timeline timeline = new Timeline(leftframe);
-        timeline.setCycleCount(2);
-        timeline.play();
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(10),
+                    (ActionEvent e) -> this.animateRight());
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(2);
+            timeline.play();
+        }
 
 
     }
 
     public void moveLeft() {
-        this.xVel = -10;
+        if (this.isAlive) {
 
-        KeyFrame leftframe = new KeyFrame(
-                Duration.millis(10),
-                (ActionEvent e) -> this.animateLeft());
-        Timeline timeline = new Timeline(leftframe);
-        timeline.setCycleCount(2);
-        timeline.play();
+            this.xVel = -10;
+
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(10),
+                    (ActionEvent e) -> this.animateLeft());
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(2);
+            timeline.play();
+        }
 
 
 
@@ -145,56 +141,43 @@ public class Player extends Rectangle {
         this.positioning(this.posX, this.posY);
     }
 
-    public void animateRight(){
+    public void animateRight() {
         //animation business
-        /*
         aniTick++;
-        if(aniTick >=aniSpeed){
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex > 7){
+            if (aniIndex > 7) {
                 aniIndex = 1;
-            }
-
-
-            else{
-                this.currentimage.setImage(new Image("wonders/res/Eiffel/Paris Walk Animation (" + aniIndex + ").png"));
+            } else {
+                this.currentimage.setImage(new Image("indie/res/Eiffel/Paris Walk Animation (" + aniIndex + ").png"));
                 this.posX = this.posX + Constants.WALK_DIS;
                 this.resizePos();
             }
 
-         */
-
-        this.posX = this.posX + Constants.WALK_DIS;
-        this.resizePos();
-
-
+        }
     }
 
-    public void animateLeft(){
-        /*
+    public void animateLeft() {
+
         aniTick++;
-        if(aniTick >=aniSpeed){
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex--;
-            if (aniIndex < 1){
+            if (aniIndex < 1) {
                 aniIndex = 7;
-            }
-
-            else{
-                this.currentimage.setImage(new Image("wonders/res/Eiffel/Paris Walk Animation (" + aniIndex + ").png"));
+            } else {
+                this.currentimage.setImage(new Image("indie/res/Eiffel/Paris Walk Animation (" + aniIndex + ").png"));
                 this.posX = this.posX - Constants.WALK_DIS;
                 this.resizePos();
             }
-            */
-        this.posX = this.posX - Constants.WALK_DIS;
-        this.resizePos();
 
+        }
     }
 
 
     public void jump(){
-        if(this.yVel ==0) {
+        if(this.yVel ==0 && this.isAlive) {
             KeyFrame leftframe = new KeyFrame(
                     Duration.millis(10),
                     (ActionEvent e) -> this.jumphelper());
@@ -210,17 +193,14 @@ public class Player extends Rectangle {
     }
 
     public void fall(double platY){
-        KeyFrame leftframe = new KeyFrame(
-                Duration.millis(20),
-                (ActionEvent e) -> this.doGravity(platY));
-        Timeline timeline = new Timeline(leftframe);
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
-    public void fallhelper(){
-        posY = posY + Constants.JUMP_HEIGHT;
-        this.positioning(posX, posY);
+        if(this.isAlive) {
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(20),
+                    (ActionEvent e) -> this.doGravity(platY));
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(1);
+            timeline.play();
+        }
     }
 
     public void doGravity(double platY) {
@@ -247,73 +227,52 @@ public class Player extends Rectangle {
     }
 
     public void idle(){
-        Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
-        this.currentimage.setImage(pystand);
-        this.resizePos();
+        if(this.isAlive) {
+            Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
+            this.currentimage.setImage(pystand);
+            this.resizePos();
+        }
 
 
     }
     public void attackLeft(){
-       this.aLHelper();
+        if(this.isAlive) {
+            this.attackBox = new Rectangle(150, 70);
+            this.attackBox.setX(this.getHitbox().getBoundsInParent().getMinX() - 50);
+            this.attackBox.setY(this.getHitbox().getBoundsInParent().getMinY() + 20);
+            this.attackBox.setFill(Color.WHITE);
 
-
-    }
-
-    public void aLHelper(){
-        this.attackBox = new Rectangle(150,70);
-        this.attackBox.setX(this.getHitbox().getBoundsInParent().getMinX()-50);
-        this.attackBox.setY(this.getHitbox().getBoundsInParent().getMinY()+20);
-        this.attackBox.setFill(Color.WHITE);
-
-        this.worldpane.getChildren().addAll(this.attackBox);
-
-
+            this.worldpane.getChildren().addAll(this.attackBox);
+        }
 
     }
 
     public void attackRight(){
-        this.aRHelper();
+        if(this.isAlive) {
+            this.attackBox = new Rectangle(150,70);
+            this.attackBox.setX(this.getHitbox().getBoundsInParent().getMaxX());
+            this.attackBox.setY(this.getHitbox().getBoundsInParent().getMinY()+20);
+            this.attackBox.setFill(Color.WHITE);
 
-
-    }
-
-    public void aRHelper(){
-        this.attackBox = new Rectangle(150,70);
-        this.attackBox.setX(this.getHitbox().getBoundsInParent().getMaxX());
-        this.attackBox.setY(this.getHitbox().getBoundsInParent().getMinY()+20);
-        this.attackBox.setFill(Color.WHITE);
-
-        this.worldpane.getChildren().addAll(this.attackBox);
-
-
-
+            this.worldpane.getChildren().addAll(this.attackBox);
+        }
     }
 
     /**
      * Dash mechanics
      */
     public void dash() {
-        if(this.xVel !=0){
+        if(this.xVel !=0 && this.isAlive){
             this.yVel = 0;
 
             KeyFrame acceframe = new KeyFrame(
-                    Duration.millis(20),
+                    Duration.millis(10),
                     (ActionEvent e) -> this.dashAccel());
             Timeline timeline = new Timeline(acceframe);
-            timeline.setCycleCount(4);
+            timeline.setCycleCount(10);
             timeline.play();
 
         }
-
-    }
-
-    public void deDash(){
-        KeyFrame deccframe = new KeyFrame(
-                Duration.millis(20),
-                (ActionEvent e) -> this.dashDecel());
-        Timeline Dtimeline = new Timeline(deccframe);
-        Dtimeline.setCycleCount(20);
-        Dtimeline.play();
 
     }
 
@@ -321,8 +280,8 @@ public class Player extends Rectangle {
     public void dashAccel(){
 
         if (this.xVel < 0){
-            this.xVel += - 50 * 0.5;
-            this.yVel += -50 * 0.5;
+            this.xVel += - 5 * 0.5;
+            this.yVel += -20 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
             this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
@@ -330,32 +289,13 @@ public class Player extends Rectangle {
         }
 
         if (this.xVel > 0){
-            this.xVel +=  50 * 0.5;
-            this.yVel += -50 * 0.5;
+            this.xVel +=  5 * 0.5;
+            this.yVel += -20 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
             this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
 
         }
-
-    }
-
-    public void dashDecel(){
-
-        if (this.xVel < 0){
-            for(int i = 0; i < this.xVel/20; i++) {
-                this.xVel = this.xVel/20;
-            }
-
-        }
-
-        if (this.xVel > 0){
-            for(int i = 0; i < this.xVel/20; i++) {
-                this.xVel += 200 * 0.1;
-            }
-        }
-
-
 
     }
 
@@ -392,8 +332,6 @@ public class Player extends Rectangle {
         return this.isAlive;
     }
 
-
-    //TEMPORARY DEBUG FUNCTION
     public void hurt(){
         this.HP = this.HP - 1;
     }
@@ -406,20 +344,11 @@ public class Player extends Rectangle {
         this.HP = HP;
     }
 
-    public void changePane(Pane worldpane){
+    public void removePlayer(){
+        this.isAlive = false;
         this.worldpane.getChildren().removeAll(this.hitbox, this.currentimage);
 
-        //change to new one
-        this.worldpane = worldpane;
-
-        this.yVel = 0;
-        this.xVel = 0;
-        this.worldpane.getChildren().addAll(this.hitbox, this.currentimage);
 
     }
 
-
-    /**
-     * This is the moveRight() method, it calls an animation keyframe which move the Doodle right in a smooth way
-     */
 }

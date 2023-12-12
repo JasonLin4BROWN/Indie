@@ -174,7 +174,7 @@ public class PlayerProjectile implements Projectile{
     }
 
     public void helperRise(){
-        this.velY = this.velY - 1;
+        this.velY = this.velY - 2;
         this.posY = this.posY + this.velY;
         this.body.setY(this.posY);
 
@@ -186,7 +186,7 @@ public class PlayerProjectile implements Projectile{
     }
 
     public void helperFall(){
-        this.velY = this.velY + 1;
+        this.velY = this.velY + 2;
         this.posY = this.posY + this.velY;
         this.body.setY(this.posY);
 
@@ -200,7 +200,7 @@ public class PlayerProjectile implements Projectile{
 
     public void deathClock(){
         long time = System.currentTimeMillis();
-        long lifeTime = 5000;
+        long lifeTime = 3000;
         if (time > this.spawnTime + lifeTime && this.exists) {
             this.despawn();
         }

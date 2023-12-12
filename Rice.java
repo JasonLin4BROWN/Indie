@@ -1,5 +1,6 @@
 package indie;
 
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -11,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.Random;
-public class Rice implements Enemy{
+public class Rice implements Enemy {
     private double posX;
     private double posY;
     private Inventory inventory;
@@ -55,7 +56,7 @@ public class Rice implements Enemy{
         this.body = new Rectangle(100,100);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.GREEN);
+        this.body.setFill(Color.TRANSPARENT);
 
         //make the image
         this.imageView.setImage(this.image);
@@ -85,11 +86,11 @@ public class Rice implements Enemy{
 
     @Override
     public void Sense(Player player) {
-        if (Math.abs(player.posX - this.body.getX()) <= 300){
+        if (Math.abs(player.posX - this.body.getX()) <= 500){
             this.ReactX(player);
         }
 
-        if (Math.abs(player.posX - this.body.getX()) <= 300){
+        if (Math.abs(player.posX - this.body.getX()) <= 500){
             if (Math.abs(player.posY - this.body.getY()) <= 300) {
                 this.ReactY(player);
             }
@@ -143,9 +144,6 @@ public class Rice implements Enemy{
         }
 
         else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
             this.antiReactX(player);
 
         }
@@ -216,40 +214,20 @@ public class Rice implements Enemy{
 
         }
 
-        else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
-        }
-
-
 
     }
 
     @Override
     public void Attack(Player player) {
         if (this.body.getBoundsInParent().intersects(player.getHitbox().getBoundsInParent()) && this.isAlive){
-            long time = System.currentTimeMillis();
-            this.lastattack = 0;
-            long coolDownTime = 10000;
-            if (time > this.lastattack + coolDownTime) {
-                this.attackHelper(player);
-                this.body.setFill(Color.GREEN);
-                this.lastattack = time;
+            this.attackHelper(player);
 
-            }
 
         }
-
-
     }
 
     public void attackHelper(Player player){
-        this.body.setFill(Color.WHITE);
         player.hurt();
-
 
     }
 
@@ -260,7 +238,7 @@ public class Rice implements Enemy{
     }
 
     public void helperLeft(){
-        this.posX  = this.posX - 1;
+        this.posX  = this.posX - 3;
         this.body.setX(this.posX);
         this.imageView.setX(this.posX);
     }
@@ -272,7 +250,7 @@ public class Rice implements Enemy{
     }
 
     public void helperRight(){
-        this.posX  = this.posX + 1;
+        this.posX  = this.posX + 3;
         this.body.setX(this.posX);
         this.imageView.setX(this.posX);
 
@@ -280,7 +258,14 @@ public class Rice implements Enemy{
 
     @Override
     public void Jump() {
-        this.helperJump();
+        if(this.yVel ==0 && this.isAlive) {
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(10),
+                    (ActionEvent e) -> this.helperJump());
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(20);
+            timeline.play();
+        }
     }
 
     public void helperJump(){
@@ -319,7 +304,7 @@ public class Rice implements Enemy{
     @Override
     public void Die() {
         if(this.isAlive) {
-            if (this.eHP == 0) {
+            if (this.eHP <= 0) {
                 this.worldpane.getChildren().remove(this.body);
                 this.worldpane.getChildren().remove(this.imageView);
 
@@ -382,9 +367,6 @@ public class Rice implements Enemy{
         this.body.setY(posY);
         this.imageView.setX(posX);
         this.imageView.setY(posY);
-
-        //testing
-        ImageView imageview = new ImageView(new Image("indie/Enemies/Seaweed.png"));
     }
 
 

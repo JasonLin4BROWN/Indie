@@ -31,7 +31,7 @@ public class Alhambra implements Enemy {
     private ArrayList<EnemyProjectile> enemyProjectileArrayList;
 
     public Alhambra(Pane worldpane, double X, double y, Inventory inventory) {
-        this.eHP = 100;
+        this.eHP = 20;
         this.isAlive = true;
         this.attackNum  = 0;
 
@@ -80,7 +80,7 @@ public class Alhambra implements Enemy {
             this.projectileUpdater();
 
             long time = System.currentTimeMillis();
-            long coolDownTime = 2000;
+            long coolDownTime = 500;
             if (time > this.lastattack + coolDownTime) {
                 double closeNum = Math.random() * 100;
                 this.attackNum = closeNum;
@@ -97,24 +97,24 @@ public class Alhambra implements Enemy {
 
         //if player is close
         if ((Math.abs(player.posX - this.body.getX()) <= 500)) {
-            //60% of time she will give chase and do a melee attack
-            if (0 <= this.attackNum && this.attackNum <= 60) {
+            //90% of time she will give chase and do a melee attack
+            if (0 <= this.attackNum && this.attackNum <= 90) {
                 if (Math.abs(player.posX - this.body.getX()) > 100) {
                     this.ReactX(player);
                     this.ReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) <= 100) {
+                else if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.Attack(player);
                     }
                 }
 
-            //40% of the time she will move away and then range attack
-            else if (60 < this.attackNum && this.attackNum <= 100) {
-                if (Math.abs(player.posX - this.body.getX()) <= 750) {
+            //10% of the time she will move away and then range attack
+            else if (90 < this.attackNum && this.attackNum <= 100) {
+                if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.antiReactX(player);
                     this.antiReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) > 750) {
+                else if (Math.abs(player.posX - this.body.getX()) > 300) {
                         this.RAttack(player);
                     }
                 }
@@ -127,18 +127,18 @@ public class Alhambra implements Enemy {
                     this.ReactX(player);
                     this.ReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) <= 100) {
+                else if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.Attack(player);
                 }
             }
 
             //40% of the time she will jump away and then range attack
             else if (40 < this.attackNum && this.attackNum <= 100) {
-                if (Math.abs(player.posX - this.body.getX()) <= 750) {
+                if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.antiReactX(player);
                     this.antiReactY(player);
                 }
-                else if (Math.abs(player.posX - this.body.getX()) > 750) {
+                else if (Math.abs(player.posX - this.body.getX()) > 300) {
                     this.RAttack(player);
                 }
                 }
@@ -146,7 +146,7 @@ public class Alhambra implements Enemy {
             //otherwise she will run into melee range after performing a ranged attack
             else{
                 this.RAttack(player);
-                if (Math.abs(player.posX - this.body.getX()) >= 400) {
+                if (Math.abs(player.posX - this.body.getX()) >= 300) {
                     this.ReactX(player);
                     this.ReactY(player);
                 }
@@ -286,19 +286,15 @@ public class Alhambra implements Enemy {
     @Override
     public void attackHelper(Player player) {
         if (this.xVel < 0){
-            this.xVel += - 25 * 0.5;
-            this.yVel += -25 * 0.5;
+            this.xVel += - 40 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
-            this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
 
         }
 
         else if (this.xVel > 0){
-            this.xVel +=  25 * 0.5;
-            this.yVel += -25 * 0.5;
+            this.xVel +=  40 * 0.5;
             this.posX = this.posX + this.xVel * 0.5;
-            this.posY = this.posY + this.yVel * 0.5;
             this.positioning(this.posX, this.posY);
 
         }
@@ -369,10 +365,18 @@ public class Alhambra implements Enemy {
 
     @Override
     public void Jump() {
-        this.helperJump();
+        if(this.yVel ==0 && this.isAlive) {
+            KeyFrame leftframe = new KeyFrame(
+                    Duration.millis(10),
+                    (ActionEvent e) -> this.helperJump());
+            Timeline timeline = new Timeline(leftframe);
+            timeline.setCycleCount(20);
+            timeline.play();
+        }
     }
 
     public void helperJump() {
+
         this.posY = this.posY - 10;
         this.body.setY(this.posY);
         this.positioning(this.posX, this.posY);
@@ -407,7 +411,7 @@ public class Alhambra implements Enemy {
     @Override
     public void Die() {
         if (this.isAlive) {
-            if (this.eHP == 0) {
+            if (this.eHP <= 0) {
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }

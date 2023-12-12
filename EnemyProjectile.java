@@ -97,7 +97,7 @@ public class EnemyProjectile implements Projectile{
         Bounds playerBound = this.player.getHitbox().getBoundsInParent();
 
 
-        if(ppjectBound.intersects(playerBound)){
+        if(ppjectBound.intersects(playerBound) && this.exists){
             if(this.intersectedC < 1) {
                 this.player.hurt();
                 this.intersectedC = this.intersectedC+1;
@@ -164,7 +164,7 @@ public class EnemyProjectile implements Projectile{
 
     public void deathClock(){
         long time = System.currentTimeMillis();
-        long lifeTime = 2000;
+        long lifeTime = 10000;
         if (time > this.spawnTime + lifeTime && this.exists) {
             this.despawn();
         }
