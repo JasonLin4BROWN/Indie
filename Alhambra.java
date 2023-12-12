@@ -13,10 +13,12 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This is the Alhambra class, she is our indie games boss and implements the enemy archetype as a type of enemy
+ */
 public class Alhambra implements Enemy {
     private double posX;
     private double posY;
-    private Inventory inventory;
     private Image image;
     private ImageView imageView;
     private Rectangle body;
@@ -31,47 +33,52 @@ public class Alhambra implements Enemy {
     private ArrayList<EnemyProjectile> enemyProjectileArrayList;
 
     public Alhambra(Pane worldpane, double X, double y, Inventory inventory) {
-        this.eHP = 20;
-        this.isAlive = true;
-        this.attackNum  = 0;
-
+        //set up location and movement
         this.posX = X;
         this.posY = y;
-        //Inventory
-        this.inventory = inventory;
-
-
         this.yVel = 0;
         this.xVel = 0;
+
+        //set up other important variables
+        this.eHP = Constants.ALHAMBRA_HP;
+        this.isAlive = true;
+        this.attackNum  = 0;
         this.lastattack = 0;
         this.worldpane = worldpane;
-
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
-        //For Rice Specifically:
-        this.image = new Image("indie/Enemies/Alhambra.png", 192/1.5, 300/1.5, true, true);
+        //Make the image of Alhambra Specifically:
+        this.image = new Image("indie/Enemies/Alhambra.png", Constants.ALHAMBRA_WIDTH, Constants.ALHAMBRA_HEIGHT, true, true);
         this.imageView = new ImageView();
 
+        //spawn Alhambra in
         this.Spawn(this.worldpane, this.posX, this.posY);
     }
 
+    /**
+     * This is the spawn method, it spawns in our Alhambra
+     */
     @Override
     public void Spawn(Pane worldpane, double X, double y) {
-        //we will make a circle like object
-        this.body = new Rectangle(63,160);
+        //this sets up Alhambra's hitbox
+        this.body = new Rectangle(Constants.ALHAMBRA_HB_WIDTH,Constants.ALHAMBRA_HB_HEIGHT);
         this.body.setX(this.posX);
         this.body.setY(this.posY);
-        this.body.setFill(Color.ORANGE);
+        this.body.setFill(Color.TRANSPARENT);
 
+        //sets the ImageView to the image of Alhambra
         this.imageView.setImage(this.image);
-        this.imageView.setX(this.posX);
-        this.imageView.setY(this.posY - 100);
+        this.imageView.setX(this.posX - Constants.ALHAMBRA_IMAGE_CORRECTION_X);
+        this.imageView.setY(this.posY - Constants.ALHAMBRA_IMAGE_CORRECTION_Y);
 
 
         this.worldpane.getChildren().addAll(this.body, this.imageView);
 
     }
 
+    /**
+     * This is the update method, it consolidates what needs to updated for Alhambra to function
+     */
     @Override
     public void Update(Player player) {
         if (this.isAlive) {
@@ -79,6 +86,8 @@ public class Alhambra implements Enemy {
             this.Die();
             this.projectileUpdater();
 
+            //this manages Alhambra's attacks, every 0.5 seconds she will choose an attack to do randomly based on the
+            //conditions in the sense method and then perform it.
             long time = System.currentTimeMillis();
             long coolDownTime = 500;
             if (time > this.lastattack + coolDownTime) {
@@ -91,11 +100,13 @@ public class Alhambra implements Enemy {
 
     }
 
+    /**
+     * This is the sense method, it allows Alhambra to act appropriately based on the location of the player
+     * relative to her.
+     */
     @Override
     public void Sense(Player player) {
-        //this sense method will have basically everything
-
-        //if player is close
+        //if player within 500 pixels
         if ((Math.abs(player.posX - this.body.getX()) <= 500)) {
             //90% of time she will give chase and do a melee attack
             if (0 <= this.attackNum && this.attackNum <= 90) {
@@ -120,14 +131,15 @@ public class Alhambra implements Enemy {
                 }
 
         }
+
+        //otherwise
         else if ((Math.abs(player.posX - this.body.getX()) > 500)) {
             //30% of time she will give chase and do a melee attack
             if (0 <= this.attackNum && this.attackNum <= 30) {
                 if (Math.abs(player.posX - this.body.getX()) > 100) {
                     this.ReactX(player);
                     this.ReactY(player);
-                }
-                else if (Math.abs(player.posX - this.body.getX()) <= 300) {
+                } else if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.Attack(player);
                 }
             }
@@ -137,14 +149,13 @@ public class Alhambra implements Enemy {
                 if (Math.abs(player.posX - this.body.getX()) <= 300) {
                     this.antiReactX(player);
                     this.antiReactY(player);
-                }
-                else if (Math.abs(player.posX - this.body.getX()) > 300) {
+                } else if (Math.abs(player.posX - this.body.getX()) > 300) {
                     this.RAttack(player);
                 }
-                }
             }
+
             //otherwise she will run into melee range after performing a ranged attack
-            else{
+            else {
                 this.RAttack(player);
                 if (Math.abs(player.posX - this.body.getX()) >= 300) {
                     this.ReactX(player);
@@ -152,18 +163,35 @@ public class Alhambra implements Enemy {
                 }
             }
         }
+        else{
+            this.DefaultBehavior();
+        }
+
+        }
 
 
+    /**
+     * This is the DefaultBehavior method, it models what she does when she doesn't sense you
+     */
     @Override
     public void DefaultBehavior() {
         double behaviorNum = Math.random() * 100;
+
+        //40% of the time she will do nothing
         if (0 <= behaviorNum && behaviorNum <= 40) {
             this.body.setX(this.posX);
-        } else if (40 < behaviorNum && behaviorNum <= 70) {
+
+        }
+
+        //30% of the time she will move left
+        else if (40 < behaviorNum && behaviorNum <= 70) {
             if (this.body.getY() > 0) {
                 this.MoveLeft();
             }
-        } else {
+        }
+
+        //30% of the time she will move left
+        else {
             if (this.body.getY() < 1000) {
                 this.MoveRight();
             }
@@ -172,157 +200,157 @@ public class Alhambra implements Enemy {
 
     }
 
+    /**
+     * This is the ReactX method, this method makes Alhambra move towards the player depending on their position
+     * on the x axis
+     */
     @Override
     public void ReactX(Player player) {
-        //this is where our little AI function lives
 
-        //this checks if player is (40), (80): this means player i
+        //if the player X is larger than Alhambra and thus right of her
         if (player.posX - this.body.getX() > 0) {
-            //player is currently right of enemy
+            //Alhambra will move right
             this.MoveRight();
 
-
+        //else if player is left of her
         } else if (player.posX - this.body.getX() < 0) {
-            //player is currently left of enemy
+            //she will move left
             this.MoveLeft();
 
+        //otherwise Alhambra will move away from the player 5 times  and thus not constantly stand where the player is
         } else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
+            for(int i = 0; i<5; i++){
+                this.antiReactX(player);
+            }
         }
-
-
     }
-
+    /**
+     * This is the ReactY method, this method makes Alhambra move towards the player depending on their position
+     * on the y axis
+     */
     public void ReactY(Player player) {
-        //this is where our little AI function lives
 
-        //this checks if player is (40), (80): this means player i
+        //if the player is below Alhambra
         if (player.posY - this.body.getY() > 0) {
-            //player is currently right of enemy
+            //move towards the player
             this.ReactX(player);
-        } else if (player.posY - this.body.getY() < 0) {
-            //player is currently left of enemy
+        }
+        //if the player is above the Alhambra
+        else if (player.posY - this.body.getY() < 0) {
+            //Alhambra should jump towards the player
             this.Jump();
-        } else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
         }
-
-
-    }
-
-    public void antiReactX(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
-        if (player.posX - this.body.getX() > 0) {
-            //player is currently right of enemy
-            this.MoveLeft();
-        } else if (player.posX - this.body.getX() < 0) {
-            //player is currently left of enemy
-            this.MoveRight();
-        } else {
-        }
-
-
-    }
-
-    public void antiReactY(Player player) {
-        //this is where our little AI function lives
-
-        //this checks if player is (40), (80): this means player i
-        if (player.posY - this.body.getY() > 0) {
-            //player is currently below of enemy
-            this.Jump();
-        } else if (player.posY - this.body.getY() < 0) {
-            //player is currently left of enemy
-            this.antiReactX(player);
-
-        } else {
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-            this.antiReactX(player);
-
-        }
-
-
-    }
-
-    @Override
-    public void Attack(Player player) {
-        /**
-         * melee dash attack player
-         */
-        if (this.isAlive) {
-            long time = System.currentTimeMillis();
-            this.lastattack = 0;
-            long coolDownTime = 500;
-            if (time > this.lastattack + coolDownTime) {
-                if(this.xVel !=0) {
-                    this.yVel = 0;
-
-                    KeyFrame acceframe = new KeyFrame(
-                            Duration.millis(20),
-                            (ActionEvent e) -> this.attackHelper(player));
-                    Timeline timeline = new Timeline(acceframe);
-                    timeline.setCycleCount(1);
-                    timeline.play();
-
-                }
+        //otherwise Alhambra will move away from the player 5 times  and thus not constantly stand where the player is
+        else {
+            for(int i = 0; i<5; i++){
+                this.antiReactX(player);
             }
 
         }
 
+
     }
 
+    /**
+     * This is the antiReactX method, this method makes Alhambra move away the player on the x-axis
+     */
+    public void antiReactX(Player player) {
+        //essentially this is doing the opposite of what the ReactX method does
+
+        if (player.posX - this.body.getX() > 0) {
+            //player is currently right of enemy
+            this.MoveLeft();
+        }
+        else if (player.posX - this.body.getX() < 0) {
+            //player is currently left of enemy
+            this.MoveRight();
+        }
+    }
+
+    /**
+     * This is the antiReactY method, this method makes Alhambra move away the player on the y-axis
+     */
+    public void antiReactY(Player player) {
+        //essentially this is doing the opposite of what the ReactY method does
+
+        if (player.posY - this.body.getY() > 0) {
+            this.Jump();
+        }
+
+        else if (player.posY - this.body.getY() < 0) {
+            this.antiReactX(player);
+
+        }
+
+        else {
+            for(int i = 0; i<5; i++){
+                this.antiReactX(player);
+            }
+        }
+
+    }
+
+    /**
+     * This is the Attack method, this is Alhambra's melee dash attack
+     */
+    @Override
+    public void Attack(Player player) {
+            if (this.xVel != 0) {
+                this.yVel = 0;
+                this.attackHelper(player);
+            }
+    }
+
+    /**
+     * This is the attackHelper method, this has the logic behind the melee dash attack
+     */
     @Override
     public void attackHelper(Player player) {
+
+        //if Alhambra is moving left
         if (this.xVel < 0){
-            this.xVel += - 40 * 0.5;
-            this.posX = this.posX + this.xVel * 0.5;
+
+            //as this is the dash we will us an acceleration calculation
+            this.xVel += - Constants.ALHAMBRA_DASH_LENGTH * Constants.ALHAMBRA_DASH_TIME;
+            this.posX = this.posX + this.xVel * Constants.ALHAMBRA_DASH_TIME;
             this.positioning(this.posX, this.posY);
 
         }
 
         else if (this.xVel > 0){
-            this.xVel +=  40 * 0.5;
-            this.posX = this.posX + this.xVel * 0.5;
+            this.xVel +=  Constants.ALHAMBRA_DASH_LENGTH * Constants.ALHAMBRA_DASH_TIME;
+            this.posX = this.posX + this.xVel * Constants.ALHAMBRA_DASH_TIME;
             this.positioning(this.posX, this.posY);
 
         }
 
+        //if during this dash the player is in the way, then she will get damaged
         if(this.body.getBoundsInParent().intersects(player.getHitbox().getBoundsInParent()) && this.isAlive) {
             player.hurt();
         }
 
     }
+
+    /**
+     * the RAttack method allows Alhambra to make a ranged attack
+     */
     public void RAttack(Player player) {
-        /**
-         * we need to make this such that it spawns in projectiles to kill player
-         */
-        if (this.isAlive) {
-            long time = System.currentTimeMillis();
-            this.lastattack = 0;
-            long coolDownTime = 500;
-            if (time > this.lastattack + coolDownTime) {
+        //at the location of Alhambra a enemy projectile will be spawned
+        //range melee attack every 0.4 second
+        long time = System.currentTimeMillis();
+        long coolDownTime = 400;
+        if (time > this.lastattack + coolDownTime) {
+            if (this.isAlive) {
                 this.enemyProjectileArrayList.add(new EnemyProjectile(this.worldpane, this, player));
-
+                this.lastattack = time;
             }
-
         }
-
     }
 
-
-
+    /**
+     * the projectileUpdater method updates each of the projectiles created by Alhambra to do their
+     * appropriate tasks
+     */
     public void projectileUpdater() {
         for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
             this.enemyProjectileArrayList.get(i).hunt();
@@ -332,40 +360,35 @@ public class Alhambra implements Enemy {
 
     }
 
+    /**
+     * the MoveLeft method, it moves Alhambra left
+     */
     @Override
     public void MoveLeft() {
-        this.helperLeft();
-
-    }
-
-    public void helperLeft() {
-
-        this.xVel = -10;
-
-        this.posX = this.posX - 5;
-        this.body.setX(this.posX);
+        this.xVel = - Constants.ALHAMBRA_XVEL;
+        this.posX = this.posX - Constants.ALHAMBRA_MOVEMENT_SPEED;
         this.positioning(this.posX, this.posY);
     }
 
+
+    /**
+     * the MoveLeft method, it moves Alhambra right
+     */
     @Override
     public void MoveRight() {
-        this.helperRight();
-
-    }
-
-    public void helperRight() {
-
-        this.xVel = 10;
-
-        this.posX = this.posX + 5;
-        this.body.setX(this.posX);
+        this.xVel = Constants.ALHAMBRA_XVEL;
+        this.posX = this.posX + Constants.ALHAMBRA_MOVEMENT_SPEED;
         this.positioning(this.posX, this.posY);
-
     }
 
+    /**
+     * the jump method, it allows Alhambra to jump
+     */
     @Override
     public void Jump() {
         if(this.yVel ==0 && this.isAlive) {
+            //this timeline is necessary since it allows the movement of jumping as an animation rather than
+            //teleportation.
             KeyFrame leftframe = new KeyFrame(
                     Duration.millis(10),
                     (ActionEvent e) -> this.helperJump());
@@ -375,59 +398,71 @@ public class Alhambra implements Enemy {
         }
     }
 
+    /**
+     * the helperJump method, it helps Alhambra to jump
+     */
     public void helperJump() {
-
-        this.posY = this.posY - 10;
-        this.body.setY(this.posY);
+        this.posY = this.posY - Constants.ALHAMBRA_JUMP_HEIGHT;
         this.positioning(this.posX, this.posY);
 
     }
 
+    /**
+     * the fall method, it models gravity and allows Alhambra to fall (sometimes it must be done on command)
+     */
     @Override
     public void Fall(double platY) {
         this.doGravity(platY);
     }
 
+    /**
+     * the doGravity method, it models gravity
+     */
     public void doGravity(double platY) {
 
         //This function simulates the acceleration of gravity over time.
         this.yVel += Constants.GRAVITY * Constants.DURATION;
-        platY = platY - 160;
+        platY = platY - Constants.ALHAMBRA_HB_HEIGHT;
 
+        //if there is a platform below, stop the falling and keep Alhambra up there
         if (this.posY >= platY) {
             this.yVel = 0;
             this.posY = platY;
             this.positioning(this.posX, this.posY);
 
-
+        //otherwise, make her fall
         } else {
-            this.posY = this.posY + 4 * this.yVel * Constants.DURATION;
+            this.posY = this.posY + 4* this.yVel * Constants.DURATION;
             this.positioning(this.posX, this.posY);
 
 
         }
     }
 
+    /**
+     * the Die method, it is the method called when Alhambra is defeated
+     */
     @Override
     public void Die() {
         if (this.isAlive) {
+            //when her HP reaches zero
             if (this.eHP <= 0) {
+
+                //despawn all her projectiles
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
                 }
-
                 this.enemyProjectileArrayList.clear();
+
+                //then remove her from the world
                 this.worldpane.getChildren().remove(this.body);
                 this.worldpane.getChildren().remove(this.imageView);
-
                 this.isAlive = false;
-                if (this.inventory.getInventory().size() <= 20) {
-                    this.inventory.getInventory().add(new SeaweedING());
-                }
 
             }
             ;
 
+            //same idea if she falls out of the world
             if (this.getPosY() >= 1300) {
                 for (int i = 0; i < this.enemyProjectileArrayList.size(); i++) {
                     this.enemyProjectileArrayList.get(i).despawn();
@@ -438,9 +473,6 @@ public class Alhambra implements Enemy {
                 this.worldpane.getChildren().remove(this.imageView);
 
                 this.isAlive = false;
-                if (this.inventory.getInventory().size() <= 20) {
-                    this.inventory.getInventory().add(new SeaweedING());
-                }
 
             }
             ;
@@ -449,51 +481,74 @@ public class Alhambra implements Enemy {
 
     }
 
+    /**
+     * the getStatus method, it returns if she is alive or not
+     */
     @Override
     public boolean getStatus() {
         return this.isAlive;
-
-
     }
 
+    /**
+     * the getHP method, it returns her current HP
+     */
     @Override
     public int getHP() {
         return this.eHP;
     }
 
+    /**
+     * the setHP method, it sets her current HP to a new value
+     */
     @Override
     public void setHP(int newHP) {
         this.eHP = newHP;
 
     }
 
+    /**
+     * the getBody method, it returns her hitbox
+     */
     @Override
     public Rectangle getBody() {
         return this.body;
-    }
+    };
 
-    ;
-
+    /**
+     * the getPosX method, it returns her x position
+     */
     public double getPosX() {
         return this.posX;
     }
 
     ;
-
+    /**
+     * the getPosY method, it returns her y position
+     */
     public double getPosY() {
         return this.posY;
     }
 
     ;
 
+    /**
+     * the setPosX method, it sets her x position
+     */
     public void setPosX(double posX) {
         this.posX = posX;
     }
 
+    /**
+     * the setPosY method, it sets her y position
+     */
     public void setPosY(double posY) {
         this.posY = posY;
     }
 
+    /**
+     * the positioning helper method, it sets her x and y position, and then sets the image's position as well with
+     * the appropriate corrections
+     */
     public void positioning(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
@@ -501,8 +556,8 @@ public class Alhambra implements Enemy {
         this.body.setX(posX);
         this.body.setY(posY);
 
-        this.imageView.setX(this.posX - 25);
-        this.imageView.setY(this.posY  - 40 );
+        this.imageView.setX(this.posX - Constants.ALHAMBRA_IMAGE_CORRECTION_X);
+        this.imageView.setY(this.posY  - Constants.ALHAMBRA_IMAGE_CORRECTION_Y );
     }
 }
 

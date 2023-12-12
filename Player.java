@@ -218,7 +218,7 @@ public class Player extends Rectangle {
 
         }
         else {
-            this.posY = this.posY+ this.yVel * Constants.DURATION *2;
+            this.posY = this.posY+ this.yVel * Constants.DURATION * 2;
             this.positioning(this.posX, this.posY);
 
 

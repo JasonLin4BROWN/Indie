@@ -5,11 +5,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
+/**
+ * This is the App class that starts the indie game
+ */
 public class App extends Application {
 
     public App(){};
 
+    /**
+     * This is the start method, it creates our pane organizer, scene, and shows it all to play on
+     */
     public void start(Stage stage){
         stage.setTitle("Cooking Wonders");
 
@@ -18,7 +23,6 @@ public class App extends Application {
 
         //Setting the Scene
         Scene scene = new Scene(paneOrganizer.getRoot(), Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
-        Scene mockscene = new Scene(new Pane(), Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
         stage.setScene(scene);
         stage.show();
