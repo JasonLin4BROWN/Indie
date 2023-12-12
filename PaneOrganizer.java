@@ -77,7 +77,7 @@ public class PaneOrganizer {
      * the setUpSituation method, it sets up the background of the world
      */
     public void setUpSituation(Pane worldpane){
-        Image image = new Image("indie/backgrounds/Celeste1.png",Constants.BACKGROUND_WIDTH, Constants.BACKGROUND_HEIGHT, false, true);
+        Image image = new Image("indie/Celeste1.png",Constants.BACKGROUND_WIDTH, Constants.BACKGROUND_HEIGHT, false, true);
         worldpane.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
     }
 
@@ -197,25 +197,25 @@ public class PaneOrganizer {
 
         switch (generate_music){
             case 0:
-                musicLink = "/indie/backgrounds/Carmen - Habanera.mp3";
+                musicLink = "/indie/Carmen - Habanera.mp3";
                 break;
             case 1:
-                musicLink = "/indie/backgrounds/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
+                musicLink = "/indie/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
                 break;
             case 2:
-                musicLink = "/indie/backgrounds/Hollow Knight OST - Dirtmouth.mp3";
+                musicLink = "/indie/Hollow Knight OST - Dirtmouth.mp3";
                 break;
             case 3:
-                musicLink = "/indie/backgrounds/La tour Eiffel est toujours là.mp3";
+                musicLink = "/indie/La tour Eiffel est toujours là.mp3";
                 break;
             case 4:
-                musicLink = "/indie/backgrounds/Nightcore  Le Lac Des Cygnes ( Tchaikovsky ).mp3";
+                musicLink = "/indie/Nightcore  Le Lac Des Cygnes ( Tchaikovsky ).mp3";
                 break;
             case 5:
-                musicLink = "/indie/backgrounds/UNDERTALE Piano Collections_ 03. It's Raining Somewhere Else.mp3";
+                musicLink = "/indie/UNDERTALE Piano Collections_ 03. It's Raining Somewhere Else.mp3";
                 break;
             default:
-                musicLink = "/indie/backgrounds/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
+                musicLink = "/indie/Chopin - chouchou op.9-2 -Nocturne- Shoujo Shuumatsu Ryokou OSTEps. 12.mp3";
                 break;
         }
 
@@ -227,7 +227,7 @@ public class PaneOrganizer {
      */
     public void bossMusicPlayer(){
        this.mediaPlayer.dispose();
-       String musicLink= "/indie/Enemies/Spain Theme - Atomic (Civilization 6 OST)  Recuerdos de la Alhambra.mp3";
+       String musicLink= "/indie/Spain Theme - Atomic (Civilization 6 OST)  Recuerdos de la Alhambra.mp3";
        this.music(musicLink);
 
     }

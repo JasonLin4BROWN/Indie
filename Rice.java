@@ -46,7 +46,7 @@ public class Rice implements Enemy {
         this.worldpane = worldpane;
 
         //For Rice Specifically:
-        this.image  = new Image("indie/Enemies/white-rice-in-bow-free-png.png",Constants.ENEMY_SIZE,Constants.ENEMY_SIZE,false,true);
+        this.image  = new Image("indie/white-rice-in-bow-free-png.png",Constants.ENEMY_SIZE,Constants.ENEMY_SIZE,false,true);
         this.imageView = new ImageView();
 
 

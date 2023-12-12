@@ -38,7 +38,7 @@ public class RiceING implements Ingredients{
      * This is the showImage method, it displays the rice image in the inventory
      */
     public void showImage(Pane worldpane){
-        this.riceImage.setImage(new Image("indie/Enemies/white-rice-in-bow-free-png.png",Constants.ING_SIZE, Constants.ING_SIZE, true, true));
+        this.riceImage.setImage(new Image("indie/white-rice-in-bow-free-png.png",Constants.ING_SIZE, Constants.ING_SIZE, true, true));
         worldpane.getChildren().add(this.riceImage);
         this.shown = true;
 

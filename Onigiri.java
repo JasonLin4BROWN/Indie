@@ -20,7 +20,7 @@ public class Onigiri implements Food {
     public Onigiri(Pane worldpane, Player player, LinkedList<Food> foodLinkedList){
         //define all instance variables
         this.shown = false;
-        this.img = new Image("indie/Enemies/Onigiri.png", Constants.ONIGIRI_SIZE, Constants.ONIGIRI_SIZE, false, true);
+        this.img = new Image("indie/Onigiri.png", Constants.ONIGIRI_SIZE, Constants.ONIGIRI_SIZE, false, true);
         this.player = player;
         this.button = new Button();
         this.foodLinkedList = foodLinkedList;

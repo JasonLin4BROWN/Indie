@@ -41,7 +41,7 @@ public class Player {
 
         //images
         this.currentimage = new ImageView();
-        Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
+        Image pystand = new Image("indie/Paris Walk Animation.png");
         this.currentimage.setImage(pystand);
         this.currentimage.setFitHeight(Constants.PLAYER_IMG_HEIGHT);
         this.currentimage.setFitWidth(Constants.PLAYER_IMG_WIDTH);
@@ -135,7 +135,7 @@ public class Player {
             if (this.aniIndex > 7) {
                 this.aniIndex = 1;
             } else {
-                this.currentimage.setImage(new Image("indie/res/Eiffel/Paris Walk Animation (" + this.aniIndex + ").png"));
+                this.currentimage.setImage(new Image("indie/Paris Walk Animation (" + this.aniIndex + ").png"));
                 this.posX = this.posX + Constants.WALK_DIS;
                 this.resizePos();
             }
@@ -155,7 +155,7 @@ public class Player {
             if (this.aniIndex < 1) {
                 this.aniIndex = 7;
             } else {
-                this.currentimage.setImage(new Image("indie/res/Eiffel/Paris Walk Animation (" + this.aniIndex + ").png"));
+                this.currentimage.setImage(new Image("indie/Paris Walk Animation (" + this.aniIndex + ").png"));
                 this.posX = this.posX - Constants.WALK_DIS;
                 this.resizePos();
             }
@@ -229,7 +229,7 @@ public class Player {
      */
     public void idle(){
         if(this.isAlive) {
-            Image pystand = new Image("indie/res/Eiffel/Paris Walk Animation.png");
+            Image pystand = new Image("indie/Paris Walk Animation.png");
             this.currentimage.setImage(pystand);
             this.resizePos();
         }

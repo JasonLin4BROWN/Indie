@@ -31,8 +31,8 @@ public class Inventory {
      * the displayInv method, it allows the player to display their inventory and close it
      */
     public void displayInv(){
-        Image inventoryImage = new Image("indie/backgrounds/PixelInventory.png",Constants.INVENTORY_WIDTH, Constants.INVENTORY_HEIGHT, false, true);
-        Image onigiriImage = new Image("indie/Enemies/Onigiri.png", Constants.ICON_SIZE, Constants.ICON_SIZE, false, true);
+        Image inventoryImage = new Image("indie/PixelInventory.png",Constants.INVENTORY_WIDTH, Constants.INVENTORY_HEIGHT, false, true);
+        Image onigiriImage = new Image("indie/Onigiri.png", Constants.ICON_SIZE, Constants.ICON_SIZE, false, true);
 
         //if inventory is not displayed
         if (!this.InvDisplayed){

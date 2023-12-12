@@ -34,7 +34,7 @@ public class Tower extends Wall{
         this.LRhitbox.setY(y + Constants.TOWER_LR_HITBOX_OFFSET);
 
         //tower's image based on dimensions
-        Image image = new Image("indie/backgrounds/tilecover2.png",width, height, false, false);
+        Image image = new Image("indie/tilecover2.png",width, height, false, false);
         ImageView IV = new ImageView();
         IV.setImage(image);
         IV.setX(X);

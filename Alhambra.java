@@ -47,7 +47,7 @@ public class Alhambra implements Enemy {
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
         //Make the image of Alhambra Specifically:
-        this.image = new Image("indie/Enemies/Alhambra.png", Constants.ALHAMBRA_WIDTH, Constants.ALHAMBRA_HEIGHT, true, true);
+        this.image = new Image("indie/Alhambra.png", Constants.ALHAMBRA_WIDTH, Constants.ALHAMBRA_HEIGHT, true, true);
         this.imageView = new ImageView();
 
         //spawn Alhambra in

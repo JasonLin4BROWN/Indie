@@ -49,7 +49,7 @@ public class Seaweed implements Enemy{
         this.enemyProjectileArrayList = new ArrayList<EnemyProjectile>();
 
         //For Seaweed Specifically:
-        this.image  = new Image("indie/Enemies/Seaweed.png",Constants.ENEMY_SIZE,Constants.ENEMY_SIZE,false,true);
+        this.image  = new Image("indie/Seaweed.png",Constants.ENEMY_SIZE,Constants.ENEMY_SIZE,false,true);
         this.imageView = new ImageView();
 
         this.Spawn(this.worldpane, this.posX, this.posY);

@@ -31,7 +31,7 @@ public class Wall {
         this.LRhitbox.setY(y + height - Constants.WALL_LR_HITBOX_OFFSET);
 
 
-        Image image = new Image("indie/backgrounds/tilecover2.png",width, height, false, false);
+        Image image = new Image("indie/tilecover2.png",width, height, false, false);
         ImageView IV = new ImageView();
         IV.setImage(image);
         IV.setX(X);

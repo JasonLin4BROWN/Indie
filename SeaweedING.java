@@ -35,7 +35,7 @@ public class SeaweedING implements Ingredients{
      * This is the showImage method, it displays the image of the seaweed for use
      */
     public void showImage(Pane worldpane){
-        this.seaweedImage.setImage(new Image("indie/Enemies/Seaweed.png",Constants.ING_SIZE, Constants.ING_SIZE, true, true));
+        this.seaweedImage.setImage(new Image("indie/Seaweed.png",Constants.ING_SIZE, Constants.ING_SIZE, true, true));
         worldpane.getChildren().add(this.seaweedImage);
         this.shown = true;
 
