@@ -4,6 +4,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+/**
+ * This is the Enemy interface, essentially we want call all enemies at the same time so we
+ * use this for polymorphism
+ */
 public interface Enemy{
     public void Spawn(Pane worldpane, double X, double y);
     public void Update(Player player);

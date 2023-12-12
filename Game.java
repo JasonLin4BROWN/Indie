@@ -393,8 +393,8 @@ public double wallTDCollisions(){
 
     public void updatePproject(){
         for(int i = 0; i < this.pProjList.size(); i++){
-            Enemy closestE = this.pProjList.get(i).sense();
-            this.pProjList.get(i).hunt(closestE);
+            this.pProjList.get(i).sense();
+            this.pProjList.get(i).hunt();
             this.pProjList.get(i).deathClock();
 
 

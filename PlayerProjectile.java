@@ -18,7 +18,7 @@ public class PlayerProjectile implements Projectile{
     private ArrayList<Enemy> enemyList;
     private Rectangle body;
     private int intersectedC;
-    private double closestEDis;
+    private Enemy closestE;
 
     private double posX;
     private double posY;
@@ -36,6 +36,8 @@ public class PlayerProjectile implements Projectile{
         this.worldpane = worldpane;
         this.player =  player;
         this.enemyList = enemyList;
+        this.closestE = this.enemyList.get(0);
+
 
         this.body = new Rectangle(20,20);
 
@@ -63,7 +65,6 @@ public class PlayerProjectile implements Projectile{
     }
 
     public Enemy sense() {
-        Enemy closestE = this.enemyList.get(0);
         double closestEDis = 10000000;
 
         for(int i = 0; i < this.enemyList.size(); i++){
@@ -80,7 +81,7 @@ public class PlayerProjectile implements Projectile{
                 //find the closest enemy
                 if (distance <= closestEDis) {
                     closestEDis = distance;
-                    closestE = this.enemyList.get(i);
+                    this.closestE = this.enemyList.get(i);
 
                 } else {
                     closestEDis = closestEDis;
@@ -92,34 +93,34 @@ public class PlayerProjectile implements Projectile{
 
     }
 
-    public void hunt(Enemy closestE){
+    public void hunt(){
 
         //this checks X
-        if (this.posX - closestE.getBody().getX() > 0){
+        if (this.posX - this.closestE.getBody().getX() > 0){
             //player is currently Right of enemy
             this.moveLeft();
-            this.kill(closestE);
+            this.kill();
         }
 
-        else if (this.posX - closestE.getBody().getX()< 0){
+        else if (this.posX - this.closestE.getBody().getX()< 0){
             //player is currently Left of enemy
             this.moveRight();
-            this.kill(closestE);
+            this.kill();
 
         }
 
         //this checks Y
-        if (this.posY - closestE.getBody().getY() > 0){
+        if (this.posY - this.closestE.getBody().getY() > 0){
             //PProj is below enemy
             this.rise();
-            this.kill(closestE);
+            this.kill();
 
         }
 
-        else if (this.posY - closestE.getBody().getY() < 0){
+        else if (this.posY - this.closestE.getBody().getY() < 0){
             //PProj is above enemy
             this.fall();
-            this.kill(closestE);
+            this.kill();
 
         }
 
@@ -127,15 +128,15 @@ public class PlayerProjectile implements Projectile{
 
     }
 
-    public void kill(Enemy closestE){
+    public void kill(){
         //interesection function
         Bounds ppjectBound = this.body.getBoundsInParent();
-        Bounds enemyBound = closestE.getBody().getBoundsInParent();
+        Bounds enemyBound = this.closestE.getBody().getBoundsInParent();
 
 
         if(ppjectBound.intersects(enemyBound)){
             if(this.intersectedC < 1) {
-                closestE.setHP(closestE.getHP() - 1);
+                this.closestE.setHP(closestE.getHP() - 1);
                 this.intersectedC = this.intersectedC+1;
                 this.despawn();
             }

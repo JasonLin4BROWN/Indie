@@ -43,6 +43,12 @@ public class Constants {
     public static final double ALHAMBRA_JUMP_HEIGHT = 10;
 
 
+    public static final double PROJECTILE_SIZE = 20;
+    public static final double E_PROJECTILE_SPEED = 0.2;
+    public static final long E_PROJECTILE_LIFESPAN = 5000;
+
+
+
 
 
 
