@@ -4,63 +4,94 @@ Overview:
     Our Indie has many classes: Alhambra, App, EnemyProjectile, Game, Healthbar, Inventory, Onigiri, PaneOrganizer,
     Player, PlayerProjectile, Portal, Recipes, Rice, RiceING, Seaweed, SeaweedING, Tower, Wall,
     and the WorldOrganizer which interact in the following ways:
-        - BouncyPlat, BreakingPlat, MovingPlat, and StandardPlat are
-        subclasses of Platform
-        - App contains an instance of PaneOrganizer
-        - PaneOrganizer contains an instance of Game
-        - Game contains instances of Doodle, PlatformOrganizer, and ScoreKeeper
-        - PlatformOrganizer's constructor takes in Doodle and ScoreKeeper so
-        that it can logically handle collisions and score increment
-        - PlatformOrganizer creates instances of BouncyPlat, BreakingPlat,
-        MovingPlat, and StandardPlat and contains methods that graphically move
-        them and call their methods after events like collisions
+        - Alhambra is our indie game boss and implements the enemy interface. She fights with a dash attack
+        and also uses projectiles at range. She doesn't drop anything and has her own level at the end of all the
+        procedurally randomly generated levels
+        -App, the main class which runs everything. It contains our PaneOrganizer, Scene, Stage and the such
+        -EnemyProjectile is an implementation for the enemy's projectile it is associated with the player which
+        it tracks down and attempts to hurt
+        -Game, the game class contains all the logic of our game. Primarily it takes care of all the collisions
+        between player, enemy, and the world. It also updates everything's movement, damage, handles keys, and
+        takes care of the game over.
+        -Healthbar, is a simple class which creates a visual indicator of the player's health in the form of a bar.
+        -Inventory, a class which can be access by the player with E. Essentially it shows the player's
+        collected ingredients, their recipes, and their cooked food. You can also cook and eat food in the inventory.
+        It is associated with the player and worldpane
+        -Onigiri class is a implementation of the food interface which is a button when clicked heals the player by 1 HP.
+        It can be cooked with rice and seaweed.
+        -PaneOrganizer classis our organizer of what the player visually sees on their screen. It creates the
+        borderpane which then contains our accesspane with the quit button and the worldpane where everything happens.
+        It also handles world transitions via resetting and creating new worldpanes, games, players, and everything else.
+        It also handles music and playing of music between levels as well as the boss theme.
+        -The Player class is the means by which Eiffel exists and interacts with the world. She has a ranged attack,
+        melee attack, can dash, falls to gravity.
+        - The PlayerProjectile is an implementation of the Projectile interface, it is the player's projectile that
+        is associated with the closest enmey which it hunts down and kills.
+        - The Portal class is a special type of rectangle which when the player intersects with its bound transports the
+        player to the next world. It is associated with the PaneOrganizer who actually does this method
+        - The Recipes class creates a button which the player can press to cook onigiri. It thus handles
+        all cooking and has access to the inventory which is interacts with via the linkedlists that the two
+        share.
+        - the Rice class represents our standard melee enemy which tracks down and attacks the player. It is associated
+        with the player,worldpane, etc.
+        - The RiceING class is an implementation of the ingredients interface which essentially stores a type and image
+        which the inventory works with for displaying and cooking.
+        - the Seaweed class represents our ranged  enemy which runs away from the player and spawns in EnemyProjectiles
+        to attack
+        - The SeaweedING class is an implementation of the ingredients interface which essentially stores a type and image
+        which the inventory works with for displaying and cooking.
+        -The Tower class is a subclass of the wall. It is different from walls by being very tall.
+        - The Wall class creates a object which the player cannot move through but can jump on. It creates the
+        platforms, walls, towers, and floors which the player interacts and the world is build up on.
+        - The WorldOrganizer class organizers the creation of levels based on a procedurally generated approach.
+        it also handles the creation of the boss stage.
 
     It also has the following interfaces: Enemy, Food, Ingredients, Projectile
+    - Primarily these interfaces are rather self explanatory in their use. They allow for the polymorphism
+    and storage within Arraylists and Linkedlists to be called and used.
+    - The Enemy interface defines methods for the enemy such as spawn, moveleft, moveright, attack etc.
+    - The Food interface defines the eating and removing from existence
+    - the Ingredients interface defines what ingredients do, primarily displaying images and the its type
+    - the Projectile interface defines the tracking behavior of projectiles and their ability to hurt
 
 Design Choices:
-    - We decided to use inheritance, with the different types of platforms being
-    subclasses of Platform, because the platforms share functionality, as they
-    have the same dimensions and collide with Doodle.
-        - Because the platform types have different assigned colors, each platform
-        subclass inputs a different color into super() from its constructor.
-        - Overriding allows us to easily alter the behavior of different platform
-        types, making BouncyPlat cause a higher rebound and MovingPlat to move.
-        - The Platform superclass allows for the creation of the platform ArrayList and
-        the use of a single function, updatePlatforms, to check for platform collisions
-        and update platform movement.
-    - Platform has accessor methods to get its x and y positions so that PlatformOrganizer
-    can move platforms to scroll the screen and generate platforms based on other platforms'
-    positions.
-    - Doodle has an accessor method to get its y velocity so that PlatformOrganizer only
-    detects collisions when Doodle is falling.
-    - We decided to make PlatformOrganizer a separate class from Game to handle
-    platform-related functionality.
-        -We used association to make PlatformOrganizer aware of Doodle and
-        ScoreKeeper so that it can call their functions to handle collisions and
-        score increment.
-        - PlatformOrganizer uses an ArrayList to organize the Platforms generated,
-        as the platforms are generated in an orderly manner from bottom to top.
-        - The ArrayList allows for the efficient checking of collisions and movement
-        of platforms to graphically scroll through the use of for loops.
-        - The use of instance variable topPlatform allows us to keep track of the
-        top platform so that generatePlatform() can instantiate platforms based on
-        the current top platform's position.
-        - We decided to have Game's Timeline continuously call generatePlatform() to
-        allow for simple continuous generation of platforms, but used an if statement
-        to make sure the top platform stays on the screen.
-    - PlatformOrganizer is passed into Doodle's doGravity() so that Doodle can call
-    scrollDown() when Doodle reaches a certain height.
-    - We used association and passed LabelPane and DoodlePane into Game so that Game
-    can handle animation and logical movement of Pane elements while PaneOrganizer
-    controls overall graphical organization.
-    - We created ScoreKeeper, with the use of association in passing LabelPane into its
-    constructor so that it can handle the update and display of the score.
+    - I used multiple interfaces for the Enemies, Projectiles, Ingredients, and Foods which the game interacts with.
+    As mentioned previously this method enables the use of polymorphism within my program in order for the updating of
+    all types of Enemy, Projectiles, Ingredients, and Foods at the same time. For an example, Alhambra, Rice, and
+    Seaweed all implement the Enemies interface so they can be stored in an Arraylist that is then for loop called
+    so each of them can be updated simultaneously.
+    - The advanced data structure I used in this project was the Linkedlists. For the appliciation of an inventory
+    Linkedlist turned out to be quite useful due to their inherent ability to connect between their nodes.
+    Thus when it came to searching through the linked list for the ingredients to cook food, all I needed was a for
+    loop with get function. An arraylist or god forbid 2-d Array wouldn't work as smoothly and definitely would not have
+    been able to update the order of the ingredients and foods in the inventory after they were used for cooking.
+    That shifting would have taken ages without Linkedlists and been very computationally expensive. So overall
+    for this project I am quite happy with the use of of Linkedlists as my advanced data structure.
+    -For my complex algorithm, after a bit of switching between BFS and procedural world generation, I ended up
+    having procedural world generation as my primary algorithm. Contained within the worldorganizer this
+    method generates platforms, towers, floors, as well as enemies based on the distance that the player needs
+    to travel to reach the end goal in the X and Y directions. It is complex due to the sheer number of things it needs
+    to generate and that it must not generate towers in or platforms in such a way which would block the players progress.
+    Overall quite the fun algorithm which enables replayability through an infinite different selection
+    of generatable worlds.
+    -The originality in my game primarily boiled down to the ingredients and cooking mechanic. This game is rather soul's
+    like, in that it is rather difficult and it is very easy to die. Furthermore when you die you are forced to restart.
+    So to sustain yourself it is best to stock up on food and heal. Also the characters are based on the
+    world wonders, player is Eiffel Tower and the main boss is the Alhambra.
+    -To make the game a bit easier, I double the players health and left in the infinite dash feature. By pressing space
+    the player can dash and gain some forward and upward momentum. While I initially wanted this feature to be
+    on cooldown like the ranged attack feature, for the purposes of allowing those to play to the end of the
+    game/demo I will leave in infinite dash so that getting past levels is much easier. Nonetheless, thanks
+    to the procedural world generation all level should be completable within 1-2 dashes.
+    -One may notice that there are quite a few methods called multiple time by for loops and timelines, primarily
+    when it comes to collisions. Due to the imperfect nature of java lag time without such loops
+    the player and enemies can glitch through walls which wouldn't be ideal. So to prevent this, I implemented
+    loops and multiples calls of such collisions.
 
 Known Bugs: None.
 
 Debugging Collaborators: None.
 
-Extra Credit: For this project we implemented smooth movement left and right for extra credit. We
-did this through the use of keyframe animations instead of directly moving the Doodle left and right. Thus
-every left and right press appears to slowly shift the doodle to the appropriate direction, thus creating a smooth
-motion for doodle.
+Hours: 50 hours
+
+Extra Credit: Eiffel has a walk animation :>

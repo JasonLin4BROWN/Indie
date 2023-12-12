@@ -13,7 +13,7 @@ import javafx.util.Duration;
 /**
  * the Player class, Eiffel, is who you play as in this world
  */
-public class Player extends Rectangle {
+public class Player {
     private Rectangle hitbox;
     private Pane worldpane;
     private ImageView currentimage;
@@ -30,7 +30,6 @@ public class Player extends Rectangle {
 
 
     public Player(Pane worldpane){
-        super();
         //Set all instance variables, most are self-explanatory
         this.isAlive = true;
         this.HP = Constants.PLAYER_HP;

@@ -78,7 +78,7 @@ public class Game {
         this.col = this.worldorganizer.getyStart();
         this.player.setFeet(this.col);
         this.player.posX = Constants.STARTING_X;
-        this.player.positioning(Constants.STARTING_X, this.player.getY());
+        this.player.positioning(Constants.STARTING_X, this.player.getHitbox().getY());
 
         //ensure that the pane handles key inputs correctly
         this.worldpane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPress(e));
