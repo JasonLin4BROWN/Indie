@@ -3,9 +3,11 @@ package indie;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * This is the Tower class, it is a type of wall which is very tall and high and used as a block off essentially
+ */
 public class Tower extends Wall{
 
     private Rectangle rect;
@@ -16,35 +18,41 @@ public class Tower extends Wall{
 
     }
 
+    /**
+     * This is the Tower class, it is a type of wall which is very tall and high and used as a block off essentially
+     */
+    @Override
     public void setup(Pane worldpane, double X, double y, double width, double height ){
+        //create the full tower itself which is recognized as the top-down collision space
         this.rect = new Rectangle(width, height);
-        this.rect.setFill(Color.ORANGE);
-        this.rect.setOpacity(0.7);
-
-        this.LRhitbox = new Rectangle(width,height-20);
-
-
         this.rect.setX(X);
         this.rect.setY(y);
 
+        //create the LRhitbox which is recognized as the left-right collision space
+        this.LRhitbox = new Rectangle(width,height- Constants.TOWER_LR_HITBOX_OFFSET);
         this.LRhitbox.setX(X);
-        this.LRhitbox.setY(y + 20);
+        this.LRhitbox.setY(y + Constants.TOWER_LR_HITBOX_OFFSET);
 
-        this.LRhitbox.setFill(Color.DARKVIOLET);
-
+        //tower's image based on dimensions
         Image image = new Image("indie/backgrounds/tilecover2.png",width, height, false, false);
         ImageView IV = new ImageView();
         IV.setImage(image);
         IV.setX(X);
         IV.setY(y);
 
-
         worldpane.getChildren().addAll(this.rect,this.LRhitbox, IV);
     }
-
+    /**
+     * This is the getRect method, it gets the TDhitbox
+     */
+    @Override
     public Rectangle getRect(){
         return this.rect;
     }
+    /**
+     * This is the getLRhitbox method, it gets the lRhitbox
+     */
+    @Override
     public Rectangle getLRhitbox(){return this.LRhitbox;}
 
 

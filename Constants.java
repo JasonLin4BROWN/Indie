@@ -138,6 +138,11 @@ public class Constants {
     //Ingredient Constants:
     public static final double ING_SIZE = 65;
 
+    //Walls, Towers, and World Organizer Constants:
+    public static final double WALL_LR_HITBOX_OFFSET = 40;
+    public static final double TOWER_LR_HITBOX_OFFSET = 20;
+
+
 
 
 
